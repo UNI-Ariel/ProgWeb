@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dotcom</title>
-    <link ref="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
   </head>
   <body>
-    
+    <div id="sideMenuBackground" onclick="hideMenu()"></div>
+    <div id="sideMenu">
+      <ul>
+        <li>1</li>
+        <li>2</li>
+      </ul>
+    </div>
+    <div class="navBar">
+      <div class="navMenu" onclick="showMenu()">
+        <img class="navSide" src="hamburgesa.png" alt="menu icon" width="160" height="80">
+      </div>
+      <div class="navLogo">
+        <a href="index.html">Dotcom</a>
+      </div>
+    </div>
   </body>
 </html>
