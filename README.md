@@ -1,2 +1,2 @@
 # ProgWeb
-Repo para el trabajo de la materia Programación Web
+Repo para el trabajo de la materia Programación Web Grupo "Dotcom"
