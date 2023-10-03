@@ -11,24 +11,18 @@ body {
 .navBar {
   display: flex;
   width: 100%;
-  height: 50px;
+  height: 40px;
   padding-left: 10px;
   align-items: center;
   border-bottom: 1px solid rgb(210, 210, 210);
 }
 
-.navMenu {
-  display: flex;
+.menu-btn {
+  text-align: center;
+  font-size: 2em;
+  margin-right: 20px;
   width: 40px;
   height: 40px;
-  margin-right: 20px;
-  justify-content: center;
-}
-
-.navMenu img {
-  margin: auto;
-  width: 60%;
-  height: 40%;
 }
 
 .navBar a {
@@ -37,7 +31,20 @@ body {
   color: rgb(100, 100, 100);
 }
 
-.navMenu:hover {
+.menuLink {
+  font-size: 4vw;
+  color: rgb(100, 100, 100);
+  display: block;
+  width: 100%;
+  padding: 20px;
+}
+
+.menu-btn:hover {
+  cursor: pointer;
+}
+
+.menuLink:hover {
+  background-color: lightgray;
   cursor: pointer;
 }
 
@@ -50,11 +57,54 @@ body {
   z-index: 1;
 }
 
+#sideMenu p {
+  font-size: 5vw;
+  white-space: nowrap;
+  padding: 20px 10px;
+}
+
+#sideMenu ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+}
+
+#sideMenu li:first-child {
+  border-top: 1px solid gray;
+}
+
+#sideMenu li {
+  white-space: nowrap;
+  width: 100%;
+}
+
 #sideMenu {
   position: fixed;
+  overflow: hidden;
   height: 100%;
-  width: 40%;
-  display: none;
-  background-color: rgb(255, 0, 0);
+  width: 0;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 5px 0 10px 0 rgba(0, 0, 0, 0.5);
   z-index: 2;
+  transition: 0.3s;
+}
+
+.content {
+  width: 100%;
+  font-size: 4vw;
+  text-align: center;
+  padding: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  
+}
+
+@media screen and (min-width: 400px) {
+  .menuLink {
+    font-size: 2vw;
+  }
+  #sideMenu p {
+    font-size: 3vw;
+  }
 }
