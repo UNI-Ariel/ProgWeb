@@ -1,14 +1,16 @@
 var menu = document.getElementById("sideMenu");
 var menuO = document.getElementById("sideMenuBackground");
+var contenido = document.getElementById("content");
 
-var iframe = document.createElement("iframe");
-var iframeTarget = document.getElementById("frameTarget");
+var reserva = document.getElementById("reserva");
+var consulta = document.getElementById("consulta");
 
-iframe.width = "100%";
-iframe.height = "auto";
-iframe.style.margin = "0px";
-iframe.style.padding = "0px";
-iframe.style.border = "none";
+reserva.addEventListener("click", function() {
+  mostrarContenido("reserva");
+});
+consulta.addEventListener("click",  function() {
+  mostrarContenido("consulta");
+});
 
 const paginas = [
   {
@@ -31,16 +33,13 @@ function closeNav() {
   menuO.style.display = "none";
 }
 
-function formConsulta() {
-  iframe.src = paginas[0].file;
-  iframe.title = paginas[0].type;
-  iframeTarget.replaceWith(iframe);
-  closeNav();
-}
-
-function formReserva() {
-  iframe.src = paginas[1].file;
-  iframe.title = paginas[1].type;
-  iframeTarget.replaceWith(iframe);
+function mostrarContenido(tipo){
+  tipo = String(tipo);
+  if (tipo === "consulta"){
+    content.innerHTML = "<p>Usted ha seleccionado Consulta.</p>";
+  }
+  else{
+    content.innerHTML = "<p>Usted ha seleccionado reservas.</p>";
+  }
   closeNav();
 }

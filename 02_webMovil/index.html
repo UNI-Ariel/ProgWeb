@@ -9,20 +9,20 @@
   <body>
     <!--Barra Lateral-->
     <div id="sideMenu">
-      <p>Seleccionar operacion</p>
+      <p class="menuTitle">Seleccionar operacion</p>
       <ul>
         <li>
-          <p id="reserva" class="menuLink" onclick="formReserva()">Reserva de Aulas</p>
+          <p id="reserva" class="menuLink">Reserva de Aulas</p>
         </li>
         <li>
-          <p id="consulta" class="menuLink" onclick="formConsulta()">Disponibilidad de Aulas</p>
+          <p id="consulta" class="menuLink">Disponibilidad de Aulas</p>
         </li>
       </ul>
     </div>
     <!--Transfondo transparente-->
     <div id="sideMenuBackground" onclick="closeNav()"></div>
     <!--Contenedor Principal-->
-    <div class="layout">
+    <div class="container">
       <!--Barra de Navegacion-->
       <div class="navBar">
         <div class="menu-btn" onclick="showNav()">☰</div>
@@ -32,8 +32,8 @@
         </div>
       </div>
       <!--Contenido-->
-      <div class="content">
-        <p id="frameTarget">Bienvenido a la pagina Dotcom. <br> Realise su consula seleccionando del menu.</p>
+      <div class="content" id="content">
+        <p>Bienvenido a la pagina Dotcom. <br> Realise su consulta seleccionando del menu.</p>
       </div>
     </div>
     <!--Scripts-->
