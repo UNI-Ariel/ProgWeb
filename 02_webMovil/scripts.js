@@ -24,7 +24,7 @@ const paginas = [
 ]
 
 function showNav() {
-  menu.style.width = "auto";
+  menu.style.width = "200px";
   menuO.style.display = "block";
 }
 
@@ -36,7 +36,7 @@ function closeNav() {
 function mostrarContenido(tipo){
   tipo = String(tipo);
   if (tipo === "consulta"){
-    content.innerHTML = "<p>Usted ha seleccionado Consulta.</p>";
+    content.innerHTML = "<p>Usted ha seleccionado cosultas.</p>";
   }
   else{
     content.innerHTML = "<p>Usted ha seleccionado reservas.</p>";

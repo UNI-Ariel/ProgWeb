@@ -53,11 +53,13 @@ body {
 }
 
 .content {
-  background-color: bisque;
+  display: block;
+  height: 100%;
   width: 100%;
   font-size: 1em;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
+  background-color: bisque;
 }
 
 .menuTitle {
@@ -68,9 +70,7 @@ body {
 .menuLink {
   font-size: 0.6em;
   white-space: nowrap;
-  
-  display: block;
-  width: 100%;
+  display: block;  
   padding: 20px;
 }
 
