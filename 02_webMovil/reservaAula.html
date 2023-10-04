@@ -1,15 +1,46 @@
-<html>
-    <head>
-        <title>Reservas</title>
-        <link rel="stylesheet" href="reservaStyle.css">
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="es-BO">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dotcom</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reservaStyle.css">
+  </head>
+  <body>
+    <!--Barra Lateral-->
+    <div id="sideMenu">
+      <p class="menuTitle">Seleccionar operacion</p>
+      <ul>
+        <li>
+          <p id="consulta" class="menuLink">Disponibilidad de Aulas</p>
+        </li>
+        <li>
+          <p id="reserva" class="menuLink">Reserva de Aulas</p>
+        </li>
+      </ul>
+    </div>
+    <!--Transfondo transparente-->
+    <div id="sideMenuBackground" onclick="closeNav()"></div>
+    <!--Contenedor Principal-->
+    <div class="container">
+      <!--Barra de Navegacion-->
+      <div class="navBar">
+        <div class="menu-btn" onclick="showNav()">☰</div>
+  
+        <div class="navLogo">
+          <a href="index.html">Dotcom</a>
+        </div>
+      </div>
+      <!--Contenido-->
+      <div class="content" id="content">
+        
         <h1>
 			Reserva de Aula
 		</h1>
         <form action="" method="post">
             <fieldset>
-                <legend>Reservas</legend>
+                <legend></legend>
                 Materia: 
                 <select name="materia">
                     <option  value="mate">Matematica</option>
@@ -42,7 +73,7 @@
                 &#160 - &#160
                 <input type="time" name="hora">
                 <br>
-                Comentarios o Datos extra:
+                Comentarios:
                 <br>
                 <textarea rows="3" name="cuadro de texto"> </textarea>
                 <br>
@@ -51,5 +82,9 @@
                 <input class="boton" type="submit" name="Sign-up"> 
             </fieldset>
         </form>
-    </body>
+      </div>
+    </div>
+    <!--Scripts-->
+    <script src="scripts.js"></script>
+  </body>
 </html>

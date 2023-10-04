@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es-BO">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dotcom</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reservaStyle.css">
+  </head>
+  <body>
+    <!--Barra Lateral-->
+    <div id="sideMenu">
+      <p class="menuTitle">Seleccionar operacion</p>
+      <ul>
+        <li>
+          <p id="consulta" class="menuLink">Disponibilidad de Aulas</p>
+        </li>
+        <li>
+          <p id="reserva" class="menuLink">Reserva de Aulas</p>
+        </li>
+      </ul>
+    </div>
+    <!--Transfondo transparente-->
+    <div id="sideMenuBackground" onclick="closeNav()"></div>
+    <!--Contenedor Principal-->
+    <div class="container">
+      <!--Barra de Navegacion-->
+      <div class="navBar">
+        <div class="menu-btn" onclick="showNav()">☰</div>
+  
+        <div class="navLogo">
+          <a href="index.html">Dotcom</a>
+        </div>
+      </div>
+      <!--Contenido-->
+      <div class="content" id="content">
+        
+        <h1>
+			Consulta Aula
+		</h1>
+        <form action="" method="post">
+            <fieldset>
+                <legend></legend>
+                Fecha:
+                <input type="date">
+                <br>
+                Hora (Ini/Fin):
+                <input type="time" name="hora">
+                <br>
+                <input class="boton" type="submit" name="Sign-up"> 
+            </fieldset>
+        </form>
+      </div>
+    </div>
+    <!--Scripts-->
+    <script src="scripts.js"></script>
+  </body>
+</html>

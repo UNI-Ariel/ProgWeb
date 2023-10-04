@@ -1,6 +1,8 @@
+/*
 body {
     background-color: rgb(117, 197, 135);
 }
+*/
 h1{
     text-align: center;
     text-decoration:underline;
@@ -9,13 +11,15 @@ h1{
 form {
    margin: 0 auto; 
    width: 300px;   
-   background-color: rgb(215, 222, 213); 
-   padding: 2px;
+  
+   padding: 7px;
    border-radius: 10px;
 }
 
-input, textarea {
+input, textarea, select {
     padding: 5px;
+    border : 1px solid;
+    border-radius: 5px;
 }
 
 .boton {
@@ -23,4 +27,8 @@ input, textarea {
     margin-left: 30%;
     background-color: rgb(96, 160, 219);
     border-radius: 10px;
+}
+fieldset{
+    display:flex ;
+    flex-direction: column;
 }
