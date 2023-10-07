@@ -6,34 +6,39 @@
     <title>Dotcom - Pagina Principal</title>
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
-    <!--Barra Lateral-->
-    <div id="sideMenu">
-      <p class="menuTitle">Seleccionar operacion</p>
-      <ul>
-        <li>
-          <a href="consultaAula.html" class="menuLink">Disponibilidad de Aulas</a>
+  <body onload="setTime()">
+    <nav class="navigationBar">
+      <ul class="navigationList">
+        <li class="navigationItem">
+          <a href="#Usuario" class="navigationLink">
+            <img src="./imagenes/user2.png" alt="usuario" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Usuario</p>
+          </a>
         </li>
-        <li>
-          <a href="reservaAula.html" class="menuLink">Reserva de Aula</a>
+        <li class="navigationItem">
+          <a href="#Item 2" class="navigationLink">
+            <img src="./imagenes/mortarboard2.png" alt="adacemico" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Academico</p>
+          </a>
+        </li>
+        <li class="navigationItem">
+          <a href="#Item 3" class="navigationLink">
+            <img src="./imagenes/lock.png" alt="administrativo" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Administrativo</p>
+          </a>
+        </li>
+        <li class="navigationItem">
+          <a href="#Item 4" class="navigationLink">
+            <img src="./imagenes/setting2.png" alt="opciones" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Opciones</p>
+          </a>
         </li>
       </ul>
-    </div>
-    <!--Transfondo transparente-->
-    <div id="sideMenuBackground" onclick="closeNav()"></div>
-    <!--Contenedor Principal-->
-    <div class="container">
-      <!--Barra de Navegacion-->
-      <div class="navBar">
-        <div class="menu-btn" onclick="showNav()">☰</div>
-  
-        <div class="navLogo">
-          <a href="index.html">Dotcom</a>
-        </div>
-      </div>
-      <!--Contenido-->
-      <div class="content" id="content">
-        <p>Bienvenido a la pagina Dotcom. <br> Realice su consulta seleccionando del menu.</p>
+    </nav>
+    <div class="mainContent">
+      <div class="informationBar">
+        <p class="logo">Dotcom</p>
+        <p id="time">Hora actual</p>
       </div>
     </div>
     <!--Scripts-->
