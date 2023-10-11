@@ -69,8 +69,6 @@ body{
 
 /*Donde se mostrara todo - Mantener el alto*/
 .content {
-  
-  max-height: 100%;
   margin: 2px;
 }
 
@@ -147,7 +145,6 @@ body{
   padding: 20px;
   border: 2px solid var(--metallicBlack);
   border-radius: 2rem;
-  width: 300px;
   background-color: var(--lightDark);
   margin: 5px;
 }

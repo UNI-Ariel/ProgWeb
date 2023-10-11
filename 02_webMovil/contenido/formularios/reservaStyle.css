@@ -1,13 +1,12 @@
-h1 {
-    text-align: center;
-    text-decoration:underline;
-}
-
 form {
-    margin: 0 auto; 
+    margin: auto; 
     width: 300px;   
     padding: 7px;
     border-radius: 10px;
+}
+
+form input, form select {
+    width: 70%;
 }
 
 input, textarea, select {
