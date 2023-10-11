@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <base href="../index.html">
     <title>Dotcom - Academico</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body onload="setDynamicElements()">
-    <header>
-      <!--Informacion Adicional-->
-      <div class="informationBar">
-        <a href="index.html" class="pageText logo">Dotcom</a>
-        <p id="time">Hora actual</p>
-      </div>
-    </header>
+    <!--Informacion Adicional-->
+    <div class="informationBar">
+      <a href="index.html" class="pageText logo">Dotcom</a>
+      <p id="time">Hora actual</p>
+    </div>
     <!--Barra Navegacion-->
     <nav class="navigationBar">
       <ul class="navigationList">
@@ -48,14 +47,12 @@
     <div class="mainWindow pageText">
       <!--Contenido-->
       <div class="content">
-        <div class="textContent">
-          <p class="pageText">Bienvenido</p>
-          <p class="pageText">Dirigase a la sección academico para consultar aulas disponibles.</p>
-          <p class="pageText">Debera identificarse para realizar cualquier otra operación.</p>
+        <div class="consultas">
+          <ul class="li"><a href="contenido/formularios/consultaAula.html" class="pageText regularLink btnLook">Consultar Aulas libres</a></ul>
+          <ul class="li"><a href="contenido/formularios/reservaAula.html" class="pageText regularLink btnLook">Reservar un Aula</a></ul>
         </div>
       </div>
     </div>
-      
     <!--Scripts-->
     <script src="scripts.js"></script>
   </body>

@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <base href="../index.html">
     <title>Dotcom - Academico</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body onload="setDynamicElements()">
+    <!--Informacion Adicional-->
     <header>
-      <!--Informacion Adicional-->
       <div class="informationBar">
         <a href="index.html" class="pageText logo">Dotcom</a>
         <p id="time">Hora actual</p>
@@ -46,16 +47,25 @@
     </nav>
     <!--Ventana Principal-->
     <div class="mainWindow pageText">
+      
       <!--Contenido-->
       <div class="content">
-        <div class="textContent">
-          <p class="pageText">Bienvenido</p>
-          <p class="pageText">Dirigase a la sección academico para consultar aulas disponibles.</p>
-          <p class="pageText">Debera identificarse para realizar cualquier otra operación.</p>
+        <div class="container">
+          <div class="formWrapper">
+            <h4 class="formTittle">Inicio de Sesion</h4>
+            <div class="fields">
+              <input type="text" class="pageText formItem" placeholder="Usuario">
+              <input type="password" class="pageText formItem" placeholder="Contraseña"> 
+              <div class="rememberChck">
+                <input type="checkbox" name="recordUser" id="recordUser">
+                <label for="recordUser" class="smallText">Recordarme</label>            
+              </div>
+            </div>
+            <input type="button" class="formBtn" value="Ingresar">
+          </div>
         </div>
       </div>
     </div>
-      
     <!--Scripts-->
     <script src="scripts.js"></script>
   </body>

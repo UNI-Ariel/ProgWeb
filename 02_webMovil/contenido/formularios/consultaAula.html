@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="../../index.html">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Dotcom - Academico</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reservaStyle.css">
   </head>
   <body onload="setDynamicElements()">
     <header>
@@ -48,14 +50,22 @@
     <div class="mainWindow pageText">
       <!--Contenido-->
       <div class="content">
-        <div class="textContent">
-          <p class="pageText">Bienvenido</p>
-          <p class="pageText">Dirigase a la sección academico para consultar aulas disponibles.</p>
-          <p class="pageText">Debera identificarse para realizar cualquier otra operación.</p>
+        <div class="container">
+          <div class="formWrapper pageText">
+            <h3 class="formTittle">Consulta de Aulas</h3>
+            <form action="" method="post" class="fields">
+              <fieldset>
+                <p class="pageText">Fecha:</p>
+                <input type="date" class="formItem">
+                <p class="pageText">Hora (Ini/Fin):</p>
+                <input type="time" name="hora" class="formItem">
+                <input class="formBtn formBtnMargin" type="submit" name="Sign-up" value="Consulta"> 
+              </fieldset>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-      
     <!--Scripts-->
     <script src="scripts.js"></script>
   </body>
