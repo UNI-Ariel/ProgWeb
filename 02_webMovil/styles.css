@@ -1,128 +1,253 @@
+:root {
+  --metallicSilver: #BCC6CC;
+  --metallicBlue: #4F738E;
+  --metallicWhite: #FBFCF6;
+  --metallicBlack: #2C2C2B;
+  --metallicBlackL: #343536;
+  --lightDark: #3b3d3f;
+}
+
 * {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
 }
 
-html {
-  box-sizing: border-box;
-}
-
-body {
-  line-height: 1;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 19pt;
-  background-color: white;
-}
-
-.container {
-  max-width: 100%;
-  width: 400px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  align-items: stretch;
-}
-
-.navBar {
-  display: flex;
-  width: 100%;
-  padding: 10px 10px;
-  align-items: center;
-  border-bottom: 1px solid rgb(210, 210, 210);
-}
-
-.menu-btn {
-  text-align: center;
-  font-size: 1.3em;
-  margin-right: 20px;
-}
-
-.menu-btn:hover {
-  cursor: pointer;
-}
-
-.navBar a {
-  font-size: 1em;
-  text-decoration: none;
-  color: rgb(100, 100, 100);
-}
-
-.content {
-  display: block;
+html, body {
   height: 100%;
-  width: 100%;
-  font-size: 1em;
-  text-align: center;
-  padding: 10px;
 }
 
-.menuTitle {
-  font-size: 0.8em;
-  padding: 20px;
-}
-
-.menuLink {
-  text-decoration: none;
-  font-size: 0.6em;
-  white-space: nowrap;
-  display: block;  
-  padding: 20px;
-}
-
-.menuLink:hover {
-  background-color: lightgray;
-  cursor: pointer;
-}
-
-#sideMenuBackground {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  color: rgba(0, 0, 0, 0.3);
-  display: none;
-  z-index: 1;
-}
-
-#sideMenu ul {
-  list-style-type: none;
+body{
+  background-color: var(--metallicBlack);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
 
-#sideMenu li:first-child {
-  border-top: 1px solid gray;
+.pageText {
+  color: var(--metallicWhite);
+  font-size: 1rem;
 }
 
-#sideMenu li {
-  white-space: nowrap;
+.centerText {
+  text-align: center;
+}
+
+/*Contenido 1/2 */
+.mainWindow {
   width: 100%;
+  max-height: 100%;
+  background-image: linear-gradient(to bottom, #303030, var(--metallicBlack));
+  overflow: scroll;
 }
 
-#sideMenu {
-  position: fixed;
-  overflow: hidden;
+.informationBar {
+  width: 100%;
+  border-bottom: 1px solid var(--metallicBlue);
+  background-color:  #111111;
+  font-size: 1.1rem;
+}
+
+.informationBar::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.logo {
+  display: block;
+  padding: 0.2rem;
+  text-decoration: none;
+  float: left;
+}
+
+.logo::first-letter {
+  color: var(--metallicBlue);
+}
+
+#time {
+  float: right;
+  font-size: 0.55rem;
+  margin-right: 0.5rem;
+  padding: 2px;
+  margin-top: 1rem;
+}
+
+/*Donde se mostrara todo - Mantener el alto*/
+.content {
+  
+  max-height: 100%;
+  margin: 2px;
+}
+
+.container {
+  display: grid;
+  box-sizing: border-box;
   height: 100%;
-  width: 0;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 5px 0 10px 0 rgba(0, 0, 0, 0.5);
-  z-index: 2;
-  transition: 0.3s;
+  place-content: center;
 }
 
-@media screen and (min-width: 900px) {
+.textContent{
+  border: 2px solid transparent;
+  border-radius: 25px;
+  text-align: left;
+  margin: 1rem;
+}
+
+/*Barra Navegacion 2/2 */
+.navigationBar {
+  width: 100%;
+  background-color: #BCC6CC;
+  
+}
+
+.navigationList {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: black;
+}
+
+.navigationItem {
+  overflow: hidden;
+  margin: 2px 5px;
+  border-width: 1px;
+  border-color: #a9b2b8;
+  border-style: inset outset outset inset;
+  background-color: #b1b9be;
+  border-radius: 10px;
+  width: 25%;
+}
+
+.navigationLink {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 20px;
+}
+
+.navigationLink:link,
+.navigationLink:visited,
+.navigationLink:hover,
+.navigationLink:active {
+  color:inherit;
+  font-size: 0.65rem;
+}
+
+.navigationImage {
+  display: block;
+}
+
+.activeNavigationItem {
+  background-color: #d1dae0;
+}
+/*/////////////////////////////////////*/
+/*/////////////Usuario/////////////*/
+.formWrapper {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 2px solid var(--metallicBlack);
+  border-radius: 2rem;
+  width: 300px;
+  background-color: var(--lightDark);
+  margin: 5px;
+}
+
+.formTittle {
+  margin-bottom: 1rem;
+}
+
+.formItem {
+  color: var(--metallicWhite);
+  margin: 0.5rem;
+  background-color: transparent;
+  border-bottom: 1px solid var(--metallicWhite);
+}
+
+.formItem, .formTittle {
+  display: block;
+}
+
+.formTextArea {
+  border: 2px solid var(--metallicBlack);
+  width: 80%;
+  height: 200px;
+}
+
+.smallText {
+  font-size: 0.8rem;
+}
+
+.formItem:focus {
+  outline: 2px solid var(--metallicWhite);
+}
+
+.rememberChck {
+  margin: 0.5rem 8rem 1rem 0;
+}
+.formBtn {
+  background-color: silver;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 0.5rem 2rem;
+}
+.formBtnMargin {
+  margin: 5px auto;
+}
+/*///////////////////////////////////////////*/
+/*////////////Pag reservas consultas/////////*/
+.consultas {
+  height: 100vh;
+}
+.regularLink {
+  text-decoration: none;
+}
+.btnLook {
+  display: block;
+  padding: 1.5rem;
+  border: 1px solid var(--metallicBlack);
+  margin: 1rem;
+  text-align: center;
+  background-color: var(--lightDark);
+}
+/*/////////////////////////////////////*/
+/*/////////////Responcive//////////////*/
+@media screen and (min-width: 361px){
+  .navigationLink {
+    padding: 0 40px;
+    margin: 2px 10px;
+  }
+  .navigationText {
+    display: none;
+  }
+  .smallText {
+    font-size: 0.8rem;
+  }
   .container {
-    width: 100%;
+    place-content: start center;
   }
 }
 
-@media screen and (min-width: 400px) {
-  .container {
-    width: 100%;
+@media screen and (min-width: 641px){
+  .pageText {
+    font-size: 2rem;
+  }
+  .logo {
+    font-size: 2rem;
+  }
+  #time {
+    font-size: 1.5rem;
+  }
+  .formWrapper {
+    width: 400px;
+  }
+  .mainWindow {
+    overflow: scroll;
   }
 }
 
@@ -146,4 +271,8 @@ th, td {
 
 th {
   background: #eee;
+}
+
+@media screen and (min-width: 1024px){
+  
 }

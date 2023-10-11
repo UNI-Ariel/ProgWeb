@@ -1,12 +1,18 @@
-var menu = document.getElementById("sideMenu");
-var menuO = document.getElementById("sideMenuBackground");
+let time = document.getElementById('time');
+let navBar = document.querySelector('.navigationBar');
+let infoBar = document.querySelector('.informationBar');
+let content = document.querySelector('.content');
 
-function showNav() {
-  menu.style.width = "200px";
-  menuO.style.display = "block";
+function logScreenSize(){
+  console.log(document.body.offsetWidth +
+    'x' + document.body.offsetHeight);
 }
 
-function closeNav() {
-  menu.style.width = "0";
-  menuO.style.display = "none";
+function setDynamicElements(){
+  setTime();
+  logScreenSize();
+}
+
+function setTime(){
+  time.innerHTML = Date();
 }
