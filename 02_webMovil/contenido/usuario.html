@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es-BO">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <base href="../index.html">
+    <title>Dotcom - Academico</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body onload="setDynamicElements()">
+    <!--Informacion Adicional-->
+    <header>
+      <div class="informationBar">
+        <a href="index.html" class="pageText logo">Dotcom</a>
+        <p id="time">Hora actual</p>
+      </div>
+    </header>
+    <!--Barra Navegacion-->
+    <nav class="navigationBar">
+      <ul class="navigationList">
+        <li class="navigationItem">
+          <a href="contenido/usuario.html" class="navigationLink">
+            <img src="imagenes/user2.png" alt="usuario" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Usuario</p>
+          </a>
+        </li>
+        <li class="navigationItem">
+          <a href="contenido/academico.html" class="navigationLink">
+            <img src="imagenes/mortarboard2.png" alt="adacemico" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Academico</p>
+          </a>
+        </li>
+        <li class="navigationItem">
+          <a href="contenido/administrativo.html" class="navigationLink">
+            <img src="imagenes/lock.png" alt="administrativo" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Administrativo</p>
+          </a>
+        </li>
+        <li class="navigationItem">
+          <a href="#Item 4" class="navigationLink">
+            <img src="imagenes/setting2.png" alt="opciones" width="25" height="25" class="navigationImage">
+            <p class="navigationText">Opciones</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!--Ventana Principal-->
+    <div class="mainWindow pageText">
+      
+      <!--Contenido-->
+      <div class="content">
+        <div class="container">
+          <div class="formWrapper">
+            <h4 class="formTittle">Inicio de Sesion</h4>
+            <div class="fields">
+              <input type="text" class="pageText formItem" placeholder="Usuario">
+              <input type="password" class="pageText formItem" placeholder="Contraseña"> 
+              <div class="rememberChck">
+                <input type="checkbox" name="recordUser" id="recordUser">
+                <label for="recordUser" class="smallText">Recordarme</label>            
+              </div>
+            </div>
+            <input type="button" class="formBtn" value="Ingresar">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Scripts-->
+    <script src="scripts.js"></script>
+  </body>
+</html>
