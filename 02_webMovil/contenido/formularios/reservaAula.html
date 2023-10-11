@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Dotcom - Academico</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="reservaStyle.css">
+    <link rel="stylesheet" href="contenido/formularios/reservaStyle.css">
   </head>
   <body onload="setDynamicElements()">
     <header>
@@ -47,33 +47,31 @@
       </ul>
     </nav>
     <!--Ventana Principal-->
-    <div class="mainWindow pageText">
-      <!--Contenido-->
-      <div class="content">
-        <div class="container">
-          <div class="pageText ">
-            <h3 class="centerText">Reserva de Aula</h3>
-            <form action="" method="post">
-              <fieldset class="formWrapper">
-                <p>Aula:</p>
-                <select name="aula" class="formItem">
-                    <option  value="691A">691A</option>
-                    <option  value="691B">691B</option>
-                    <option  value="691C">691C</option>
-                    <option  value="691D">691D</option>
-                </select>
-                <p>Fecha:</p>
-                <input type="date" class="formItem">
-                <p>Hora inicio:</p>
-                <input type="time" name="hora" class="formItem">
-                <p>Hora Fin:</p>
-                <input type="time" name="hora" class="formItem">
-                <p>Comentarios:</p>
-                <textarea rows="3" name="cuadro de texto" class="formTextArea"> </textarea>
-                <input class="formBtn" type="submit" name="Sign-up" value="Enviar"> 
-              </fieldset>
-            </form>
-          </div>
+    <!--Contenido-->
+    <div class="content pageText">
+      <div class="container">
+        <div class="pageText ">
+          <h3 class="centerText">Reserva de Aula</h3>
+          <form action="" method="post">
+            <fieldset class="formWrapper">
+              <p>Aula:</p>
+              <select name="aula" class="formItem">
+                  <option  value="691A">691A</option>
+                  <option  value="691B">691B</option>
+                  <option  value="691C">691C</option>
+                  <option  value="691D">691D</option>
+              </select>
+              <p>Fecha:</p>
+              <input type="date" class="formItem">
+              <p>Hora inicio:</p>
+              <input type="time" name="hora" class="formItem">
+              <p>Hora Fin:</p>
+              <input type="time" name="hora" class="formItem">
+              <p>Comentarios:</p>
+              <textarea rows="3" name="cuadro de texto" class="formTextArea"> </textarea>
+              <input class="formBtn" type="submit" name="Sign-up" value="Enviar"> 
+            </fieldset>
+          </form>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ let navBar = document.querySelector('.navigationBar');
 let infoBar = document.querySelector('.informationBar');
 let content = document.querySelector('.content');
 
-function logScreenSize(){
+function logScreenSize(){                       //Mutation Event Deprecated
   console.log(document.body.offsetWidth +
     'x' + document.body.offsetHeight);
 }

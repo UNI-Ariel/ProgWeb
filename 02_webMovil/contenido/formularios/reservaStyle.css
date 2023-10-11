@@ -1,19 +1,13 @@
-/*
-body {
-    background-color: rgb(117, 197, 135);
-}
-*/
-h1{
+h1 {
     text-align: center;
     text-decoration:underline;
 }
 
 form {
-   margin: 0 auto; 
-   width: 300px;   
-  
-   padding: 7px;
-   border-radius: 10px;
+    margin: 0 auto; 
+    width: 300px;   
+    padding: 7px;
+    border-radius: 10px;
 }
 
 input, textarea, select {
@@ -28,7 +22,8 @@ input, textarea, select {
     background-color: rgb(96, 160, 219);
     border-radius: 10px;
 }
-fieldset{
+
+fieldset {
     display:flex ;
     flex-direction: column;
 }

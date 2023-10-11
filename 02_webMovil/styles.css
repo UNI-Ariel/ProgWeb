@@ -33,13 +33,7 @@ body{
   text-align: center;
 }
 
-/*Contenido 1/2 */
-.mainWindow {
-  width: 100%;
-  max-height: 100%;
-  background-image: linear-gradient(to bottom, #303030, var(--metallicBlack));
-  overflow: scroll;
-}
+/*Contenido */
 
 .informationBar {
   width: 100%;
