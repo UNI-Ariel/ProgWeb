@@ -1,1 +1,8 @@
-Nada que instalar aún. 
+Instrucciones
+1.  instalar nodejs https://nodejs.dev/
+2.  Clonar nuestro repositorio https://gitlab.com/pwdotcom/proyectoAulas en una carpeta del escritorio
+3.  Abrir un terminal
+4.  En el terminal ir a la direccion de la carpeta donde esta el repositorio y dentro la carpeta webMovil
+5.  Una vez en el directorio Usar el comando: npm start
+6.  Probar la aplicacion
+7.  Al terminar presionar la combinacion de teclas: ctrl + C para terminar la ejecucion
