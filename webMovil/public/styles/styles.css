@@ -148,17 +148,25 @@ body{
   border-radius: 2rem;
   background-color: var(--lightDark);
   margin: 5px;
+  min-width: 90vw;
+}
+
+.formWrapper form {
+    display: flex;
+    flex-direction: column;
 }
 
 .formTittle {
   margin-bottom: 1rem;
+  padding: 0 2rem;
 }
 
 .formItem {
   color: var(--metallicWhite);
-  margin: 0.5rem;
+  margin: 1rem 0.5rem;
   background-color: transparent;
   border-bottom: 1px solid var(--metallicWhite);
+  
 }
 
 .formItem, .formTittle {
@@ -167,13 +175,15 @@ body{
 
 .formTextArea {
   border: 2px solid var(--metallicBlack);
-  width: 80%;
-  height: 200px;
   resize: none;
+  height: 100px;
+  overflow: auto;
 }
 
 .smallText {
   font-size: 0.8rem;
+  display: block;
+  margin: 1rem 0.8rem;
 }
 
 .formItem:focus {
@@ -194,9 +204,6 @@ body{
 }
 /*///////////////////////////////////////////*/
 /*////////////Pag reservas consultas/////////*/
-.consultas {
-  height: 100vh;
-}
 .regularLink {
   text-decoration: none;
 }
@@ -224,6 +231,7 @@ body{
   .container {
     place-content: start center;
   }
+  
 }
 
 @media screen and (min-width: 641px){
@@ -237,7 +245,7 @@ body{
     font-size: 1.5rem;
   }
   .formWrapper {
-    width: 400px;
+    margin: 20px;
   }
   .mainWindow {
     overflow: scroll;

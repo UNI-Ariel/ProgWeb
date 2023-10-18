@@ -50,27 +50,29 @@
     <!--Contenido-->
     <div class="content pageText">
       <div class="container">
-        <div class="pageText ">
-          <h3 class="centerText">Reserva de Aula</h3>
-          <form action="" method="post">
-            <fieldset class="formWrapper">
-              <p>Aula:</p>
-              <select name="aula" class="formItem">
-                  <option  value="691A">691A</option>
-                  <option  value="691B">691B</option>
-                  <option  value="691C">691C</option>
-                  <option  value="691D">691D</option>
-              </select>
-              <p>Fecha:</p>
-              <input type="date" class="formItem">
-              <p>Hora inicio:</p>
-              <input type="time" name="hora" class="formItem">
-              <p>Hora Fin:</p>
-              <input type="time" name="hora" class="formItem">
-              <p>Comentarios:</p>
-              <textarea rows="3" name="cuadro de texto" class="formTextArea"> </textarea>
-              <!--<input class="formBtn" type="submit" name="Sign-up" value="Enviar"> -->
-              <a href="/contenido/formularios/tablaAula.html" class="formBtn regularLink">Enviar</a>
+        <div class="formWrapper pageText ">
+          <h3 class="formTittle">Reserva de Aula</h3>
+          <form action="/reserva" method="POST">
+            <fieldset>
+                <p>Fecha:</p>
+                <input type="date" name="fecha" class="formItem">
+                <p>Aula:</p>
+                <div>
+                    <select name="nombre" class="formItem">
+                        <option  value="691A">691A</option>
+                        <option  value="691B">691B</option>
+                        <option  value="691C">691C</option>
+                        <option  value="691D">691D</option>
+                    </select>
+                </div>
+              
+                <p>Hora inicio:</p>
+                <input type="time" name="horaIni" class="formItem">
+                <p>Hora Fin:</p>
+                <input type="time" name="horaFin" class="formItem">
+                <p>Comentarios:</p>
+                <textarea rows="3" name="descripcion" class="formTextArea"> </textarea>
+                <input type="submit" name="" id="" value="Enviar" class="formBtn formBtnMargin">
             </fieldset>
           </form>
         </div>

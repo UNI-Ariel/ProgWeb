@@ -52,16 +52,16 @@
       <div class="container">
         <div class="formWrapper pageText">
           <h3 class="formTittle">Agregar Aula</h3>
-          <form action="" method="post" class="fields">
+          <form action="/agregar" method="POST">
             <fieldset>
-              <p class="pageText">Nombre del Aula:</p>
-              <input type="text" class="formItem">
-              <p class="pageText">Capacidad:</p>
+              <p >Nombre del Aula:</p>
+              <input type="text" name="nombre" class="formItem">
+              <p >Capacidad:</p>
               <input type="text" name="Capacidad" class="formItem">
-              <p class="pageText">Descripcion:</p>
-              <textarea rows="3" name="cuadro de texto" class="formItem"> </textarea>
-              <p class="pageText">Subir archivo CSV:</p>
-              <input type="file" name="Capacidad" class="formItem">
+              <p >Descripcion:</p>
+              <textarea rows="3" name="descripcion" class="formItem"> </textarea>
+              <p >Subir archivo CSV:</p>
+              <input type="file" name="csv" class="formItem">
               <input class="formBtn formBtnMargin" type="submit" name="Sign-up" value="Agregar"> 
             </fieldset>
           </form>
