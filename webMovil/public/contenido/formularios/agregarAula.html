@@ -55,14 +55,20 @@
           <form action="/agregar" method="POST">
             <fieldset>
               <p >Nombre del Aula:</p>
-              <input type="text" name="nombre" class="formItem">
+              <input type="text" name="nombre" class="formItem" required>
               <p >Capacidad:</p>
-              <input type="text" name="Capacidad" class="formItem">
+              <input type="text" name="Capacidad" class="formItem" required>
               <p >Descripcion:</p>
               <textarea rows="3" name="descripcion" class="formItem"> </textarea>
+              <input class="formBtn formBtnMargin" type="submit" name="Sign-up" value="Agregar"> 
+            </fieldset>
+          </form>
+          <br>
+          <form action="/agregarCSV" method="POST">
+            <fieldset>
               <p >Subir archivo CSV:</p>
               <input type="file" name="csv" class="formItem">
-              <input class="formBtn formBtnMargin" type="submit" name="Sign-up" value="Agregar"> 
+              <input class="formBtn formBtnMargin" type="submit" value="Subir"> 
             </fieldset>
           </form>
         </div>

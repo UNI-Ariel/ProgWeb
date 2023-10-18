@@ -13,6 +13,13 @@ const mime = {
     ico: 'image/x-icon'
 }
 
+const postOP = {
+    login: 'Login data',
+    reserva: 'Solicitud de Reserva',
+    consulta: 'Solicitud de Consulta',
+    agregar: 'Agregar aula'
+}
+
 const serverHandle = function(req, res){
     if(req.method === 'GET'){
         let filePath;
@@ -31,7 +38,12 @@ const serverHandle = function(req, res){
             console.log(`No se encontro el recurso: ${filePath}`);
         });
     } else if(req.method === 'POST'){
-        if(req.url === '/agregar'){
+        let op = postOP[req.url.slice(1)] || 'unhandled';
+        console.log(op);
+        if(op === 'unhandled'){
+            res.writeHead(403, {'Content-Type': 'text/plain'});
+            return res.end('Operacion no Permitida');
+        }else{
             let content = '';
             req.on('data', chunk => {
                 content += chunk;
@@ -39,7 +51,7 @@ const serverHandle = function(req, res){
             req.on('end', () => {
                 let data = new URLSearchParams(content);
                 console.log(data);
-                res.end('Recived');
+                res.end(`Recivido ${data}`);
             });
         }
     }

@@ -55,10 +55,11 @@
           <form action="/reserva" method="POST">
             <fieldset>
                 <p>Fecha:</p>
-                <input type="date" name="fecha" class="formItem">
+                <input type="date" name="fecha" class="formItem" required>
                 <p>Aula:</p>
                 <div>
-                    <select name="nombre" class="formItem">
+                    <select name="nombre" class="formItem" required>                        
+                        <option  value="" selected disabled hidden>Seleccion</option>
                         <option  value="691A">691A</option>
                         <option  value="691B">691B</option>
                         <option  value="691C">691C</option>
@@ -67,11 +68,11 @@
                 </div>
               
                 <p>Hora inicio:</p>
-                <input type="time" name="horaIni" class="formItem">
+                <input type="time" name="horaIni" class="formItem" required>
                 <p>Hora Fin:</p>
-                <input type="time" name="horaFin" class="formItem">
+                <input type="time" name="horaFin" class="formItem" required>
                 <p>Comentarios:</p>
-                <textarea rows="3" name="descripcion" class="formTextArea"> </textarea>
+                <textarea rows="3" name="comentario" class="formTextArea"> </textarea>
                 <input type="submit" name="" id="" value="Enviar" class="formBtn formBtnMargin">
             </fieldset>
           </form>
