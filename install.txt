@@ -1,8 +1,8 @@
 Instrucciones
 1.  instalar nodejs https://nodejs.dev/
-2.  Clonar nuestro repositorio https://gitlab.com/pwdotcom/proyectoAulas en una carpeta del escritorio
+2.  Clonar nuestro repositorio https://github.com/UNI-Ariel/ProgWeb en una carpeta del escritorio
 3.  Abrir un terminal
 4.  En el terminal ir a la direccion de la carpeta donde esta el repositorio y dentro la carpeta webMovil
 5.  Una vez en el directorio Usar el comando: npm start
-6.  Probar la aplicacion
+6.  Probar la aplicacion abriendo el navegador e ingresando la direccion localhost:8000 o el puerto que se indica en el terminal.
 7.  Al terminar presionar la combinacion de teclas: ctrl + C para terminar la ejecucion
