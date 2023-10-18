@@ -1,6 +1,8 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const mysql = require('mysql');
+const db = require('./database/config.js');
 
 const PORT = process.env.PORT || 8000;
 const public = path.join(__dirname, 'public');
@@ -51,7 +53,46 @@ const serverHandle = function(req, res){
             req.on('end', () => {
                 let data = new URLSearchParams(content);
                 console.log(data);
-                res.end(`Recivido ${data}`);
+                switch (op){
+                    case 'Login data':
+                        let user = data.get('user');
+                        let pass = data.get('pass');
+                        console.log(`Verificando usuario con id ${user}`)
+                        const connection = mysql.createConnection(db);
+                        connection.connect( (err) =>{
+                            if(err){
+                                console.log(`Error conexion con Base de datos ${err}`);
+                                res.end('No hay conexion con la base de datos.');
+                                return;
+                            }
+                            let query = `SELECT * FROM usuario WHERE id = ?`
+                            connection.query(query, user, (err, result) =>{
+                                if(err){
+                                    console.log(err);
+                                    return;
+                                }
+                                if(result.length > 0){
+                                    console.log('El usuario ' , user, ' esta registrado.');
+                                    res.end(`El usuario ${user} existe`);
+                                }
+                                else{
+                                    console.log('El usuario ' , user, ' no esta registrado.');
+                                    res.end(`El usuario ${user} no existe`);
+                                }
+                            });
+                            connection.end( (err) =>{
+                                if(err){
+                                    console.log(`Error al cerrar conexion con la Base de datos ${err}`);
+                                    return;
+                                }
+                            });
+                        });
+
+                        //res.end(`Recivido ${data}`);
+                        break;
+                    default:
+                        res.end(`Recivido ${data}`);
+                }
             });
         }
     }
