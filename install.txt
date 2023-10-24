@@ -8,8 +8,8 @@ Instrucciones
 7.  Probar la aplicacion abriendo el navegador e ingresando la direccion localhost:8000 o el puerto que se indica en el terminal.
 8.  Al terminar presionar la combinacion de teclas: ctrl + C para terminar la ejecucion
 
-9.  XAMPP para para base de datos https://www.apachefriends.org/es/download.html
+9.    XAMPP para para base de datos https://www.apachefriends.org/es/download.html
 10.  En el panel de control de XAMPP, iniciar el modulo Apache y MySQL
 11.  En el panel de control de XAMPP, presionar el boton admin de MySQL
-12. En el navegador 'phpmyadmin' agregar una nueva base de datos con nombre: cloud-db
-13. A esta base de datos importar las tablas del archivo webMovil/src/db/tablas.sql
+12.  En el navegador 'phpmyadmin' agregar una nueva base de datos con nombre: cloud-db
+13.  A esta base de datos importar las tablas del archivo webMovil/src/db/tablas.sql

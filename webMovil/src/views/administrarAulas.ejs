@@ -17,8 +17,9 @@
         <th >tipo</th>
         <th>activo</th>
         <!-- <th class="ex-col">descripcion</th> -->
+        <th>editar</th>
     </tr>
-    <tr>
+    <tr class="row-data">
         <% rows.forEach(function (amb) {%>
             <td class="ex-col"> <%= amb.id_ambiente %> </td>
             <td> <%= amb.nombre %> </td>
@@ -27,6 +28,7 @@
             <td class="ex-col"> <%= amb.id_estado %> </td>
             <td> <%= amb.id_tipo %> </td>
             <td> <%= amb.activo %> </td>
+            <td> <div id="edit-button" class="icons" style="--posX:-4"></div> </td>
         <% } ) %>
     </tr>
 </table>

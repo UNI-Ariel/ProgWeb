@@ -16,11 +16,11 @@
     --lightDark: #3b3d3f;
 
     --sprites: url("../img/iconos.png");
-    --spriteW: 500px;
-    --spriteH: 100px;
-    --iconW: 100px;
-    --iconH: 100px;
-    --scale: 4;
+    --spriteW: 300px;
+    --spriteH: 50px;
+    --iconW: 50px;
+    --iconH: 50px;
+    --scale: 2;
 }
 
 * {
@@ -107,7 +107,7 @@ body{
     font-size: 0.65rem;
 }
   
-.nav-icon {
+.icons {
     --posX: 0;
     --posY: 0;
     display: inline-block;
@@ -246,14 +246,18 @@ main {
 #data-table {
     width: 100%;
 }
-/* 
-#data-table > td {
-    position: relative;
+
+#edit-button {
+    width: 25px;
+    height: 25px;
+    background-color: var(--metallicWhite);
+    border: 1px solid transparent;
+    border-radius: 5px;
 }
 
-#data-table > td:hover, td:focus {
-
-} */
+#edit-button:hover {
+    cursor: pointer;
+}
 
 .ex-col {
     display: none;
