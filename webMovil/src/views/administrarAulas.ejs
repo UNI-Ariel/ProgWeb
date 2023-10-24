@@ -2,22 +2,34 @@
 
 <section class="page-text">
     <ul class="flex-row flex-space no-deco ">
-        <li><a href="/administrativo/agregarAulas" class="page-button no-deco margin-b">Agregar Aulas</a></li>
+        <li><a href="/administrativo/agregarAulas" class="page-button no-deco margin-b">&#43 Agregar Aulas</a></li>
         <!-- <li><a href="/administrativo/buscarAulas" class="page-button no-deco ">Buscar Aulas</a></li> -->
     </ul>
 </section>
 
-<section class="flex-column align-center page-text box-fx form-width" id="database_data">
-        <table>
-            <tr>
-                <th>Aula</th>
-                <th>Hora</th>
-                <th>Fecha</th>
-                <th>Docente</th>
-                <th>Soicitud</th>
-                
-            </tr>
-        </table>
-</section>
+<table class="page-text" id="data-table">
+    <tr>
+        <th class="ex-col">id</th>
+        <th>Nombre</th>
+        <th>cap.</th>
+        <th class="ex-col">ubicacion</th>
+        <th class="ex-col">estado</th>
+        <th >tipo</th>
+        <th>activo</th>
+        <!-- <th class="ex-col">descripcion</th> -->
+    </tr>
+    <tr>
+        <% rows.forEach(function (amb) {%>
+            <td class="ex-col"> <%= amb.id_ambiente %> </td>
+            <td> <%= amb.nombre %> </td>
+            <td> <%= amb.capacidad %> </td>
+            <td class="ex-col"> <%= amb.ubicacion %> </td>
+            <td class="ex-col"> <%= amb.id_estado %> </td>
+            <td> <%= amb.id_tipo %> </td>
+            <td> <%= amb.activo %> </td>
+        <% } ) %>
+    </tr>
+</table>
+
 
 <%- include('partials/footer'); %>

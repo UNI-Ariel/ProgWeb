@@ -19,9 +19,10 @@ router.post('/administrativo/agregarAulas', (req, res) =>{
 router.get('/administrativo/administrarAulas', async (req, res) =>{
     try{
         const data = await db.getAmbientes(1);
+        const rows = data.data;
         console.log(data);
         /* res.json(data); */
-        res.render('administrarAulas', {title: 'Administrar Aulas'});
+        res.render('administrarAulas', {title: 'Administrar Aulas', rows});
     }
     catch (err) {
         console.error('Error en la base de datos:', err.message);

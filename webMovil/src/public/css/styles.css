@@ -243,6 +243,22 @@ main {
     outline: 2px solid transparent;
 }
 
+#data-table {
+    width: 100%;
+}
+/* 
+#data-table > td {
+    position: relative;
+}
+
+#data-table > td:hover, td:focus {
+
+} */
+
+.ex-col {
+    display: none;
+}
+
 /*/////////////Responcive//////////////*/
 @media screen and (min-width: 361px){
     .nav-link {
@@ -264,6 +280,9 @@ main {
     }
     .col-2 {
         width: 50%;
+    }
+    .ex-col {
+        display: table-cell;
     }
 }
 
