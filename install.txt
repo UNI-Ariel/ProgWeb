@@ -10,5 +10,5 @@ Instrucciones
 8.  XAMPP para para base de datos https://www.apachefriends.org/es/download.html
 9.  En el panel de control de XAMPP, iniciar el modulo Apache y MySQL
 9.  En el panel de control de XAMPP, presionar el boton admin de MySQL
-10.En el navegador 'phpmyadmin' agregar una nueva base de datos con nombre: progweb
-11.A esta base de datos importar las tablas del archivo webMovil/database/progweb.sql
+10. En el navegador 'phpmyadmin' agregar una nueva base de datos con nombre: cloud-db
+11. A esta base de datos importar las tablas del archivo webMovil/database/tablas.sql
