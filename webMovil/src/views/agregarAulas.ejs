@@ -1,0 +1,59 @@
+<%- include('partials/header'); %>
+
+<section class="flex-column align-center page-text">
+    <div class="box-fx form-width">
+        <h3 class="center-text margin-b">Agregar Aulas</h3>
+        <div class="innerFlex">
+            <form action="/administrativo/agregarAulas" method="POST" class="flex-column col-2">
+                <h4 class="center-text margin-b">Datos del Aula</h4>
+                <div class="margin-b">
+                    <p >Nombre del Aula:</p>
+                    <input type="text" name="nombre" class="input-field" required>
+                </div>
+    
+                <div class="margin-b">
+                    <p >Ubicación:</p>
+                    <input type="text" name="ubicacion" class="input-field" required>
+                </div>
+
+                <div class="margin-b">
+                    <p >Capacidad:</p>
+                    <input type="number" name="capacidad" min="1" max="5000" class="input-field" required>
+                </div>
+
+                <div class=" margin-b">
+                    <p >Activo:</p>
+                    <label>
+                        <input type="radio" name="activo" value="si" checked required>
+                        Si
+                    </label>
+                    <label class="dblock">
+                        <input type="radio" name="activo" value="no" required>
+                        No
+                    </label>
+                </div>
+
+                <div class="margin-b">
+                    <p >Descripcion:</p>
+                    <textarea rows="8" name="descripcion" class="input-field"> </textarea>
+                </div>
+    
+                <input class="page-button" type="submit" value="Agregar"> 
+            </form>
+
+            <div class="separator">
+            </div>
+
+            <form action="/subirCSV" method="POST" class="flex-column col-2">
+                <div class="margin-b center-text">
+                    <h4 class="margin-b">Archivo CSV:</h4>
+                    <input type="file" name="csv" accept=".csv">
+                </div>
+                <input class="page-button" type="submit" value="Subir"> 
+            </form>
+
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer'); %>
