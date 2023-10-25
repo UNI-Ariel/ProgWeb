@@ -3,6 +3,7 @@ const config = {
         host: 'localhost',
         user: 'root',
         password: '',
+        port: '33065',
         database: 'cloud-db'
     },
     cloudDB: {
