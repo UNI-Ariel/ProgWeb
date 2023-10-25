@@ -14,8 +14,8 @@ router.get('/academico', (req, res) =>{
     res.render('academico', {title: 'Academico'});
 });
 
-router.get('/academico/buscarAulas', (req, res) =>{
-    res.render('buscarAulas', {title: 'Buscar Aulas Disponibles'});
+router.get('/academico/buscarAmbientes', (req, res) =>{
+    res.render('buscarAmbientes', {title: 'Buscar Ambientes Disponibles'});
 });
 
 router.get('/administrativo', (req, res) =>{
