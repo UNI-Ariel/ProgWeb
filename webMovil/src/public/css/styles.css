@@ -296,6 +296,10 @@ main {
     display: none;
 }
 
+.scroll-box {
+    overflow: scroll;
+}
+
 /*/////////////Responcive//////////////*/
 @media screen and (min-width: 361px){
     .nav-link {

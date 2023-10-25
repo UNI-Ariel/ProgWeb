@@ -19,7 +19,7 @@ router.get('/administrativo/agregarAmbientes', async (req, res) =>{
 });
 
 router.post('/administrativo/agregarAmbientes', async (req, res) =>{
-    console.log(req.body);
+    /* console.log(req.body); */
     try{
         const data = await db.getAmbiente(req.body.nombre);
         if(data.length){
@@ -57,8 +57,33 @@ router.get('/administrativo/administrarAmbientes', async (req, res) =>{
         
 });
 
-router.put('/administrarAmbientes/:id', async (req, res) =>{
-    
+router.get('/administrativo/editarAmbiente/:id', async (req, res) =>{
+    try{
+        const data = await db.getAmbienteByID(req.params.id);
+        const tipos =  await db.getTipos();
+        if(data.length){
+            const ambiente = data[0];
+            res.render('editarAmbiente', {title: 'Editar Ambiente', tipos, ambiente});
+        }
+        else{
+            res.render('editarAmbiente', {title: 'Editar Ambiente'});
+        }
+    }
+    catch (err) {
+        res.status(500).send(`Error: ${err.message}`);
+    }
+});
+
+router.put('/administrativo/editarAula', async (req, res) => {
+    console.log(req.body);
+    try{
+        const update = 'UPDATE ambiente SET nombre = ?, id_tipo = ?, ubicacion = ?, descripcion = ?, capacidad = ?, deshabilitado = ?, activo = ? WHERE id_ambiente = ?';
+        const data = await db.query(update, [req.body.nombre, req.body.id_tipo, req.body.ubicacion, req.body.descripcion, req.body.capacidad, req.body.deshabilitado, req.body.activo, req.body.id_ambiente]);
+        res.json({Mensaje: "Se actualizo el ambiente"});
+    }
+    catch (err){
+        console.log(err);
+    }
 });
 
 module.exports = router;

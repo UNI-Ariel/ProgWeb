@@ -23,6 +23,14 @@ async function getAmbiente(nombre){
     return data;
 }
 
+async function getAmbienteByID(id){
+    const rows = await query(
+        `SELECT * FROM ambiente WHERE id_ambiente = '${id}'`
+    );
+    const data = !rows ? [] : rows;
+    return data;
+}
+
 async function getAmbientes(page = 1){
     const offset = page - 1;
     const rows = await query(
@@ -35,4 +43,4 @@ async function getAmbientes(page = 1){
     };
 }
 
-module.exports = { query, getAmbiente, getAmbientes, getTipos };
+module.exports = { query, getAmbiente, getAmbientes, getTipos, getAmbienteByID };

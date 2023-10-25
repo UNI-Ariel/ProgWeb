@@ -1,0 +1,108 @@
+<%- include('partials/header'); %>
+
+<% if (locals.ambiente) { %>
+
+    <div class="innerFlex page-text box-fx">
+        <form class="flex-column" id="update-form">
+            <h4 class="center-text margin-b">Editando el Ambiente con ID: <%= ambiente.id_ambiente %></h4>
+            <div class="innerFlex flex-space">
+                <div >
+                    <div class="margin-b">
+                        <p >Nombre del Aula:</p>
+                        <input type="text" name="id_ambiente" class="input-field" value="<%= ambiente.id_ambiente %>" readonly>
+                    </div>
+    
+                    <div class="margin-b">
+                        <p >Nombre del Aula:</p>
+                        <input type="text" name="nombre" class="input-field" value="<%= ambiente.nombre %>" required>
+                    </div>
+    
+                    <div class="margin-b">
+                        <p >Tipo:</p>
+                        <select name="id_tipo" class="input-field" required>                        
+                            <option  value="" selected disabled hidden>Seleccion</option>
+                            <% tipos.forEach(function (t) { %>
+                                <option  value="<%= t.id_tipo %>"><%= t.id_tipo %></option>
+                            <% } ) %>
+                        </select>
+                    </div>
+    
+                    <div class="margin-b">
+                        <p >Ubicación:</p>
+                        <input type="text" name="ubicacion" class="input-field" value="<%= ambiente.ubicacion %>" required>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="margin-b">
+                        <p >Capacidad:</p>
+                        <input type="number" name="capacidad" min="1" max="5000" class="input-field" value="<%= ambiente.capacidad %>" required>
+                    </div>
+        
+                    <div class=" margin-b">
+                        <p >Activo:</p>
+                        <label>
+                            <input type="radio" name="activo" value="si" checked required>
+                            Si
+                        </label>
+                        <label class="dblock">
+                            <input type="radio" name="activo" value="no" required>
+                            No
+                        </label>
+                    </div>
+        
+                    <div class=" margin-b">
+                        <p >Deshabilitado:</p>
+                        <label>
+                            <input type="radio" name="deshabilitado" value="si" required>
+                            Si
+                        </label>
+                        <label class="dblock">
+                            <input type="radio" name="deshabilitado" value="no" checked required>
+                            No
+                        </label>
+                    </div>
+        
+                    
+                </div>
+                <div class="margin-b">
+                    <p >Descripcion:</p>
+                    <textarea rows="8" name="descripcion" class="input-field" value="<%= ambiente.ubicacion %>"> </textarea>
+                </div>
+            </div>
+            <input class="page-button" type="submit" value="Actualizar">  
+        </form>
+    </div>
+
+    <!-- <div class="page-text">
+        <div >
+            <div>
+                <div>ID: </div>
+                <div id="amb-id" contenteditable="false"><%= ambiente.id_ambiente %></div>
+            </div>
+            <label>Nombre: <p id="amb-nombre" contenteditable="true"><%= ambiente.nombre %></p></label>
+        </div>
+        <div>
+            <label>tipo: <p id="amb-tipo" contenteditable="true"><%= ambiente.id_tipo %></p></label>
+            <label>Capacidad: <p id="amb-cap" contenteditable="true"><%= ambiente.capacidad %></p></label>
+        </div>
+        <div>
+            <label>Ubicacion: 
+                <div contenteditable="true"><%= ambiente.ubicacion %></div>
+            </label>
+            <label>Descripcion:
+                <div contenteditable="true"><%= ambiente.descripcion %></div>
+            </label>
+        </div>
+        <div>
+            <label>Deshabilitado:</label>
+            <p contenteditable="true"><%= ambiente.deshabilitado %></p>
+            <label>Activo:</label>
+            <p contenteditable="true"><%= ambiente.activo %></p>
+        </div>
+    </div> -->
+<% } else { %>
+    <h3 class="page-text center-text">No existe el dato</h3>
+<% } %>
+
+<%- include('partials/footer'); %>

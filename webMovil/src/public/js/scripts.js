@@ -4,9 +4,30 @@ let infoBar = document.querySelector('.informationBar');
 let content = document.querySelector('.content');
 
 document.getElementById('close-msg')?.addEventListener('click', closeMessage);
-document.getElementById('edit-button')?.addEventListener('click', (event) => {
-    const row = event.target.closest('tr');
-    console.log(row);
+document.getElementById('update-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const form_data = new FormData(document.getElementById('update-form'));
+    const json ={};
+    form_data.forEach((v, k) =>{
+        json[k] = v;
+    });
+    fetch('http://localhost:9000/administrativo/editarAula', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json)
+    }).then((res) =>{
+        if(!res.ok){
+            throw new Error('Fallo la solicitud');
+        }
+        return res.json();
+    }).then((res) => {
+        alert(`Respuesta del servidor: ${JSON.stringify(res)}`);
+    }).catch ((err) =>{
+        alert(`Error: ${err}`);
+    });
 });
 
 window.addEventListener('load', (event) =>{
