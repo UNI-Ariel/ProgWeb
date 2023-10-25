@@ -3,9 +3,11 @@ const config = require('../config');
 
 async function query(sql, params) {
     const connection = await mysql.createConnection(config.localDB);
-    const [results, ] = await connection.execute(sql, params);
+    
+   const [results, ] = await connection.execute(sql, params);
     return results;
 }
+
 
 async function getAmbientes(page = 1){
     const offset = page - 1;
