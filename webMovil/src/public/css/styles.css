@@ -35,6 +35,7 @@ html, body {
 
 body{
     background-color: var(--background-color);
+    position: relative;
     /* box-sizing: border-box;
     display: flex;
     flex-direction: column; */
@@ -215,6 +216,33 @@ main {
     padding: 20px 0;
 }
 
+#message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-color);
+    background-color: var(--metallicBlackL);
+    border-radius: 15px;
+}
+
+.msg-content {
+    position: relative;
+    padding: 40px;
+}
+
+#close-msg{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 4px 5px;
+    border-radius: 4px;
+}
+
+.hide {
+    display: none;
+}
+
 /*////////////////////////////////// Forms ///////////////////////////////////////////*/
 .login-input {
     width: 100%;
@@ -244,7 +272,12 @@ main {
 }
 
 #data-table {
-    width: 100%;
+    width: 95vw;
+    overflow: hidden;
+}
+
+#data-table:nth-child(odd){
+    background-color: var(--metallicBlackL);
 }
 
 #edit-button {

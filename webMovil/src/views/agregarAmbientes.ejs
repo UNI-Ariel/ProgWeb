@@ -4,11 +4,21 @@
     <div class="box-fx form-width">
         <h3 class="center-text margin-b">Agregar Aulas</h3>
         <div class="innerFlex">
-            <form action="/administrativo/agregarAulas" method="POST" class="flex-column col-2">
+            <form action="/administrativo/agregarAmbientes" method="POST" class="flex-column col-2">
                 <h4 class="center-text margin-b">Datos del Aula</h4>
                 <div class="margin-b">
                     <p >Nombre del Aula:</p>
                     <input type="text" name="nombre" class="input-field" required>
+                </div>
+
+                <div class="margin-b">
+                    <p >Tipo:</p>
+                    <select name="id_tipo" class="input-field" required>                        
+                        <option  value="" selected disabled hidden>Seleccion</option>
+                        <% tipos.forEach(function (t) { %>
+                            <option  value="<%= t.id_tipo %>"><%= t.id_tipo %></option>
+                        <% } ) %>
+                    </select>
                 </div>
     
                 <div class="margin-b">
@@ -29,6 +39,18 @@
                     </label>
                     <label class="dblock">
                         <input type="radio" name="activo" value="no" required>
+                        No
+                    </label>
+                </div>
+
+                <div class=" margin-b">
+                    <p >Deshabilitado:</p>
+                    <label>
+                        <input type="radio" name="deshabilitado" value="si" required>
+                        Si
+                    </label>
+                    <label class="dblock">
+                        <input type="radio" name="deshabilitado" value="no" checked required>
                         No
                     </label>
                 </div>

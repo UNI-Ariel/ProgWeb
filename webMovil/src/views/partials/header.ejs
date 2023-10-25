@@ -8,6 +8,15 @@
         <title> Dotcom - <%= title  %> </title>
     </head>
     <body>
+        <% if (locals.message) { %>
+            <div id="message">
+                <div class="msg-content">
+                    <button id="close-msg">X</button>
+                    <h3> <%= message %> </h3>
+                </div>
+            </div>
+        <% } %>
+
         <nav>
             <div class="nav-header page-text">
                 <a href="/" class="page-text no-deco logo">Dotcom</a>

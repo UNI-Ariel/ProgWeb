@@ -1,0 +1,37 @@
+<%- include('partials/header'); %>
+
+<section class="page-text">
+    <ul class="flex-row flex-space no-deco ">
+        <li><a href="/administrativo/agregarAmbientes" class="page-button no-deco margin-b">&#43 Agregar Ambientes</a></li>
+        <!-- <li><a href="/administrativo/buscarAulas" class="page-button no-deco ">Buscar Aulas</a></li> -->
+    </ul>
+</section>
+<table class="page-text" id="data-table">
+    <tr>
+        <th class="ex-col">id</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th class="ex-col">Ubicacion</th>
+        <th>cap.</th>
+        <th class="hide">descripcion</th>
+        <th class="ex-col">Deshabilitado</th>
+        <th class="ex-col">Activo</th>
+        <th>Editar</th>
+    </tr>
+    <% rows.forEach(function (amb) {%>
+        <tr class="row-data">
+            <td class="ex-col"> <%= amb.id_ambiente %> </td>
+            <td> <%= amb.nombre %> </td>
+            <td> <%= amb.id_tipo %> </td>
+            <td class="ex-col"> <%= amb.ubicacion %> </td>
+            <td> <%= amb.capacidad %> </td>
+            <td class="hide"> <%= amb.descripcion %> </td>
+            <td class="ex-col"> <%= amb.deshabilitado %> </td>
+            <td class="ex-col"> <%= amb.activo %> </td>
+            <td> <div id="edit-button" class="icons" style="--posX:-4"></div> </td>
+        </tr>
+    <% } ) %>
+</table>
+
+
+<%- include('partials/footer'); %>
