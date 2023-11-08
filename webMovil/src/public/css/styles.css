@@ -297,7 +297,7 @@ main {
 }
 
 .scroll-box {
-    overflow: scroll;
+    overflow: auto;
 }
 
 /*/////////////Responcive//////////////*/

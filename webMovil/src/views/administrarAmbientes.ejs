@@ -17,7 +17,6 @@
             <th>cap.</th>
             <th class="ex-col">desc.</th>
             <th class="ex-col">Deshab?</th>
-            <th class="ex-col">Activo</th>
             <th>Editar</th>
         </tr>
         <% rows.forEach(function (amb) {%>
@@ -29,8 +28,7 @@
                 <td> <%= amb.capacidad %> </td>
                 <td class="ex-col"> <%= amb.descripcion %> </td>
                 <td class="ex-col"> <%= amb.deshabilitado %> </td>
-                <td class="ex-col"> <%= amb.activo %> </td>
-                <td> <div id="edit-button" ><a href="/administrativo/editarAmbiente/<%= amb.id_ambiente %>" class="icons" style="--posX:-4"></a></div> </td>
+                <td> <div id="edit-button" ><a href="/administrativo/editarAmbiente/<%= amb.nombre %>" class="icons" style="--posX:-4"></a></div> </td>
             </tr>
         <% } ) %>
     </table>

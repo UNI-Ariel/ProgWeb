@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const db = require('../db/db');
 
 const router = Router();
 
@@ -14,8 +15,15 @@ router.get('/academico', (req, res) =>{
     res.render('academico', {title: 'Academico'});
 });
 
-router.get('/academico/buscarAmbientes', (req, res) =>{
-    res.render('buscarAmbientes', {title: 'Buscar Ambientes Disponibles'});
+router.get('/academico/verAmbientes', async (req, res) =>{
+    const periodos = await db.getPeriodos();
+    res.render('buscarAmbientes', {title: 'Ver Ambientes Disponibles', periodos});
+});
+
+router.post('/academico/verAmbientes', async (req, res) =>{
+    console.log(req.body);
+    const disponibles = await db.getAmbientesDisponibles(req.body);
+    res.json(disponibles);
 });
 
 router.get('/administrativo', (req, res) =>{
