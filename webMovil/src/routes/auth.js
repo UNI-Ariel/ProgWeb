@@ -10,29 +10,32 @@ router.get('/academico/reservarAmbientes', (req, res) =>{
 router.get('/administrativo/agregarAmbientes', async (req, res) =>{
     try{
         const tipos = await db.getTipos();
+        const facilidades = await db.getFacilidades();
         /* console.log(tipos); */
-        res.render('agregarAmbientes', {title: 'Agregar Ambientes', tipos});
+        res.render('agregarAmbientes', {title: 'Agregar Ambientes', tipos, facilidades});
     }
     catch (err) {
         res.status(500).send(`Error: ${err.message}`);
     }
 });
 
+router.get('/administrativo/agregarAmbientesLotes', (req, res) =>{
+    res.render('agregarAmbientesLotes', {title: 'Agregar Ambientes por Lotes'});
+});
+
 router.post('/administrativo/agregarAmbientes', async (req, res) =>{
     /* console.log(req.body); */
     try{
-        const data = await db.getAmbiente(req.body.nombre);
+        const data = await db.getAmbienteByID(req.body.nombre);
         if(data.length){
             const tipos = await db.getTipos();
-            res.render('agregarAmbientes', {title: 'Agregar Ambientes', tipos, message:'Ya existe un aula con ese nombre'});
+            const facilidades = await db.getFacilidades();
+            res.render('agregarAmbientes', {title: 'Agregar Ambientes', tipos, facilidades, message:'Ya existe un aula con ese nombre'});
             /* res.json({message: 'Ya existe un aula con ese nombre'}); */
         }
         else{
             /* res.json({message: 'Se ha agregado un ambiente'}); */
-            const insert = 'INSERT INTO ambiente (nombre, id_tipo, ubicacion, descripcion, capacidad, deshabilitado, activo) VALUES (?, ?, ?, ?, ?, ?, ?)';
-            await db.query(insert, [req.body.nombre, req.body.id_tipo, req.body.ubicacion, req.body.descripcion,
-                req.body.capacidad, req.body.deshabilitado, req.body.activo]);
-                
+            await db.agregarAmbiente(req.body);
             res.redirect('/administrativo/administrarAmbientes');
         }
     }

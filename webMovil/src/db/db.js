@@ -7,6 +7,32 @@ async function query(sql, params) {
     return results;
 }
 
+async function agregarAmbiente(params){
+    const insert = 'INSERT INTO ambiente (nombre, id_tipo, ubicacion, descripcion, capacidad, deshabilitado, activo) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    const rows = await query(insert, [
+        params.body.nombre, 
+        params.body.id_tipo, 
+        params.body.ubicacion, 
+        params.body.descripcion,
+        params.body.capacidad, 
+        params.body.deshabilitado,
+        1,
+    ]);
+    const data = !rows ? [] : rows;
+    if("facilidades" in params){
+        insert = 'INSERT INTO facilidades (id_ambiente, id_facilidad) VALUES (?, ?)'
+        if(Array.isArray( params.facilidades)){
+            params.facilidades.forEach(async (id_facilidad) => {
+                await query(insert,[params.id_ambiente, id_facilidad]);
+            });
+        }
+        else{
+            await query(insert,[params.id_ambiente, params.facilidades]);
+        }
+    }
+    return data;
+}
+
 async function getTipos(sql, params){
     const rows = await query(
         `SELECT * FROM tipo`
@@ -15,9 +41,9 @@ async function getTipos(sql, params){
     return data;
 }
 
-async function getAmbiente(nombre){
+async function getAmbienteByName(name){
     const rows = await query(
-        `SELECT * FROM ambiente WHERE nombre = '${nombre}'`
+        `SELECT * FROM ambiente WHERE nombre = '${name}'`
     );
     const data = !rows ? [] : rows;
     return data;
@@ -43,4 +69,19 @@ async function getAmbientes(page = 1){
     };
 }
 
-module.exports = { query, getAmbiente, getAmbientes, getTipos, getAmbienteByID };
+async function getFacilidades(){
+    const rows = await query(
+        `SELECT * FROM facilidad`
+    );
+    const data = !rows ? [] : rows;
+    return data;
+}
+
+module.exports = { 
+    agregarAmbiente,
+    getAmbientes, 
+    getAmbienteByName, 
+    getAmbienteByID,
+    getTipos,
+    getFacilidades
+};
