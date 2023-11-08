@@ -45,6 +45,11 @@ router.post('/administrativo/agregarAmbientes', async (req, res) =>{
    
 });
 
+router.post('/subirCSV', async (req, res) =>{
+    console.log(req.body);
+    res.send("Archivo recivido");
+});
+
 router.get('/administrativo/administrarAmbientes', async (req, res) =>{
     try{
         const data = await db.getAmbientes(1);
