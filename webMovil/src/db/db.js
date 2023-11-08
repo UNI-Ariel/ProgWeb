@@ -7,29 +7,39 @@ async function query(sql, params) {
     return results;
 }
 
+async function agregarFacilidadesAmbiente(id_ambiente, facilidades){
+    const insert = 'INSERT INTO facilidades (id_ambiente, id_facilidad) VALUES (?, ?)'
+    if(Array.isArray(facilidades)){
+        facilidades.forEach(async (facilidad) => {
+            console.log(facilidad);
+            await query(insert, [ id_ambiente, facilidad ] );
+        });
+    }
+    else{
+        await query(insert, [id_ambiente, facilidades] );
+    }
+}
+
 async function agregarAmbiente(params){
     const insert = 'INSERT INTO ambiente (nombre, id_tipo, ubicacion, descripcion, capacidad, deshabilitado, activo) VALUES (?, ?, ?, ?, ?, ?, ?)';
     const rows = await query(insert, [
-        params.body.nombre, 
-        params.body.id_tipo, 
-        params.body.ubicacion, 
-        params.body.descripcion,
-        params.body.capacidad, 
-        params.body.deshabilitado,
-        1,
-    ]);
+        params.nombre, 
+        params.id_tipo, 
+        params.ubicacion, 
+        params.descripcion,
+        params.capacidad, 
+        params.deshabilitado,
+        'si',
+    ]).then(rows => {
+        console.log('Se agrego un Ambiente a la base de datos. id: ', rows.insertId);
+        if("facilidades" in params){
+            agregarFacilidadesAmbiente(rows.insertId, params.facilidades);
+        }
+    })
+    .catch(err => {
+        console.log('Error al agregar ambiente: ', err);
+    });
     const data = !rows ? [] : rows;
-    if("facilidades" in params){
-        insert = 'INSERT INTO facilidades (id_ambiente, id_facilidad) VALUES (?, ?)'
-        if(Array.isArray( params.facilidades)){
-            params.facilidades.forEach(async (id_facilidad) => {
-                await query(insert,[params.id_ambiente, id_facilidad]);
-            });
-        }
-        else{
-            await query(insert,[params.id_ambiente, params.facilidades]);
-        }
-    }
     return data;
 }
 
@@ -79,6 +89,7 @@ async function getFacilidades(){
 
 module.exports = { 
     agregarAmbiente,
+    agregarFacilidadesAmbiente,
     getAmbientes, 
     getAmbienteByName, 
     getAmbienteByID,
