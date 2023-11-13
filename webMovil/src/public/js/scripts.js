@@ -26,6 +26,7 @@ document.getElementById('form-csv')?.addEventListener('submit', (event) => {
     
     
 
+    console.log(json);
     //enviar datos
     fetch('http://localhost:9000/subirCSV', {
         method: 'POST',
@@ -53,7 +54,8 @@ document.getElementById('update-form')?.addEventListener('submit', (event) => {
     form_data.forEach((v, k) =>{
         json[k] = v;
     });
-    fetch('http://localhost:9000/administrativo/editarAula', {
+    const url = document.location.href;
+    fetch(url, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -66,6 +68,61 @@ document.getElementById('update-form')?.addEventListener('submit', (event) => {
         return res.json();
     }).then((res) => {
         alert(`Respuesta del servidor: ${JSON.stringify(res)}`);
+        document.location.href = '/administrativo/administrarAmbientes';
+    }).catch ((err) =>{
+        alert(`Error: ${err}`);
+    });
+});
+
+function createTableFromJSON(json){
+    const table = document.createElement('table');
+    let tr = document.createElement('tr');
+    let cols = Object.keys(json[0]);
+    cols.forEach(e =>{
+        let th = document.createElement("th");
+        th.innerText = e;
+        tr.appendChild(th);
+    });
+    table.appendChild(tr);
+    json.forEach(item =>{
+        let tr = document.createElement('tr');
+        let values = Object.values(item);
+        values.forEach(v =>{
+            let td = document.createElement('td');
+            td.innerText = v;
+            tr.appendChild(td);
+        });
+        table.appendChild(tr);
+    });
+    return table;
+}
+
+document.getElementById('ver-ambientes')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const form_data = new FormData(document.getElementById('ver-ambientes'));
+    const json ={};
+    form_data.forEach((v, k) =>{
+        json[k] = v;
+    });
+    const url = document.location.href;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json)
+    }).then((res) =>{
+        if(!res.ok){
+            throw new Error('Fallo la solicitud');
+        }
+        return res.json();
+    }).then((res) => {
+        /* alert(`Respuesta del servidor: ${JSON.stringify(res)}`); */
+        const table = createTableFromJSON(res);
+        const displayArea = document.getElementById('resultados-consulta');
+        displayArea.innerHTML = '';
+        displayArea.appendChild(table);
     }).catch ((err) =>{
         alert(`Error: ${err}`);
     });

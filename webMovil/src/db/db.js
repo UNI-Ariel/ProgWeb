@@ -38,6 +38,29 @@ async function agregarAmbiente(params){
     })
     .catch(err => {
         console.log('Error al agregar ambiente: ', err);
+        throw err;
+    });
+    const data = !rows ? [] : rows;
+    return data;
+}
+
+async function updateAmbiente(nombre, updateData){
+    const update = 'UPDATE ambiente SET nombre = ?, id_tipo = ?, ubicacion = ?, descripcion = ?, capacidad = ?, deshabilitado = ?  WHERE id_ambiente = ?';
+    const rows = await getAmbienteByName(nombre)
+    .then(ambiente =>{
+        query(update, [
+            updateData.nombre, 
+            updateData.id_tipo, 
+            updateData.ubicacion, 
+            updateData.descripcion, 
+            updateData.capacidad, 
+            updateData.deshabilitado, 
+            ambiente[0].id_ambiente
+        ]);
+    })
+    .catch(err =>{
+        console.log('Error al actualizar datos del ambiente: ', err);
+        throw err;
     });
     const data = !rows ? [] : rows;
     return data;
@@ -59,6 +82,34 @@ async function getAmbienteByName(name){
     return data;
 }
 
+async function agregarReserva(params){
+    const reserva = 'INSERT INTO reserva(id_ambiente, id_periodo, id_estado, fecha_reserva) VALUES (?, ?, P , ?)';
+    const rows = await getAmbienteByName(params.nombre)
+        .then((amb) =>{
+            return query(reserva, [
+                amb[0].id_ambiente,
+                params.id_periodo,
+                params.fecha
+            ]);
+        })
+        .then(rows =>{
+            return rows;
+        })
+        .catch(err =>{
+            console.log('Error al agregar reserva', err);
+            throw err;
+        });
+    const data = !rows ? [] : rows;
+    return data;
+}
+
+async function getReservasPendientes(){
+    const consulta = 'SELECT * FROM reserva WHERE reserva.id_estado = P';
+    const rows = await query(consulta);
+    const data = !rows ? [] : rows;
+    return data;
+}
+
 async function getAmbienteByID(id){
     const rows = await query(
         `SELECT * FROM ambiente WHERE id_ambiente = '${id}'`
@@ -70,13 +121,44 @@ async function getAmbienteByID(id){
 async function getAmbientes(page = 1){
     const offset = page - 1;
     const rows = await query(
-        `SELECT * FROM ambiente LIMIT ${config.itemsPerPage} OFFSET ${offset} `
+        `SELECT * FROM ambiente WHERE activo = 'si' LIMIT  ${config.itemsPerPage} OFFSET ${offset} `
     );
     const meta = { page };
     const data = !rows ? [] : rows;
     return {
         meta, data
     };
+}
+
+async function getPeriodos(){
+    let q = 'SELECT id_periodo, ';
+    q += 'TIME_FORMAT(hora_ini, "%H:%i") AS hora_ini, ';
+    q += 'TIME_FORMAT(hora_fin, "%H:%i") AS hora_fin FROM periodos';
+    const rows = await query(q);
+    const data = !rows ? [] : rows;
+    return  data;
+}
+
+async function getAmbientesDisponibles(params){
+    let disponibles = 'SELECT nombre AS Nombre, id_tipo as Tipo, ';
+    disponibles += 'capacidad AS Capacidad, ubicacion as Ubicacion FROM ambiente as a ';
+    disponibles += 'WHERE NOT EXISTS (';
+    disponibles += 'SELECT * FROM reservas as b ';
+    disponibles += 'WHERE a.id_ambiente = b.id_ambiente ';
+    disponibles += 'AND b.fecha_reserva= ? ';
+    disponibles += 'AND b.id_periodo = ? ';
+    disponibles += 'AND b.id_estado= "A"';
+    disponibles += ')';
+    const rows = await query(disponibles, [params.fecha, params.horario]);
+    const data = !rows ? [] : rows;
+    return data;
+}
+
+async function deleteAmbiente(nombre){
+    const del = 'UPDATE ambiente SET activo = no WHERE nombre = ?';
+    const rows = await query(del, nombre);
+    const data = !rows ? [] : rows;
+    return data;
 }
 
 async function getFacilidades(){
@@ -90,9 +172,15 @@ async function getFacilidades(){
 module.exports = { 
     agregarAmbiente,
     agregarFacilidadesAmbiente,
+    updateAmbiente,
+    deleteAmbiente,
     getAmbientes, 
     getAmbienteByName, 
     getAmbienteByID,
     getTipos,
-    getFacilidades
+    getPeriodos,
+    getFacilidades,
+    agregarReserva,
+    getAmbientesDisponibles,
+    getReservasPendientes
 };
