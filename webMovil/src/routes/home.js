@@ -7,10 +7,6 @@ router.get('/', (req, res) =>{
     res.render('index', {title: 'Pagina Principal'});
 });
 
-router.get('/usuario', (req, res) =>{
-    res.render('usuario', {title: 'Usuario'});
-});
-
 router.get('/academico', (req, res) =>{
     res.render('academico', {title: 'Academico'});
 });
