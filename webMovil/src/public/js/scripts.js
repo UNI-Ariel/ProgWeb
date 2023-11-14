@@ -12,7 +12,19 @@ document.getElementById('form-csv')?.addEventListener('submit', (event) => {
     console.log(form);
 
     //leer datos del archivo y construir json
-    const json = {};
+    function leerCsv(evt){
+                    
+        let file = evt.target.files[0];
+        let reader = new FileReader();
+        reader.onload= (e) => {
+          console.log(e.target.result)    
+        };
+        reader.readAsText(file);
+    }
+    document.querySelector('#archivocsv')
+     .addEventListener('change',csv, false);
+    
+    
 
     console.log(json);
     //enviar datos
