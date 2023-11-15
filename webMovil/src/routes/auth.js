@@ -80,8 +80,8 @@ router.get('/administrativo/administrarAmbientes', async (req, res) =>{
         const data = await db.getAmbientes(1);
         const rows = data.data;
         const message = res.message;
-        /* console.log(data);
-        res.json(data); */ 
+        /* console.log(data); */
+       /*  res.json(data);  */
         res.render('administrarAmbientes', {title: 'Administrar Ambientes', rows, message});
     }
     catch (err) {

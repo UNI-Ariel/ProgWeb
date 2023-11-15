@@ -121,12 +121,12 @@ async function getAmbienteByID(id){
 
 async function getAmbientes(page = 1){
     const offset = (page - 1) * config.itemsPerPage;
-    const rows = await query(
+    const data = await query(
         `SELECT * FROM ambiente WHERE activo = 'si' LIMIT  ${config.itemsPerPage} OFFSET ${offset}`
     );
     const meta = { page };
     return {
-        meta, rows
+        meta, data
     };
 }
 
