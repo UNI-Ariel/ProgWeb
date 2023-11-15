@@ -1,0 +1,10 @@
+POST http://localhost:9000/api/reservarAulas
+Content-Type: application/json
+
+{
+    
+    "id_ambiente": "2",
+    "id_periodo": "19",
+    "fecha_reserva": "06/06/06"
+
+}
