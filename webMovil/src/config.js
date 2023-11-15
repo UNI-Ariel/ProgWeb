@@ -1,9 +1,10 @@
 const config = {
+    app_port: 7777,
     localDB: {
         host: 'localhost',
         user: 'root',
         password: '',
-        port: '33065',
+        port: '3306',
         database: 'cloud-db'
     },
     cloudDB: {

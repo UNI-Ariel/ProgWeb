@@ -3,8 +3,33 @@ const db = require('../db/db');
 
 const router = Router();
 
-router.get('/academico/reservarAmbientes', (req, res) =>{
-    res.render('reservarAmbientes', {title: 'Reservar Ambientes'});
+router.get('/usuario', (req, res) =>{
+    res.render('usuario', {title: 'Usuario'});
+});
+
+router.get('/academico/reservarAmbientes', async (req, res) =>{
+    const ambientes = (await db.getAmbientes(1)).data;
+    const horarios = await db.getPeriodos();
+    res.render('reservarAmbientes', {title: 'Reservar Ambientes', ambientes, horarios});
+});
+
+router.post('/academico/reservarAmbientes', async (req, res) =>{
+    console.log(req.body);
+    await db.getAmbienteByName(req.body.nombre)
+    .then(ambiente =>{
+        return db.agregarReserva([
+            ambiente.id_ambiente,
+            req.body.horario,
+            'P',
+            req.body.fecha
+        ]);
+    })
+    .then(rows =>{
+        res.json(rows);
+    })
+    .catch(err =>{
+        res.json({Message: "Error", err});
+    });
 });
 
 router.get('/administrativo/agregarAmbientes', async (req, res) =>{

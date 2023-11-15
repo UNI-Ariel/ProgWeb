@@ -128,6 +128,33 @@ document.getElementById('ver-ambientes')?.addEventListener('submit', (event) => 
     });
 });
 
+document.getElementById('reserva-ambiente')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const form_data = new FormData(document.getElementById('reserva-ambiente'));
+    const json ={};
+    form_data.forEach((v, k) =>{
+        json[k] = v;
+    });
+    const url = document.location.href;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(json)
+    }).then((res) =>{
+        if(!res.ok){
+            throw new Error('Fallo la solicitud');
+        }
+        return res.json();
+    }).then((res) => {
+        alert(`Respuesta del servidor: ${JSON.stringify(res)}`);
+    }).catch ((err) =>{
+        alert(`Error: ${err}`);
+    });
+});
+
 window.addEventListener('load', (event) =>{
     /* logScreenSize(); */
     setTime();
