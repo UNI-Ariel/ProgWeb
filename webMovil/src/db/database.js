@@ -1,13 +1,42 @@
 const mysql = require('mysql2/promise');
 const config = require('../config');
 
-async function query(sql, params) {
-    const connection = await mysql.createConnection(config.localDB);
-    const [rows, fields] = await connection.execute(sql, params);
-    connection.end();
-    return rows;
+const poolLimit = 3;
+
+class Database {
+    constructor(settings = {...config.localDB}){
+        if(! settings || ! 'host' in settings || ! 'user' in settings ||
+        ! 'password' in settings || ! 'database' in settings ){
+            throw new Error('Missing Database configuration variables');
+        }
+
+        if(! 'connectionLimit' in settings){
+            settings.connectionLimit= poolLimit;
+        }
+        
+        console.log('Connecting to database at', settings.host, 'on PORT:', settings.port);
+
+        this.pool = mysql.createPool( settings );
+    }
+
+    async query(sql, params){
+        const conn = await this.pool.getConnection();
+
+        try{
+            const [rows, fields] = await conn.execute(sql, params);
+            return rows;
+        }
+        catch (err){
+            console.error('An error occured while executing Query:', sql, err.message);
+        }
+        finally{
+            conn.release();
+        }
+    }
 }
 
+module.exports = new Database();
+/* 
 async function agregarFacilidadesAmbiente(id_ambiente, facilidades){
     const insert = 'INSERT INTO facilidades (id_ambiente, id_facilidad) VALUES (?, ?)'
     if(Array.isArray(facilidades)){
@@ -183,4 +212,4 @@ module.exports = {
     agregarReserva,
     getAmbientesDisponibles,
     getReservasPendientes
-};
+}; */

@@ -4,8 +4,7 @@ const favicon = require('serve-favicon');
 const path = require('path');
 //Route Files
 const public = require('./routes/publicRouter');
-const home = require('./routes/home');
-const auth = require('./routes/auth');
+const auth = require('./routes/authRouter');
 const other = require('./routes/other');
 //Utils
 const arguments = require('./utils/arguments');
@@ -34,12 +33,10 @@ app.use((req, res, next) =>{
 //Routes
 app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(public);
-app.use(home);
 app.use(auth);
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(other);
 //Start Server
 app.listen(config.app_port, ()=>{
-    console.log('Servidor iniciado en el puerto:', config.app_port);
-    console.log('Puerto de la base de datos local:', config.localDB.port);
+    console.log('Server listening on PORT:', config.app_port);
 });

@@ -1,12 +1,10 @@
-const publicController = require('../controllers/publicController');
+const controller = require('../controllers/publicController');
 const { Router } = require('express');
 
 const router = Router();
 
-router.get('/api/ambientes', publicController.getAmbientes);
-router.get('/api/ambientes/:name', publicController.getAmbiente);
+router.get('/api/ambientes', controller.get_all_ambientes);
 
-router.post('/api/ambientes', (req, res) =>{});
-router.put('/api/ambientes/:name', (req, res) =>{});
+router.get('/api/ambientes/:name', controller.get_ambiente);
 
 module.exports = router;
