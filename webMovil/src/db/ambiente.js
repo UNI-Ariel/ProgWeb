@@ -6,7 +6,8 @@ class Ambiente{
         this.page = 1;
         this.perPage = 10;
         this.tipos = {"Auditorio": 1, "Aula": 2, "Biblioteca": 3, "Comedor": 4};
-        this.estados = {"aceptado": 1, "pendiente": 2, "rechazado": 3};
+        this.estados = {"Aceptado": 1, "Pendiente": 2, "Rechazado": 3};
+        this.facilidades = {"Data Display": 1, "Televisión": 2};
     }
 
     get_data(data){
