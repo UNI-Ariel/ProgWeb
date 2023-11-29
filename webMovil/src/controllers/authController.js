@@ -1,6 +1,6 @@
 const ambiente = require('../db/ambiente');
 
-async function add_ambiente(req, res){
+async function api_post_ambiente(req, res){
     const data = ambiente.get_data(req.body);
     if(! data.length ){
         res.status(400).send("Invalid or missing parameters");
@@ -23,14 +23,10 @@ async function add_ambiente(req, res){
     }
 }
 
-async function update_ambiente(req, res){
-    const page = 'page' in req.query ? req.query.page : 1;
-    const items_per_page = 'itemsPerPage' in req.query ? req.query.itemsPerPage : 10;
-    const data = await ambiente.get_all(page, items_per_page);
-    res.json(data);
+async function api_put_ambiente(req, res){
 }
 
 module.exports = {
-    add_ambiente,
-    update_ambiente,
+    api_post_ambiente,
+    api_put_ambiente,
 }

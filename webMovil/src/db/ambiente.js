@@ -28,13 +28,33 @@ class Ambiente{
         return [this.tipos[tipo], nombre, ubicacion, descripcion, capacidad];
     }
 
-    async updateTipos(){
+    async update_tipos(){
         const sql = 'SELECT nombre, id FROM tipo';
         const data = await db.query(sql);
         data.forEach(value =>{
             if(! this.tipos[value.nombre])
                 this.tipos[value.nombre] = value.id;
         });
+    }
+
+    async get_info(){
+        const sql = 'SELECT tipo.nombre AS Tipos, facilidad.nombre AS Facilidades ' +
+                        'FROM tipo LEFT JOIN facilidad ON tipo.id = facilidad.id ' +
+                        'UNION ' +
+                        'SELECT tipo.nombre AS Tipos, facilidad.nombre AS Facilidades ' +
+                        'FROM tipo RIGHT JOIN facilidad ON tipo.id = facilidad.id ' +
+                        'WHERE tipo.id IS NULL;';
+        const info = {tipos:[], facilidades: []};
+        const res = await db.query(sql);
+        res.forEach(row =>{
+            if(row.Tipos){
+                info.tipos.push(row.Tipos);
+            }
+            if(row.Facilidades){
+                info.facilidades.push(row.Facilidades);
+            }
+        });
+        return info;
     }
 
     async add_new(params){
