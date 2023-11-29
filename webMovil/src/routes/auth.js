@@ -32,6 +32,8 @@ router.post('/academico/reservarAmbientes', async (req, res) =>{
     });
 });
 
+router.post('/api/reservarAulas', db.agregarReservas );
+
 router.get('/administrativo/agregarAmbientes', async (req, res) =>{
     try{
         const tipos = await db.getTipos();

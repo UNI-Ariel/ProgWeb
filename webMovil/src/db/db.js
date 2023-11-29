@@ -8,6 +8,7 @@ async function query(sql, params) {
     return rows;
 }
 
+
 async function agregarFacilidadesAmbiente(id_ambiente, facilidades){
     const insert = 'INSERT INTO facilidades (id_ambiente, id_facilidad) VALUES (?, ?)'
     if(Array.isArray(facilidades)){
@@ -104,6 +105,25 @@ async function agregarReserva(params){
     return data;
 }
 
+const agregarReservas = async (req,res) => {
+    try{
+        
+        const insert = 'INSERT INTO reservas(id_ambiente, id_periodo,id_estado, fecha_reserva) VALUES (?, ?, "P", ?)';
+        const params = req.body;
+        const result = await query( insert , [ 
+            params.id_ambiente, 
+            params.id_periodo, 
+            params.fecha_reserva
+        ]);
+            res.json(result);
+             
+    }catch(error){
+        res.status(500);
+        res.send(error.message);
+    }
+
+}
+
 async function getReservasPendientes(){
     const consulta = 'SELECT * FROM reserva WHERE reserva.id_estado = P';
     const rows = await query(consulta);
@@ -121,12 +141,12 @@ async function getAmbienteByID(id){
 
 async function getAmbientes(page = 1){
     const offset = (page - 1) * config.itemsPerPage;
-    const rows = await query(
+    const data = await query(
         `SELECT * FROM ambiente WHERE activo = 'si' LIMIT  ${config.itemsPerPage} OFFSET ${offset}`
     );
     const meta = { page };
     return {
-        meta, rows
+        meta, data
     };
 }
 
@@ -169,6 +189,7 @@ async function getFacilidades(){
     return data;
 }
 
+
 module.exports = { 
     agregarAmbiente,
     agregarFacilidadesAmbiente,
@@ -182,5 +203,6 @@ module.exports = {
     getFacilidades,
     agregarReserva,
     getAmbientesDisponibles,
-    getReservasPendientes
+    getReservasPendientes,
+    agregarReservas
 };
