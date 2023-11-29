@@ -1,0 +1,11 @@
+Descripción de las API disponibles:
+Rutas:
+    GET  
+        /api/info : Información adicional sobre las API disponibles.
+        /api/ambientes : para obtener todos los ambientes, como parámetro de consulta opcional se puede
+                                dar el "page" para el numero de página y el "perPage" para resultados por página.
+        /api/ambientes/nombre: para obtener el dato de un ambiente en particular.
+    POST 
+        /api/ambiente : para agregar un nuevo ambiente, requiere de datos el nombre, tipo, ubicacion, 
+                                descripcion y capacidad.
+Tipos de ambiente aceptados:       "Auditorio", "Aula", "Biblioteca", "Comedor".

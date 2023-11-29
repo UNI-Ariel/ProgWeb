@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2023 at 01:37 PM
+-- Generation Time: Nov 27, 2023 at 08:25 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `ambiente` (
-  `id_ambiente` int(11) NOT NULL,
-  `id_tipo` varchar(64) NOT NULL,
-  `nombre` varchar(64) NOT NULL,
+  `id` int(11) NOT NULL,
+  `id_tipo` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
   `ubicacion` varchar(255) NOT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `capacidad` int(11) NOT NULL,
@@ -42,9 +42,10 @@ CREATE TABLE `ambiente` (
 -- Dumping data for table `ambiente`
 --
 
-INSERT INTO `ambiente` (`id_ambiente`, `id_tipo`, `nombre`, `ubicacion`, `descripcion`, `capacidad`, `deshabilitado`, `activo`) VALUES
-(1, 'aula', '692F', 'Edificio \"nuevo\"', '', 60, 'no', 'si'),
-(2, 'aula', '617C', 'Bloque central, Frente al departemento de Fisica', 'Aula', 70, 'no', 'si');
+INSERT INTO `ambiente` (`id`, `id_tipo`, `nombre`, `ubicacion`, `descripcion`, `capacidad`, `deshabilitado`, `activo`) VALUES
+(1, 2, '692F', 'Edificio Nuevo', NULL, 60, 'no', 'si'),
+(2, 2, '617C', 'Frente al departamento de Fisica', NULL, 70, 'no', 'si'),
+(3, 2, '622', 'Bloque central', '', 90, 'no', 'si');
 
 -- --------------------------------------------------------
 
@@ -53,7 +54,8 @@ INSERT INTO `ambiente` (`id_ambiente`, `id_tipo`, `nombre`, `ubicacion`, `descri
 --
 
 CREATE TABLE `estado` (
-  `id_estado` char(1) NOT NULL,
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
   `descripcion` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -61,10 +63,10 @@ CREATE TABLE `estado` (
 -- Dumping data for table `estado`
 --
 
-INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
-('A', 'Aceptado'),
-('P', 'Pendiente'),
-('R', 'Rechazado');
+INSERT INTO `estado` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Aceptado', 'Indica que una reserva fue aceptada'),
+(2, 'Pendiente', 'Indica que la reserva esta en proceso de revisión'),
+(3, 'Rechazado', 'Indica que la reserva ha sido rechazada');
 
 -- --------------------------------------------------------
 
@@ -73,17 +75,18 @@ INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
 --
 
 CREATE TABLE `facilidad` (
-  `id_facilidad` varchar(64) NOT NULL,
-  `descripcion` varchar(255) NOT NULL
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `facilidad`
 --
 
-INSERT INTO `facilidad` (`id_facilidad`, `descripcion`) VALUES
-('data display', 'Herramienta para visualizar la pantalla del computador en la pared.'),
-('television', 'Herramienta para conectar y ver la pantalla del computador en la television.');
+INSERT INTO `facilidad` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Data Display', NULL),
+(2, 'Televisión', NULL);
 
 -- --------------------------------------------------------
 
@@ -93,8 +96,7 @@ INSERT INTO `facilidad` (`id_facilidad`, `descripcion`) VALUES
 
 CREATE TABLE `facilidades` (
   `id_ambiente` int(11) NOT NULL,
-  `id_facilidad` varchar(64) NOT NULL,
-  `detalles` varchar(255) DEFAULT NULL
+  `id_facilidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -104,16 +106,16 @@ CREATE TABLE `facilidades` (
 --
 
 CREATE TABLE `periodos` (
-  `id_periodo` int(11) NOT NULL,
-  `hora_ini` time DEFAULT NULL,
-  `hora_fin` time DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `hora_ini` time NOT NULL,
+  `hora_fin` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `periodos`
 --
 
-INSERT INTO `periodos` (`id_periodo`, `hora_ini`, `hora_fin`) VALUES
+INSERT INTO `periodos` (`id`, `hora_ini`, `hora_fin`) VALUES
 (1, '06:45:00', '07:30:00'),
 (2, '07:30:00', '08:15:00'),
 (3, '08:15:00', '09:00:00'),
@@ -142,10 +144,10 @@ INSERT INTO `periodos` (`id_periodo`, `hora_ini`, `hora_fin`) VALUES
 --
 
 CREATE TABLE `reservas` (
-  `id_reserva` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `id_ambiente` int(11) NOT NULL,
   `id_periodo` int(11) NOT NULL,
-  `id_estado` char(1) NOT NULL,
+  `id_estado` int(11) NOT NULL,
   `fecha_agregado` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_reserva` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -157,18 +159,20 @@ CREATE TABLE `reservas` (
 --
 
 CREATE TABLE `tipo` (
-  `id_tipo` varchar(64) NOT NULL,
-  `descripcion` varchar(255) NOT NULL
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tipo`
 --
 
-INSERT INTO `tipo` (`id_tipo`, `descripcion`) VALUES
-('auditorio', 'Lugar amplio con mucha capacidad, optimo para dar examenes.'),
-('aula', 'Lugar donde se da clases a los estudiantes.'),
-('biblioteca', 'Lugar donde estudiar y obtener material bibliografico.');
+INSERT INTO `tipo` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Auditorio', NULL),
+(2, 'Aula', NULL),
+(3, 'Biblioteca', NULL),
+(4, 'Comedor', NULL);
 
 --
 -- Indexes for dumped tables
@@ -178,7 +182,7 @@ INSERT INTO `tipo` (`id_tipo`, `descripcion`) VALUES
 -- Indexes for table `ambiente`
 --
 ALTER TABLE `ambiente`
-  ADD PRIMARY KEY (`id_ambiente`),
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nombre` (`nombre`),
   ADD KEY `id_tipo` (`id_tipo`);
 
@@ -186,13 +190,13 @@ ALTER TABLE `ambiente`
 -- Indexes for table `estado`
 --
 ALTER TABLE `estado`
-  ADD PRIMARY KEY (`id_estado`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `facilidad`
 --
 ALTER TABLE `facilidad`
-  ADD PRIMARY KEY (`id_facilidad`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `facilidades`
@@ -205,13 +209,13 @@ ALTER TABLE `facilidades`
 -- Indexes for table `periodos`
 --
 ALTER TABLE `periodos`
-  ADD PRIMARY KEY (`id_periodo`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `reservas`
 --
 ALTER TABLE `reservas`
-  ADD PRIMARY KEY (`id_reserva`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `id_ambiente` (`id_ambiente`),
   ADD KEY `id_periodo` (`id_periodo`),
   ADD KEY `id_estado` (`id_estado`);
@@ -220,7 +224,7 @@ ALTER TABLE `reservas`
 -- Indexes for table `tipo`
 --
 ALTER TABLE `tipo`
-  ADD PRIMARY KEY (`id_tipo`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -230,19 +234,37 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT for table `ambiente`
 --
 ALTER TABLE `ambiente`
-  MODIFY `id_ambiente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `estado`
+--
+ALTER TABLE `estado`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `facilidad`
+--
+ALTER TABLE `facilidad`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `periodos`
 --
 ALTER TABLE `periodos`
-  MODIFY `id_periodo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tipo`
+--
+ALTER TABLE `tipo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -252,22 +274,22 @@ ALTER TABLE `reservas`
 -- Constraints for table `ambiente`
 --
 ALTER TABLE `ambiente`
-  ADD CONSTRAINT `ambiente_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `tipo` (`id_tipo`);
+  ADD CONSTRAINT `ambiente_ibfk_1` FOREIGN KEY (`id_tipo`) REFERENCES `tipo` (`id`);
 
 --
 -- Constraints for table `facilidades`
 --
 ALTER TABLE `facilidades`
-  ADD CONSTRAINT `facilidades_ibfk_1` FOREIGN KEY (`id_facilidad`) REFERENCES `facilidad` (`id_facilidad`),
-  ADD CONSTRAINT `facilidades_ibfk_2` FOREIGN KEY (`id_ambiente`) REFERENCES `ambiente` (`id_ambiente`);
+  ADD CONSTRAINT `facilidades_ibfk_1` FOREIGN KEY (`id_facilidad`) REFERENCES `facilidad` (`id`),
+  ADD CONSTRAINT `facilidades_ibfk_2` FOREIGN KEY (`id_ambiente`) REFERENCES `ambiente` (`id`);
 
 --
 -- Constraints for table `reservas`
 --
 ALTER TABLE `reservas`
-  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_ambiente`) REFERENCES `ambiente` (`id_ambiente`),
-  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`id_periodo`) REFERENCES `periodos` (`id_periodo`),
-  ADD CONSTRAINT `reservas_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
+  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_ambiente`) REFERENCES `ambiente` (`id`),
+  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`id_periodo`) REFERENCES `periodos` (`id`),
+  ADD CONSTRAINT `reservas_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
