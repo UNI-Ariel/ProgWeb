@@ -1,0 +1,66 @@
+<%- include('partials/header'); %>
+
+<section class="page-text">
+    <ul class="flex-column flex-space no-deco margin-b">
+        <li><a href="#" class="page-button no-deco center-text admin-button" data-type="add">&#43 Agregar Ambiente</a></li>
+        <!-- <li><a href="/administrativo/agregarAmbientesLotes" class="page-button no-deco center-text">&#43 Agregar Ambientes por lotes</a></li> -->
+        <!-- <li><a href="/administrativo/buscarAulas" class="page-button no-deco ">Buscar Aulas</a></li> -->
+    </ul>
+</section>
+<div class="scroll-box">
+    <table  id="admin-ambient-table" class="data-table">
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th class="ex-col">Ubicacion</th>
+            <th>capac.</th>
+            <th class="ex-col">desc.</th>
+            <th>Editar</th>
+        </tr>
+        <% data.forEach(function (amb) {%>
+            <tr>
+                <td> <%= amb.nombre %> </td>
+                <td> <%= amb.tipo %> </td>
+                <td class="ex-col"> <%= amb.ubicacion %> </td>
+                <td> <%= amb.capacidad %> </td>
+                <td class="ex-col"> <%= amb.descripcion %> </td>
+                <td> <div id="edit-button"><a href="#" class="icons admin-button" style="--posX:-4" data="<%= amb.nombre %>" data-type="edit"></a></div> </td>
+            </tr>
+        <% } ) %>
+    </table>
+</div>
+
+<dialog id="add-edit-ambient-modal" class="box-fx modal-dialog">
+    <h3></h3>
+    <form action="" method="" class="flex-column">
+        <div class="margin-b">
+            <p >Nombre del Ambiente:</p>
+            <input type="text" name="nombre" class="input-field" required>
+        </div>
+
+        <div class="margin-b">
+            <p >Tipo:</p>
+            <select name="tipo" class="input-field" required>                        
+                <option  value="" selected disabled hidden>Seleccion</option>
+            </select>
+        </div>
+
+        <div class="margin-b">
+            <p >Ubicación:</p>
+            <input type="text" name="ubicacion" class="input-field" required>
+        </div>
+
+        <div class="margin-b">
+            <p >Capacidad:</p>
+            <input type="number" name="capacidad" min="1" max="500" class="input-field" required>
+        </div>
+            <div class="margin-b">
+            <p >Descripcion:</p>
+            <textarea rows="8" name="descripcion" class="input-field"></textarea>
+        </div>
+
+        <input class="page-button" type="submit" value=""> 
+    </form>
+</dialog>
+
+<%- include('partials/footer'); %>

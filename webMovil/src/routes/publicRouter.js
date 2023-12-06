@@ -8,8 +8,10 @@ router.get('/', controller.index_page);
 
 router.get('/api/info', controller.api_info);
 
-router.get('/api/ambientes', controller.api_get_ambientes);
+router.get('/login', controller.login_page);
 
-router.get('/api/ambientes/:name', controller.api_get_ambiente);
+router.get('/search', controller.search_page);
+
+router.get('/api/search', controller.api_search);
 
 module.exports = router;

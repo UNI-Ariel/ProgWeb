@@ -31,10 +31,24 @@ function get_filters(query){
     return filters;
 }
 
+function valid_date(date){
+    const format = /^\d{4}-\d{2}-\d{2}$/;
+    if(! format.test(date)){
+        return false;
+    }
+    const values = date.split('-');
+    const js_date = new Date(values[0], values[1], values[2]);
+    const aa = parseInt(values[0]);
+    const mm = parseInt(values[1]);
+    const dd = parseInt(values[2]);
+    return js_date.getFullYear() === aa && js_date.getMonth() === mm && js_date.getDate() === dd;
+}
+
 module.exports ={
     alphabetical,
     numeric,
     alpha_numeric,
     valid_text,
+    valid_date,
     get_filters
 }

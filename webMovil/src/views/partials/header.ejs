@@ -1,54 +1,21 @@
 <!DOCTYPE html>
 <html lang="es-BO">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/public/css/styles.css">
-        <link rel="icon" href="/public/img/favicon.ico">
-        <title> Dotcom - <%= title  %> </title>
-    </head>
-    <body>
-        <% if (locals.message) { %>
-            <div id="message">
-                <div class="msg-content">
-                    <button id="close-msg">X</button>
-                    <h3> <%= message %> </h3>
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/styles.css">
+    <link rel="icon" href="/public/img/favicon.ico">
+    <title> Dotcom - <%= title  %> </title>
+</head>
+<body>
+    <%- include('nav'); %>
+
+    <% if (locals.message) { %>
+        <div id="message">
+            <div class="msg-content">
+                <button id="close-msg">X</button>
+                <h3> <%= message %> </h3>
             </div>
-        <% } %>
-
-        <nav>
-            <div class="nav-header page-text">
-                <a href="/" class="page-text no-deco logo">Dotcom</a>
-                <p id="time">Hora actual</p>
-            </div>
-
-            <ul class="nav-bar">
-              <li class="nav-item">
-                    <a href="/usuario" class="nav-link no-deco">
-                        <img src="/public/img/empty.png" alt="usuario" width="25" height="25" class="icons">
-                        <p class="nav-text">Usuario</p>
-                    </a>
-              </li>
-              <li class="nav-item">
-                    <a href="/academico" class="nav-link no-deco">
-                        <img src="/public/img/empty.png" alt="adacemico" width="25" height="25" class="icons" style="--posX:-1">
-                        <p class="nav-text">Academico</p>
-                    </a>
-              </li>
-              <li class="nav-item">
-                    <a href="/administrativo" class="nav-link no-deco">
-                        <img src="/public/img/empty.png" alt="administrativo" width="25" height="25" class="icons" style="--posX:-2">
-                        <p class="nav-text">Administrativo</p>
-                    </a>
-              </li>
-              <li class="nav-item">
-                    <a href="/" class="nav-link no-deco">
-                        <img src="/public/img/empty.png" alt="opciones" width="25" height="25" class="icons" style="--posX:-3">
-                        <p class="nav-text">Opciones</p>
-                    </a>
-              </li>
-            </ul>
-          </nav>
-
-          <main>
+        </div>
+    <% } %>
+    <main class="page-text">

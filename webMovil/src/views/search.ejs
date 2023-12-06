@@ -2,8 +2,8 @@
 
 <section class="flex-column align-center page-text">
     <div class="box-fx form-width flex-column">
-        <h3 class="center-text margin-b">Ver Ambientes disponibles</h3>
-        <form action="/buscarAmbientes" method="POST" class="innerFlex" id="ver-ambientes">
+        <h3 class="center-text margin-b">Buscar Ambientes disponibles</h3>
+        <form action="/api/search" method="POST" class="innerFlex" id="search-form">
             <div class="innerFlex margin-b margin-r">
                 <p>Fecha: </p>
                 <input type="date" name="fecha" class="input-field" required>
@@ -12,15 +12,17 @@
                 <p>Periodo: </p>
                 <select name="horario" class="input-field" required>
                     <option  value="" selected disabled hidden>Seleccion</option>
-                    <% periodos.forEach(function (p) { %>
-                        <option  value="<%= p.id_periodo %>"><%= p.hora_ini %> - <%= p.hora_fin %></option>
-                    <% } ) %>
                 </select>
             </div>
-            <input class="page-button margin-t" type="submit" value="Consulta"> 
+            <div class="innerFlex margin-b margin-r">
+                <p >Capacidad:</p>
+                <input type="number" name="capacidad" min="1" max="500" class="input-field" required>
+            </div>
+
+            <input class="page-button margin-t" type="submit" value="Buscar"> 
         </form>
-        <div id="resultados-consulta" class="form-width margin-t scroll-box"></div>
     </div>
+    <div id="available-search-results" class="box-fx form-width scroll-box"></div>
 </section>
 
 <%- include('partials/footer'); %>

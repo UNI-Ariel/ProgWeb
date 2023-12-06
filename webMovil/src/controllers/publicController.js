@@ -1,5 +1,4 @@
 const ambiente = require('../db/ambiente');
-const { valid_text, get_filters } = require('../utils/tools');
 
 async function index_page(req, res){
     res.render('index', {title: 'Pagina Principal'});
@@ -25,36 +24,35 @@ async function api_info(req, res){
     res.json(info);
 }
 
-async function api_get_ambientes(req, res){
-    const filters = get_filters(req.query);
-    const data = await ambiente.get_all(filters);
-    if(data.length){
-        res.json(data);
-    }
-    else{
-        res.status(404).send("The requested resource was not found");
-    }
+async function login_page(req, res){
+    res.render('login', {title: 'Iniciar sesión'});
 }
 
-async function api_get_ambiente(req,res){
-    const name = req.params.name;
-    if( ! valid_text(name)){
-        res.status(400).send("Bad name request");
+async function search_page(req, res){
+    res.render('search', {title: 'Buscar Ambientes Disponibles'});
+}
+
+async function api_search(req, res){
+    const search_data = ambiente.get_search_query(req.query);
+    if(! search_data.length ){
+        res.status(400).send("Invalid or missing parameters");
     }
     else{
-        const data = await ambiente.find(name);
+        const data = await ambiente.search_available(search_data);
+        console.log(data);
         if(data.length){
             res.json(data);
         }
         else{
-            res.status(404).send("The requested resource was not found");
+            res.status(404).send("There is no ambiente available for the given search parameters");
         }
     }
 }
 
 module.exports = {
     index_page,
+    login_page,
     api_info,
-    api_get_ambiente,
-    api_get_ambientes
+    search_page,
+    api_search
 }

@@ -1,5 +1,5 @@
 const db = require('./database');
-const { valid_text, numeric } = require('../utils/tools');
+const { valid_text, numeric, valid_date } = require('../utils/tools');
 
 class Ambiente{
     constructor(){
@@ -28,6 +28,20 @@ class Ambiente{
         return [this.tipos[tipo], nombre, ubicacion, descripcion, capacidad];
     }
 
+    get_search_query(query){
+        console.log(query);
+        /* if(! query.fecha || ! query.horario || ! query.capacidad || ! valid_date(query.fecha) || 
+        ! numeric(query.horario) || ! numeric(query.capacidad)){
+            return [];
+        } */
+        console.log(query, '2');
+        const periodo = parseInt(query.horario);
+        if(periodo < 1 || periodo > 20){ //Periodos de la base de datos
+            return [];
+        }
+        return [query.fecha, query.horario, query.capacidad];
+    }
+
     async update_tipos(){
         const sql = 'SELECT nombre, id FROM tipo';
         const data = await db.query(sql);
@@ -37,15 +51,26 @@ class Ambiente{
         });
     }
 
+    async search_available(filters){
+        const sql = 'SELECT a.nombre, a.ubicacion, a.capacidad FROM ambiente AS a ' +
+                            'WHERE NOT EXISTS( SELECT 1 FROM reservas as r ' +
+                                'WHERE r.id_ambiente = a.id AND r.fecha_reserva=? ' +
+                                'AND r.id_periodo=? AND r.id_estado="1") ' +
+                            'AND a.capacidad >=? AND a.deshabilitado="no" AND a.activo="si" LIMIT 5';
+                            console.log(filters);
+        const data = await db.query(sql, filters);
+        return data;
+    }
+
     async get_info(){
-        const sql = 'SELECT tipo.nombre AS Tipos, facilidad.nombre AS Facilidades ' +
+        const info = {tipos:[], facilidades: [], periodos: {}};
+        let sql = 'SELECT tipo.nombre AS Tipos, facilidad.nombre AS Facilidades ' +
                         'FROM tipo LEFT JOIN facilidad ON tipo.id = facilidad.id ' +
                         'UNION ' +
                         'SELECT tipo.nombre AS Tipos, facilidad.nombre AS Facilidades ' +
                         'FROM tipo RIGHT JOIN facilidad ON tipo.id = facilidad.id ' +
                         'WHERE tipo.id IS NULL;';
-        const info = {tipos:[], facilidades: []};
-        const res = await db.query(sql);
+        let res = await db.query(sql);
         res.forEach(row =>{
             if(row.Tipos){
                 info.tipos.push(row.Tipos);
@@ -54,14 +79,17 @@ class Ambiente{
                 info.facilidades.push(row.Facilidades);
             }
         });
+        sql = 'SELECT id AS periodo, TIME_FORMAT(hora_ini, "%H:%i") AS inicia, TIME_FORMAT(hora_fin, "%H:%i") AS termina FROM periodos';
+        res = await db.query(sql);
+        info.periodos = res;
         return info;
     }
 
     async add_new(params){
         const sql = 'INSERT INTO ambiente(id_tipo, nombre, ubicacion, descripcion, capacidad, deshabilitado, activo)' +
                          'VALUES(?, ?, ?, ?, ?, "no", "si")';
-        const res = await db.query(sql, params);
-        return res;
+        const data = await db.query(sql, params);
+        return data;
     }
 
     async count(){
