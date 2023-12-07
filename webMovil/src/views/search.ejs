@@ -1,28 +1,30 @@
 <%- include('partials/header'); %>
 
 <section class="flex-column align-center page-text">
-    <div class="box-fx form-width flex-column">
+    <div class="box-fx flex-column w100">
         <h3 class="center-text margin-b">Buscar Ambientes disponibles</h3>
-        <form action="/api/search" method="POST" class="innerFlex" id="search-form">
-            <div class="innerFlex margin-b margin-r">
+        <form action="/api/search" method="POST" class="innerFlex form-width flex-gap" id="search-form">
+            <div class="flex-column">
                 <p>Fecha: </p>
                 <input type="date" name="fecha" class="input-field" required>
             </div>
-            <div class="innerFlex margin-b margin-r">
+            <div class="flex-column">
                 <p>Periodo: </p>
                 <select name="horario" class="input-field" required>
                     <option  value="" selected disabled hidden>Seleccion</option>
                 </select>
             </div>
-            <div class="innerFlex margin-b margin-r">
+            <div class="flex-column">
                 <p >Capacidad:</p>
                 <input type="number" name="capacidad" min="1" max="500" class="input-field" required>
             </div>
 
-            <input class="page-button margin-t" type="submit" value="Buscar"> 
+            <input class="page-button" type="submit" value="Buscar"> 
         </form>
     </div>
-    <div id="available-search-results" class="box-fx form-width scroll-box"></div>
+    <div class="box-fx w100">
+        <div id="available-search-results" class="scroll-box"></div>
+    </div>
 </section>
 
 <%- include('partials/footer'); %>

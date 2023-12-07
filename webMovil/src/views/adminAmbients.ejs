@@ -1,34 +1,38 @@
 <%- include('partials/header'); %>
 
-<section class="page-text">
-    <ul class="flex-column flex-space no-deco margin-b">
+<section class="page-text box-fx w100">
+    <ul class="flex-column flex-gap no-deco margin-b">
         <li><a href="#" class="page-button no-deco center-text admin-button" data-type="add">&#43 Agregar Ambiente</a></li>
         <!-- <li><a href="/administrativo/agregarAmbientesLotes" class="page-button no-deco center-text">&#43 Agregar Ambientes por lotes</a></li> -->
         <!-- <li><a href="/administrativo/buscarAulas" class="page-button no-deco ">Buscar Aulas</a></li> -->
     </ul>
-</section>
-<div class="scroll-box">
-    <table  id="admin-ambient-table" class="data-table">
-        <tr>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th class="ex-col">Ubicacion</th>
-            <th>capac.</th>
-            <th class="ex-col">desc.</th>
-            <th>Editar</th>
-        </tr>
-        <% data.forEach(function (amb) {%>
+    <div class="scroll-box">
+        <table  id="admin-ambient-table" class="data-table">
             <tr>
-                <td> <%= amb.nombre %> </td>
-                <td> <%= amb.tipo %> </td>
-                <td class="ex-col"> <%= amb.ubicacion %> </td>
-                <td> <%= amb.capacidad %> </td>
-                <td class="ex-col"> <%= amb.descripcion %> </td>
-                <td> <div id="edit-button"><a href="#" class="icons admin-button" style="--posX:-4" data="<%= amb.nombre %>" data-type="edit"></a></div> </td>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th class="ex-col">Ubicacion</th>
+                <th>capac.</th>
+                <th class="ex-col">desc.</th>
+                <th>Editar</th>
             </tr>
-        <% } ) %>
-    </table>
-</div>
+            <% data.forEach(function (amb) {%>
+                <tr>
+                    <td> <%= amb.nombre %> </td>
+                    <td> <%= amb.tipo %> </td>
+                    <td class="ex-col"> <%= amb.ubicacion %> </td>
+                    <td> <%= amb.capacidad %> </td>
+                    <td class="ex-col"> <%= amb.descripcion %> </td>
+                    <td> 
+                        <div id="edit-button">
+                            <a href="#" class="icons admin-button" style="--posX:-4" data="<%= amb.nombre %>" data-type="edit"></a>
+                        </div> 
+                    </td>
+                </tr>
+            <% } ) %>
+        </table>
+    </div>
+</section>
 
 <dialog id="add-edit-ambient-modal" class="box-fx modal-dialog">
     <h3></h3>
