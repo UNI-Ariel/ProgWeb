@@ -36,11 +36,6 @@ html, body {
 body{
     background-color: var(--background-color);
     position: relative;
-    /* box-sizing: border-box;
-    display: flex;
-    flex-direction: column; */
-    
-    /* width: 100vw; */
 }
 
 /* /////////////////////////////////////// Navigation /////////////////////////////////////// */
@@ -112,6 +107,14 @@ body{
     top: calc(100% + 3px);
     border: 1px solid #a9b2b8;
 }
+
+.nav-menu > * {
+    border-bottom: 1px solid #a9b2b8;
+}
+
+.nav-menu:last-child {
+    border-bottom: none;
+}
   
 .nav-link:link,
 .nav-link:visited,
@@ -155,7 +158,6 @@ main {
     display: block;
     border: 1px solid var(--metallicBlack);
     min-width: 7rem;
-    margin: auto;
 }
 
 .flex-column {
@@ -168,12 +170,24 @@ main {
     flex-direction: row;
 }
 
+.flex-row-reverse {
+    flex-direction: row-reverse;
+}
+
 .flex-gap {
     gap: 1rem;
 }
 
+.flex-gap-s {
+    gap: 0.125rem;
+}
+
 .flex-wrap {
     flex-wrap: wrap;
+}
+
+.justify-center {
+    justify-content: center;
 }
 
 .innerFlex {
@@ -185,13 +199,25 @@ main {
     align-items: center;
 }
 
+.align-baseline {
+    align-items: baseline;
+}
+
+.center-text {
+    text-align: center;
+}
+
 .page-text {
     color: var(--text-color);
     font-size: 100%;
 }
 
-.center-text {
-    text-align: center;
+.select-none {
+    user-select: none;
+}
+
+.even-w-2 {
+    width: 50%;
 }
 
 .no-deco {
@@ -210,12 +236,20 @@ main {
     border: 2px solid var(--metallicBlack);
     border-radius: 20px;
     background-color: var(--secondary-bg);
-    padding: 25px 20px;
+    padding: 1.5rem 1.25rem;
     box-sizing: border-box;
 }
 
 .w100{
     width: 100%;
+}
+
+.h100{
+    height: 100%;
+}
+
+.scroll-box {
+    overflow: auto;
 }
 
 .margin-t {
@@ -284,7 +318,7 @@ main {
 .form-width {
     min-width: 250px;
     max-width: 100%;    
-    box-sizing: border-box;
+    max-height: 100%;
 }
 
 .input-field {
@@ -322,12 +356,12 @@ main {
     cursor: pointer;
 }
 
-.ex-col {
-    display: none;
+.text-area-height{
+    height: 6rem;
 }
 
-.scroll-box {
-    overflow: auto;
+.ex-col {
+    display: none;
 }
 /*////////////Tables/////////////////////*/
 .data-table {
@@ -349,16 +383,59 @@ main {
     /* vertical-align: top; */
 }
 
+.data-table td:last-child > *{
+    margin: auto;
+}
+
 .data-table th {
     background: #606d80;
 }
 /*///////////Modal Dialog////////////////*/
-.modal-dialog{
+#message-modal {
+    z-index: 999;
+    color: var(--metallicWhite);
+    max-width: 350px;
+}
+.modal-open {
+    overflow: hidden;
+}
+.custom-modal{
+    position: fixed;
+    z-index: 99;
     color:inherit;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 250px;
+    width: 95%;
+    max-height: 100vh;
+}
+.custom-modal-header{
+    position: relative;
+    border-bottom: 1px solid white;
+    padding-bottom: 0.2rem;
+    margin-bottom: 1rem;
+}
+.custom-modal-btn{
+    --r: 0;
+    position: absolute;
+    user-select: none;
+    top: 0;
+    right: var(--r);
+    font-weight: bolder;
+    font-size: 110%;
+}
+.custom-modal-content{
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-right: 2px;
+    width: 100%;
+    max-height: calc(100vh - 3rem - 2.2rem);
+}
+/*////////Page Buttons/////////////////*/
+.page-button,
+.nav-item,
+.custom-modal-btn {
+    cursor: pointer;
 }
 
 /*/////////////Responcive//////////////*/
@@ -372,7 +449,12 @@ main {
     }
     .innerFlex {
         flex-direction: row;
-        align-items: baseline;
+    }
+    .ex-col {
+        display: table-cell;
+    }
+    .text-area-height{
+        height: 3rem;
     }
     .margin-r {
         margin-right: 1rem;
@@ -382,28 +464,40 @@ main {
     }
     .col-2 {
         width: 50%;
+    }    
+}
+
+@media screen and (min-width: 601px){
+    .formWrapper {
+        margin: 20px;
     }
-    .ex-col {
-        display: table-cell;
+    .mainWindow {
+        overflow: scroll;
+    }
+    .form-width {
+        min-width: 500px;
+    }
+    .box-wide{
+        max-width: 90%;
     }
 }
 
-@media screen and (min-width: 761px){
-  .pageText {
-    font-size: 2rem;
-  }
-  .logo {
-    font-size: 2rem;
-  }
-  #time {
-    font-size: 1.5rem;
-  }
-  .formWrapper {
-    margin: 20px;
-  }
-  .mainWindow {
-    overflow: scroll;
-  }
+@media screen and (min-width: 769px){
+    .pageText {
+        font-size: 2rem;
+    }
+    .logo {
+        font-size: 2rem;
+    }
+    #time {
+        font-size: 1.5rem;
+    }
+    .custom-modal {
+        width: fit-content;
+    }
+    .custom-modal-content {
+        max-height: none;
+    }
 }
 
 @media screen and (min-width: 1024px){

@@ -1,5 +1,3 @@
-let info_ambiente = {};
-
 let navBar = document.querySelector('.navigationBar');
 let infoBar = document.querySelector('.informationBar');
 let content = document.querySelector('.content');
@@ -159,7 +157,7 @@ document.getElementById('reserva-ambiente')?.addEventListener('submit', (event) 
 function closeMessage() {
     document.getElementById('message').classList.toggle('hide');
 }
-
+//////////////////////////////////////////////////////////////////////////////////
 function set_menu_button_events(){
     const menu_buttons = document.querySelectorAll('.nav-button');
     menu_buttons.forEach(button =>{
@@ -169,24 +167,16 @@ function set_menu_button_events(){
     });
 }
 
-function set_form_events(){
+function set_search_available_event(){
     const search_form = document.getElementById('search-form');
-    if(search_form){
-        search_form.addEventListener('submit', (ev) =>{
-            ev.preventDefault();
-            search_available_ambiente(ev.target);
-        });
-    }
-    const admin_add_edit_form = document.querySelector('#add-edit-ambient-modal form');
-    if(admin_add_edit_form){
-        admin_add_edit_form.addEventListener('submit', (ev) =>{
-            ev.preventDefault();
-            submit_admin_form(ev);
-        });
-    }
+    search_form.addEventListener('submit', (ev) =>{
+        ev.preventDefault();
+        search_available_ambiente(ev.target);
+    });
 }
 
-function set_modal_events(){
+function set_admin_modal_event(){
+    //Show modal events
     const admin_edit_buttons = document.querySelectorAll('.admin-button');
     admin_edit_buttons.forEach(button =>{
         button.addEventListener('click', ev =>{
@@ -196,11 +186,19 @@ function set_modal_events(){
     });
 }
 
+function set_modal_event(){
+     //Modal buttons
+     const modal_buttons = document.querySelectorAll('.custom-modal .custom-modal-btn');
+     modal_buttons.forEach(btn =>{
+         btn.addEventListener('click', ev =>{
+             ev.stopPropagation();
+             custom_modal_btn_action(btn);
+         });
+     });
+}
+
 window.addEventListener('load', async () =>{
-    info_ambiente = await get_info_ambiente();
     set_time();
     set_menu_button_events();
-    initialize_form_values();
-    set_form_events();
-    set_modal_events();
+    set_modal_event();
 });

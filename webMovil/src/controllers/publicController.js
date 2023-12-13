@@ -1,10 +1,11 @@
 const ambiente = require('../db/ambiente');
+const client = require('../utils/client');
 
 async function index_page(req, res){
     res.render('index', {title: 'Pagina Principal'});
 }
 
-async function api_info(req, res){
+function api_info(req, res){
     const info = {};
     const ambientes = {};
     info.title = 'Información de ayuda sobre las rutas disponibles actuales.';
@@ -20,7 +21,7 @@ async function api_info(req, res){
         'cualquier tipo de caracter. \n "descripcion" que puede ser vacío sin restricciones y "capacidad" ' + 
         'el cual es estrictamente numérico. \n de momento se deshabilito el poder agregar facilidades.';
     info.ambientes = ambientes;
-    info.propiedades = await ambiente.get_info();
+    info.propiedades = ambiente.get_properties();
     res.json(info);
 }
 
@@ -33,20 +34,24 @@ async function search_page(req, res){
 }
 
 async function api_search(req, res){
-    const search_data = ambiente.get_search_query(req.query);
-    if(! search_data.length ){
-        res.status(400).send("Invalid or missing parameters");
+    const api_res = {};
+    const query = req.query;
+    if(! client.is_search_available_valid_query(query) ){
+        api_res.code = 400;
+        api_res.body = "Invalid or missing parameters";
     }
     else{
-        const data = await ambiente.search_available(search_data);
-        console.log(data);
+        const data = await ambiente.search_available(query);
         if(data.length){
-            res.json(data);
+            api_res.code = 200;
+            api_res.body = data;
         }
         else{
-            res.status(404).send("There is no ambiente available for the given search parameters");
+            api_res.code = 404;
+            api_res.body = "There is no ambiente available for the given search parameters";
         }
     }
+    res.status(api_res.code).json(api_res);
 }
 
 module.exports = {
