@@ -1,0 +1,57 @@
+<%- include('partials/header'); %>
+
+<section class="page-text flex-column align-center">
+    <div class="box-fx w100 box-wide">
+        <div class="scroll-box">
+            <table  id="admin-ambient-table" class="data-table">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>cap.</th>
+                    <th>Opt</th>
+                </tr>
+                <% data.forEach(function (amb) {%>
+                    <tr>
+                        <td> <%= amb.nombre %> </td>
+                        <td> <%= amb.fecha %> </td>
+                        <td> <%= amb.tipo %> </td>
+                        <td> <%= amb.capacidad %> </td>
+                        <td> 
+                            <div class="edit-buttons">
+                                <button class="edit-button icons admin-button" style="--posX:-6" data="<%= amb.reserva %>" data-action="accept"></button>
+                                <button class="edit-button icons admin-button" style="--posX:-5" data="<%= amb.reserva %>" data-action="reject"></button>
+                            </div>
+                        </td>
+                    </tr>
+                <% } ) %>
+            </table>
+        </div>
+    </div>
+</section>
+
+<div id="booking-action-modal" class="box-fx custom-modal hide">
+    <div class="custom-modal-header">
+        <h3 class="custom-modal-title"></h3>
+        <div class="custom-modal-btn modal-action-button" data-action="close-modal">&#x2A09</div>
+    </div>
+
+    <div class="custom-modal-content">
+        <p class="action-text margin-b"></p>
+        <form action="" method="POST" class="form-width flex-column flex-gap">
+            <input type="hidden" name="reserva" value="">
+            <input type="hidden" name="action" value="">
+            <input class="page-button" type="submit" value="Aceptar"> 
+        </form>
+    </div>
+</div>
+
+<script>
+    let selected_ambient_data = {};
+    window.addEventListener('load', async () =>{
+        set_admin_booking_btn_event();
+        set_admin_booking_modal_event();
+    });
+</script>
+
+<%- include('partials/footer'); %>

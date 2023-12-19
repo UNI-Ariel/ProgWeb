@@ -1,0 +1,76 @@
+<%- include('partials/header'); %>
+
+<section class="flex-column align-center page-text">
+    <div class="box-fx flex-column w100" id="booking-search">
+        <h3 class="center-text margin-b">Reservar Ambiente</h3>
+        <form action="/api/booking" method="GET" class="flex-column form-width flex-gap justify-center" id="booking-form">
+                <div class="innerFlex flex-gap-s">
+                    <div class="flex-column col-2">
+                        <p>Fecha: </p>
+                        <input type="date" name="fecha" class="input-field" required>
+                    </div>
+    
+                    <div class="flex-column col-2">
+                        <p>Periodo: </p>
+                        <select name="horario" class="input-field" required>
+                            <option  value="" selected disabled hidden>Seleccion</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="innerFlex flex-gap-s">
+                    <div class="flex-column col-2">
+                        <p >Capacidad (opcional):</p>
+                        <input type="number" name="capacidad" min="1" max="500" class="input-field">
+                    </div>
+                    
+                    <div class="flex-column col-2">
+                        <p >Tipo (opcional):</p>
+                        <select name="tipo" class="input-field">                        
+                            <option  value="" selected>Selección</option>
+                        </select>
+                    </div>
+                </div>
+    
+                <div class="flex-column">
+                    <p >Facilidades (opcional):</p>
+                    <fieldset class="flex-row flex-gap flex-wrap"></fieldset>
+                </div> 
+
+            <input class="page-button" type="submit" value="Buscar"> 
+        </form>
+    </div>
+    <div class="box-fx w100 flex-column flex-gap-s hide" id="booking-results">
+        <h3 class="center-text margin-b">Reservar Ambiente</h3>
+        <button class="page-button">Volver</button>
+        <div class="scroll-box"></div>
+    </div>
+</section>
+
+<div id="confirm-booking-modal" class="custom-modal box-fx hide">
+    <div class="custom-modal-header">
+        <h3 class="custom-modal-title">Reservar Ambiente?</h3>
+        <div class="custom-modal-btn modal-action-button" data-action="close-modal">&#x2A09</div>
+    </div>
+    <div class="custom-modal-content ">
+        <p class="margin-b">Nombre: <span class="nombre-ambiente"></span></p>
+        <p class="margin-b">Fecha: <span class="fecha-ambiente"></span></p>
+        <p class="margin-b">Horario: <span class="horario-ambiente"></span></p>
+        <form action="" method="POST" class="form-width flex-column">
+            <input type="hidden" name="nombre" value="">
+            <input type="hidden" name="fecha" value="">
+            <input type="hidden" name="horario" value="">
+            <input class="page-button" type="submit" value="Aceptar">
+        </form>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('load', async () =>{
+        fill_booking_form_selectables();
+        set_booking_search_event();
+        set_booking_modal_event();
+    });
+</script>
+
+<%- include('partials/footer'); %>

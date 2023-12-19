@@ -25,9 +25,10 @@
                         <td> <%= amb.capacidad %> </td>
                         <td class="ex-col"> <%= amb.descripcion %> </td>
                         <td> 
-                            <div id="edit-button">
-                                <a href="#" class="icons admin-button" style="--posX:-4" data="<%= amb.nombre %>" data-type="edit"></a>
-                            </div> 
+                            <div class="edit-buttons">
+                                <button class="edit-button icons admin-button" style="--posX:-4" data="<%= amb.nombre %>" data-type="edit"></button>
+                                <button class="edit-button icons admin-button" style="--posX:-5" data="<%= amb.nombre %>" data-type="delete"></button>
+                            </div>
                         </td>
                     </tr>
                 <% } ) %>
@@ -39,7 +40,7 @@
 <div id="add-edit-ambient-modal" class="box-fx custom-modal hide">
     <div class="custom-modal-header">
         <h3 class="custom-modal-title"></h3>
-        <div class="custom-modal-btn" data-action="close-modal">&#x2A09</div>
+        <div class="custom-modal-btn modal-action-button" data-action="close-modal">&#x2A09</div>
     </div>
 
     <div class="custom-modal-content">
@@ -82,6 +83,21 @@
             </div>
             
             <input class="page-button" type="submit" value=""> 
+        </form>
+    </div>
+</div>
+
+<div id="delete-ambient-modal" class="box-fx custom-modal hide">
+    <div class="custom-modal-header">
+        <h3 class="custom-modal-title">Deshabilitar Ambiente?</h3>
+        <div class="custom-modal-btn modal-action-button" data-action="close-modal">&#x2A09</div>
+    </div>
+
+    <div class="custom-modal-content ">
+        <p class="margin-b">Nombre: <span class="nombre-ambiente"></span></p>
+        <form action="" method="" enctype="multipart/form-data" class="form-width flex-column">
+            <input type="hidden" name="nombre" value="">
+            <input class="page-button" type="submit" value="Aceptar">
         </form>
     </div>
 </div>

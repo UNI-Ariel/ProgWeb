@@ -99,13 +99,16 @@ class Ambiente{
         return res;
     }
 
-    async add_facilities_to_ambient(ambient_id, facilities){
-        const values = Array.isArray(facilities) ? facilities : [facilities];
+    async add_facilities_to_ambient(id_ambiente, facilidades){
+        const values = Array.isArray(facilidades) ? facilidades : [facilidades];
         let additions = 0;
         for(const v of values){
-            const res = await this.add_facility_to_ambient(ambient_id, this.facilidades[v]);
+            const res = await this.add_facility_to_ambient(id_ambiente, this.facilidades[v]);
             if(res){
                 additions++;
+            }
+            else{
+                console.log('Error while adding facilidad to ambiente:', id_ambiente, this.facilidades[v]);
             }
         }
         return additions === values.length;
@@ -117,41 +120,52 @@ class Ambiente{
         return res;
     }
 
-    async remove_facilities_from_ambient(ambient_id, facilities){
-        const values = Array.isArray(facilities) ? facilities : [facilities];
+    async remove_facilities_from_ambient(id_ambiente, facilidades){
+        const values = Array.isArray(facilidades) ? facilidades : [facilidades];
         let deletions = 0;
         for(const v of values){
-            const res = await this.remove_facility_from_ambient(ambient_id, this.facilidades[v]);
+            const res = await this.remove_facility_from_ambient(id_ambiente, this.facilidades[v]);
             if(res){
                 deletions++;
+            }
+            else{
+                console.log('Error while removing facilidad from ambiente:', id_ambiente, this.facilidades[v]);
             }
         }
         return deletions === values.length;
     }
 
-    async get_ambient_id(name){
-        const sql = 'Select id FROM ambiente WHERE nombre=?';
-        const res = db.query(sql, [name]);
-        return res;
-    }
-
-    async update_ambient(curr_data, new_data){
+    async update(current_ambient, new_data){
         const sql = 'UPDATE ambiente SET nombre=?, id_tipo=?, capacidad=?, ubicacion=?, descripcion=? ' + 
-                        'WHERE ambiente.nombre=?';
-        const values = [new_data.nombre, this.tipos[new_data.tipo], new_data.capacidad, new_data.ubicacion, new_data.descripcion, curr_data.nombre];
+                        'WHERE ambiente.id=?';
+        const values = [new_data.nombre, this.tipos[new_data.tipo], new_data.capacidad, new_data.ubicacion, new_data.descripcion, current_ambient.id];
         const res = await db.query(sql, values);
-        const id = (await this.get_ambient_id(curr_data.nombre))[0];
-        if(new_data.facilidades){
-            if( ! curr_data.facilidades){
-                this.add_facilities_to_ambient(id.id, new_data.facilidades);
+        if(res){            
+            if(new_data.facilidades && ! current_ambient.facilidades){
+                return await this.add_facilities_to_ambient(current_ambient.id, new_data.facilidades);
+            }
+            else if( ! new_data.facilidades && current_ambient.facilidades){
+                return await this.remove_facilities_from_ambient(current_ambient.id, current_ambient.facilidades.split(','));
             }
             else{
-                console.log('Should update, add, remove facilidades');
+                const current_facilities = current_ambient.facilidades.split(',');
+                const updated_facilities = Array.isArray(new_data.facilidades) ? new_data.facilidades : [new_data.facilidades];
+                const add_array = [];
+                const del_array = [];
+                current_facilities.forEach(f =>{
+                    if( ! updated_facilities.includes(f)){
+                        del_array.push(f);
+                    }
+                });
+                updated_facilities.forEach(f =>{
+                    if( ! current_facilities.includes(f)){
+                        add_array.push(f);
+                    }
+                });
+                return await this.add_facilities_to_ambient(current_ambient.id, add_array) && 
+                        await this.remove_facilities_from_ambient(current_ambient.id, del_array);
             }
-        }
-        if( ! new_data.facilidades && curr_data.facilidades){
-            this.remove_facilities_from_ambient(id.id, curr_data.facilidades.split(','));
-        }
+        }        
         return res;
     }
 
@@ -165,15 +179,74 @@ class Ambiente{
         const page = 'page' in filters ? filters.page : this.page;
         const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
         const offset = (page - 1) * perPage;
-        const sql = 'SELECT a.nombre, t.nombre AS tipo, a.ubicacion, a.descripcion, a.capacidad ' + 
-                        'FROM ambiente AS a LEFT JOIN tipo AS t on t.id=a.id_tipo ' + 
-                        'WHERE activo = "si" LIMIT ? OFFSET ?';
+        const sql = 'SELECT a.nombre, t.nombre AS tipo, a.ubicacion, a.descripcion, a.capacidad, i.facilidades ' + 
+                        'FROM ambiente a LEFT JOIN tipo t on t.id=a.id_tipo LEFT JOIN ( ' +
+                        'SELECT fds.id_ambiente, GROUP_CONCAT(f.nombre) facilidades ' +
+                        'FROM facilidades fds LEFT JOIN facilidad f on f.id=fds.id_facilidad GROUP BY fds.id_ambiente) ' +
+                        'AS i on i.id_ambiente=a.id WHERE a.activo="si" AND a.deshabilitado="no" LIMIT ? OFFSET ?';
         const data = await db.query(sql, [perPage, offset]);
         return data;
     }
 
+    async get_bookables(filters){
+        const page = 'page' in filters ? filters.page : this.page;
+        const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
+        const offset = (page - 1) * perPage;
+        const values = [];
+        let sql = 'SELECT a.nombre, a.capacidad, a.ubicacion ' +
+                    'FROM ambiente a LEFT JOIN facilidades fd on fd.id_ambiente=a.id ' +
+                    'LEFT JOIN facilidad f on f.id=fd.id_facilidad ' +
+                    'WHERE a.activo="si" AND a.deshabilitado="no" ';
+        if('capacidad' in filters){
+            sql += 'AND a.capacidad>=? ';
+            values.push(filters.capacidad);
+        }
+        if('tipo' in filters){
+            sql += 'AND a.id_tipo=? ';
+            values.push(this.tipos[filters.tipo]);
+        }
+        sql += 'AND NOT EXISTS( SELECT 1 FROM reservas as r ' +
+                'WHERE r.id_ambiente = a.id AND r.fecha_reserva=? ' +
+                'AND r.id_periodo=? AND r.id_estado !="3") ';
+        values.push(filters.fecha, filters.horario);
+        if('facilidades' in filters){
+            const fds = Array.isArray(filters.facilidades) ? filters.facilidades : [filters.facilidades];
+            sql += 'AND f.nombre IN (' + fds.map(e => '"' + e + '"').toString()  + ') ';
+            sql += 'GROUP BY a.id HAVING COUNT(DISTINCT f.id) = ? ';
+            values.push(fds.length);
+        }
+        else{
+            sql += 'GROUP BY a.id ';
+        }
+        sql += 'LIMIT ? OFFSET ?';
+        values.push(perPage, offset);
+        const data = await db.query(sql, values);
+        return data;
+    }
+
+    async book(ambient, params){
+        console.log(ambient, params);
+        let sql = 'SELECT * FROM reservas WHERE id_ambiente=? AND id_periodo=? AND id_estado !=?';
+        let values = [ambient.id, params.horario, 3];
+        const conflict = await db.query(sql, values);
+        if(conflict.length){
+            return false;
+        }
+        else{
+            sql = 'INSERT INTO reservas (id_ambiente, id_periodo, id_estado, fecha_reserva) VALUES (?,?,?,?)';
+            values = [ambient.id, params.horario, 2, params.fecha];
+            const result = await db.query(sql, values);
+            if(result && result.affectedRows){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
     async find(name){
-        const sql = 'SELECT a.nombre, t.nombre AS tipo, a.ubicacion, a.descripcion, a.capacidad, i.facilidades ' +
+        const sql = 'SELECT a.id, a.nombre, t.nombre AS tipo, a.ubicacion, a.descripcion, a.capacidad, i.facilidades ' +
                         'FROM ambiente a LEFT JOIN tipo t on t.id=a.id_tipo LEFT JOIN ( ' +
                         'SELECT fds.id_ambiente, GROUP_CONCAT(f.nombre) facilidades ' +
                         'FROM facilidades fds LEFT JOIN facilidad f on f.id=fds.id_facilidad GROUP BY fds.id_ambiente) ' +
@@ -182,20 +255,40 @@ class Ambiente{
         return data;
     }
 
-    async get_pending(filters){
+    async get_pending_bookings(filters){
         const page = 'page' in filters ? filters.page : this.page;
         const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
         const offset = (page - 1) * perPage;
-        const sql = 'SELECT * FROM ambiente AS a LEFT JOIN reservas AS r on a.id_ambiente=r.id_ambiente ' +
-                         'WHERE r.id_estado=' + this.estados.pendiente +
-                         ' LIMIT ? OFFSET ?';
-        const data = await db.query(sql, [perPage, offset]);
+        const sql = 'SELECT r.id reserva, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, a.nombre, t.nombre tipo, a.capacidad FROM ambiente a ' +
+                         'LEFT JOIN reservas r on a.id=r.id_ambiente LEFT JOIN tipo t on t.id=a.id_tipo ' +
+                         'WHERE r.id_estado=? ORDER BY r.fecha_agregado LIMIT ? OFFSET ?';
+        const values = [this.estados.Pendiente, perPage, offset];
+        const data = await db.query(sql, values);
         return data;
     }
+
+    async get_booking(id_reserva){
+        const sql = 'SELECT * FROM reservas where id=?';
+        const data = await db.query(sql, [id_reserva]);
+        return data;
+    }
+
+    async update_pending_booking(id_reserva, action){
+         const sql = 'UPDATE reservas SET id_estado=? WHERE id=?';
+         const action_value = action.action === 'accept' ? this.estados.Aceptado : this.estados.Rechazado;
+         const values = [action_value, id_reserva];
+         const data = await db.query(sql, values);
+         if(data && data.affectedRows){
+            return true;
+         }
+         else{
+            return false;
+         }
+    }
     
-    async delete(name){
-        const sql = 'UPDATE ambiente SET activo = no WHERE nombre = ?';
-        const data = await db.query(sql, [name]);
+    async delete(id_ambiente){
+        const sql = 'UPDATE ambiente SET deshabilitado="si" WHERE id = ?';
+        const data = await db.query(sql, [id_ambiente]);
         return data;
     }
 }

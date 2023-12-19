@@ -2,10 +2,64 @@ Descripción de las API disponibles:
 Rutas:
     GET  
         /api/info : Información adicional sobre las API disponibles.
-        /api/ambientes : para obtener todos los ambientes, como parámetro de consulta opcional se puede
-                                dar el "page" para el numero de página y el "perPage" para resultados por página.
-        /api/ambientes/nombre: para obtener el dato de un ambiente en particular.
+
+        /api/search : Permite buscar ambientes disponibles.
+            Parametros URL:
+                fecha: Es obligatoria y debe estar en formato YYYY-MM-DD.
+                horario: Es obligatoria y debe ser un numero de periodo (ver periodos en /api/info).
+                capacidad: Es obligatoria y debe ser un numero.
+
+        /api/booking : Permite ver los ambientes reservables en una fecha y horario especificos.
+            Parametros URL:
+                fecha: Es obligatoria y debe estar en formato YYYY-MM-DD.
+                horario: Es obligatoria y debe ser un numero de periodo (ver periodos en /api/info).
+                capacidad: Opcional, debe ser un numero.
+                tipo: Opcional, debe ser un tipo de ambiente valido (ver tipos en /api/info).
+                facilidades: Opcional, debe ser una (o varias) facilidad(es) valida(s) (ver facilidades en /api/info).
+
+        /api/ambientes : Permite obtener todos los ambientes.
+            Parametros URL:
+                page: Opcional, para el numero de página.
+                perPage: Opcional, para resultados por página.
+
+        /api/ambientes/:nombre : Permite obtener los datos de un ambiente particular.
+            Parametros URL:
+                nombre: Nombre del ambiente.
+
+        /api/bookings : Permite ver todas las reservas que estan pendientes de aceptar o rechazar.
+            Parametros URL:
+                page: Opcional, para el numero de página.
+                perPage: Opcional, para resultados por página.
+        
+        /api/bookings/:reserva : Permite obtener la informacion de una reserva en particular.
+            Parametros URL:
+                reserva: Numero de la reserva.
+
+
     POST 
-        /api/ambiente : para agregar un nuevo ambiente, requiere de datos el nombre, tipo, ubicacion, 
-                                descripcion y capacidad.
-Tipos de ambiente aceptados:       "Auditorio", "Aula", "Biblioteca", "Comedor".
+        /api/booking/:nombre : Permite enviar una solicitud de reserva para el ambiente especifico.
+            Parametros URL:
+                nombre: Nombre del ambiente.
+            Parametros requeridos en el BODY:
+                fecha: Debe estar en formato YYYY-MM-DD.
+                periodo: debe ser un numero de periodo (ver periodos en /api/info).
+
+        /api/ambiente : Permite agregar un nuevo ambiente.
+            Parametros requeridos en el BODY:
+                nombre: Una cadena, puede tener numeros, letras del alfabeto ingles y un espacio entre palabras.
+                tipo: un tipo valido (ver tipos en /api/info).
+                ubicacion: Una cadena, debe ser no vacia.
+                capacidad: Un numero.
+                descripcion: Opcional, Alguna descripcion adicional.
+        
+        /api/bookings/:reserva : Permite aceptar o rechazar una reserva pendiente.
+            Parametros URL:
+                reserva: Numero de la reserva.
+            Parametros requeridos en el BODY:
+                action: Una cadena, "accept" para aceptar la reserva, "reject" para rechazar la reserva.
+
+
+    DELETE
+        /api/ambientes/:name : Permite deshabilitar un ambiente.
+            Parametros URL:
+                nombre: Nombre del ambiente.

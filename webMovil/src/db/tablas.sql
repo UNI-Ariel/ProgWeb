@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2023 at 08:25 AM
+-- Generation Time: Dec 19, 2023 at 08:36 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -43,9 +43,17 @@ CREATE TABLE `ambiente` (
 --
 
 INSERT INTO `ambiente` (`id`, `id_tipo`, `nombre`, `ubicacion`, `descripcion`, `capacidad`, `deshabilitado`, `activo`) VALUES
-(1, 2, '692F', 'Edificio Nuevo', NULL, 60, 'no', 'si'),
-(2, 2, '617C', 'Frente al departamento de Fisica', NULL, 70, 'no', 'si'),
-(3, 2, '622', 'Bloque central', '', 90, 'no', 'si');
+(1, 2, '692F', 'Edificio Nuevo', '', 60, 'si', 'si'),
+(2, 2, '617C', 'Frente al departamento de Fisica', '', 70, 'no', 'si'),
+(3, 2, '622F', 'Bloque central', '', 90, 'no', 'si'),
+(4, 2, '617A', 'Frente al departamento de Fisica', '', 22, 'no', 'si'),
+(5, 2, '693A', 'Edificio \"nuevo\" 3er Piso', '', 80, 'no', 'si'),
+(6, 2, '693B', 'Edificio \"nuevo\" 3er Piso', '', 90, 'no', 'si'),
+(7, 2, '612', 'Trencito', '', 50, 'no', 'si'),
+(8, 2, '623', 'Bloque central', '', 70, 'no', 'si'),
+(11, 2, '690A', 'Edificio \"nuevo\" Planta Baja', '', 40, 'no', 'si'),
+(12, 2, '622', 'Bloque central', '', 80, 'no', 'si'),
+(13, 2, '607', 'Trencito', '', 60, 'no', 'si');
 
 -- --------------------------------------------------------
 
@@ -99,6 +107,40 @@ CREATE TABLE `facilidades` (
   `id_facilidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `facilidades`
+--
+
+INSERT INTO `facilidades` (`id_ambiente`, `id_facilidad`) VALUES
+(1, 2),
+(2, 1),
+(4, 1),
+(4, 2),
+(5, 1),
+(5, 2),
+(11, 1),
+(12, 1),
+(13, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `grupos`
+--
+
+CREATE TABLE `grupos` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `grupos`
+--
+
+INSERT INTO `grupos` (`id`, `name`) VALUES
+(1, 'administrador'),
+(2, 'docente');
+
 -- --------------------------------------------------------
 
 --
@@ -107,15 +149,15 @@ CREATE TABLE `facilidades` (
 
 CREATE TABLE `periodos` (
   `id` int(11) NOT NULL,
-  `hora_ini` time NOT NULL,
-  `hora_fin` time NOT NULL
+  `inicia` time NOT NULL,
+  `termina` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `periodos`
 --
 
-INSERT INTO `periodos` (`id`, `hora_ini`, `hora_fin`) VALUES
+INSERT INTO `periodos` (`id`, `inicia`, `termina`) VALUES
 (1, '06:45:00', '07:30:00'),
 (2, '07:30:00', '08:15:00'),
 (3, '08:15:00', '09:00:00'),
@@ -152,6 +194,14 @@ CREATE TABLE `reservas` (
   `fecha_reserva` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reservas`
+--
+
+INSERT INTO `reservas` (`id`, `id_ambiente`, `id_periodo`, `id_estado`, `fecha_agregado`, `fecha_reserva`) VALUES
+(2, 2, 1, 2, '2023-12-19 05:12:44', '2023-12-19'),
+(3, 3, 1, 2, '2023-12-19 05:23:27', '2023-12-19');
+
 -- --------------------------------------------------------
 
 --
@@ -173,6 +223,19 @@ INSERT INTO `tipo` (`id`, `nombre`, `descripcion`) VALUES
 (2, 'Aula', NULL),
 (3, 'Biblioteca', NULL),
 (4, 'Comedor', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `id_grupo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -206,6 +269,12 @@ ALTER TABLE `facilidades`
   ADD KEY `id_facilidad` (`id_facilidad`);
 
 --
+-- Indexes for table `grupos`
+--
+ALTER TABLE `grupos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `periodos`
 --
 ALTER TABLE `periodos`
@@ -227,6 +296,13 @@ ALTER TABLE `tipo`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_grupo` (`id_grupo`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -234,7 +310,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT for table `ambiente`
 --
 ALTER TABLE `ambiente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `estado`
@@ -249,6 +325,12 @@ ALTER TABLE `facilidad`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `grupos`
+--
+ALTER TABLE `grupos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `periodos`
 --
 ALTER TABLE `periodos`
@@ -258,13 +340,19 @@ ALTER TABLE `periodos`
 -- AUTO_INCREMENT for table `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tipo`
 --
 ALTER TABLE `tipo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -290,6 +378,12 @@ ALTER TABLE `reservas`
   ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_ambiente`) REFERENCES `ambiente` (`id`),
   ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`id_periodo`) REFERENCES `periodos` (`id`),
   ADD CONSTRAINT `reservas_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id`);
+
+--
+-- Constraints for table `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_grupo`) REFERENCES `grupos` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

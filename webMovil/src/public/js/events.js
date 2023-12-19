@@ -1,163 +1,3 @@
-let navBar = document.querySelector('.navigationBar');
-let infoBar = document.querySelector('.informationBar');
-let content = document.querySelector('.content');
-
-document.getElementById('close-msg')?.addEventListener('click', closeMessage);
-
-document.getElementById('form-csv')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const form = new FormData(document.getElementById('form-csv'));
-
-    console.log(form);
-
-    //leer datos del archivo y construir json
-    function leerCsv(evt){
-                    
-        let file = evt.target.files[0];
-        let reader = new FileReader();
-        reader.onload= (e) => {
-          console.log(e.target.result)    
-        };
-        reader.readAsText(file);
-    }
-    document.querySelector('#archivocsv')
-     .addEventListener('change',csv, false);
-    
-    
-
-    console.log(json);
-    //enviar datos
-    fetch('http://localhost:9000/subirCSV', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(json)
-    }).then((res) =>{
-        if(!res.ok){
-            throw new Error('Fallo la solicitud');
-        }
-        return res.json();
-    }).then((res) => {
-        alert(`Respuesta del servidor: ${JSON.stringify(res)}`);
-    }).catch ((err) =>{
-        alert(`Error: ${err}`);
-    });
-});
-
-document.getElementById('update-form')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const form_data = new FormData(document.getElementById('update-form'));
-    const json ={};
-    form_data.forEach((v, k) =>{
-        json[k] = v;
-    });
-    const url = document.location.href;
-    fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(json)
-    }).then((res) =>{
-        if(!res.ok){
-            throw new Error('Fallo la solicitud');
-        }
-        return res.json();
-    }).then((res) => {
-        alert(`Respuesta del servidor: ${JSON.stringify(res)}`);
-        document.location.href = '/administrativo/administrarAmbientes';
-    }).catch ((err) =>{
-        alert(`Error: ${err}`);
-    });
-});
-
-function createTableFromJSON(json){
-    const table = document.createElement('table');
-    let tr = document.createElement('tr');
-    let cols = Object.keys(json[0]);
-    cols.forEach(e =>{
-        let th = document.createElement("th");
-        th.innerText = e;
-        tr.appendChild(th);
-    });
-    table.appendChild(tr);
-    json.forEach(item =>{
-        let tr = document.createElement('tr');
-        let values = Object.values(item);
-        values.forEach(v =>{
-            let td = document.createElement('td');
-            td.innerText = v;
-            tr.appendChild(td);
-        });
-        table.appendChild(tr);
-    });
-    return table;
-}
-
-document.getElementById('ver-ambientes')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const form_data = new FormData(document.getElementById('ver-ambientes'));
-    const json ={};
-    form_data.forEach((v, k) =>{
-        json[k] = v;
-    });
-    const url = document.location.href;
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(json)
-    }).then((res) =>{
-        if(!res.ok){
-            throw new Error('Fallo la solicitud');
-        }
-        return res.json();
-    }).then((res) => {
-        /* alert(`Respuesta del servidor: ${JSON.stringify(res)}`); */
-        const table = createTableFromJSON(res);
-        const displayArea = document.getElementById('resultados-consulta');
-        displayArea.innerHTML = '';
-        displayArea.appendChild(table);
-    }).catch ((err) =>{
-        alert(`Error: ${err}`);
-    });
-});
-
-document.getElementById('reserva-ambiente')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const form_data = new FormData(document.getElementById('reserva-ambiente'));
-    const json ={};
-    form_data.forEach((v, k) =>{
-        json[k] = v;
-    });
-    const url = document.location.href;
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(json)
-    }).then((res) =>{
-        if(!res.ok){
-            throw new Error('Fallo la solicitud');
-        }
-        return res.json();
-    }).then((res) => {
-        alert(`Respuesta del servidor: ${JSON.stringify(res)}`);
-    }).catch ((err) =>{
-        alert(`Error: ${err}`);
-    });
-});
-
-function closeMessage() {
-    document.getElementById('message').classList.toggle('hide');
-}
-//////////////////////////////////////////////////////////////////////////////////
 function set_menu_button_events(){
     const menu_buttons = document.querySelectorAll('.nav-button');
     menu_buttons.forEach(button =>{
@@ -186,9 +26,49 @@ function set_admin_modal_event(){
     });
 }
 
+function set_booking_search_event(){
+    const form = document.getElementById('booking-form');
+    form.addEventListener('submit', async ev =>{
+        ev.preventDefault();
+        search_ambient_booking(ev.target);
+    });
+    const back_btn = document.getElementById('booking-results').querySelector('.page-button');
+    back_btn.addEventListener('click', ev =>{
+        ev.stopPropagation();
+        document.getElementById('booking-results').classList.add('hide');
+        document.getElementById('booking-search').classList.remove('hide');
+    });
+}
+
+function set_booking_modal_event(){
+    const form = document.getElementById('confirm-booking-modal').querySelector('form');
+    form.addEventListener('submit', async ev =>{
+        ev.preventDefault();
+        handle_booking_submision(ev.target);
+    });
+}
+
+function set_admin_booking_btn_event(){
+    const buttons = document.querySelectorAll('.admin-button');
+    buttons.forEach(btn =>{
+        btn.addEventListener('click', ev =>{
+            ev.stopPropagation();
+            handle_booking_admin_action(btn);
+        });
+    });
+}
+
+function set_admin_booking_modal_event(){
+    const form = document.getElementById('booking-action-modal').querySelector('form');
+    form.addEventListener('submit', async ev =>{
+        ev.preventDefault();
+        handle_booking_action_form_submit(ev.target);
+    });
+}
+
 function set_modal_event(){
      //Modal buttons
-     const modal_buttons = document.querySelectorAll('.custom-modal .custom-modal-btn');
+     const modal_buttons = document.querySelectorAll('.custom-modal .modal-action-button');
      modal_buttons.forEach(btn =>{
          btn.addEventListener('click', ev =>{
              ev.stopPropagation();
@@ -201,4 +81,5 @@ window.addEventListener('load', async () =>{
     set_time();
     set_menu_button_events();
     set_modal_event();
+    check_message();
 });

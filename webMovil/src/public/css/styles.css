@@ -16,7 +16,7 @@
     --lightDark: #3b3d3f;
 
     --sprites: url("../img/iconos.png");
-    --spriteW: 300px;
+    --spriteW: 400px;
     --spriteH: 50px;
     --iconW: 50px;
     --iconH: 50px;
@@ -240,6 +240,10 @@ main {
     box-sizing: border-box;
 }
 
+.w50{
+    width: 50%;
+}
+
 .w100{
     width: 100%;
 }
@@ -299,6 +303,29 @@ main {
     display: none;
 }
 
+.edit-buttons {
+    --elem: 2;
+    --elemW: 25px;
+    --g: 2px;
+    display: flex;
+    flex-direction: row;
+    gap: var(--g);
+    width: calc(var(--elem) * var(--elemW) + var(--g));
+    margin: auto;
+}
+
+.edit-button {
+    width: 25px;
+    height: 25px;
+    background-color: var(--metallicWhite);
+    border-radius: 5px;
+}
+
+.edit-button:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+
 /*////////////////////////////////// Forms ///////////////////////////////////////////*/
 .login-input {
     width: 100%;
@@ -344,18 +371,6 @@ main {
     background-color: var(--metallicBlackL);
 }
 
-#edit-button {
-    width: 25px;
-    height: 25px;
-    background-color: var(--metallicWhite);
-    border: 1px solid transparent;
-    border-radius: 5px;
-}
-
-#edit-button:hover {
-    cursor: pointer;
-}
-
 .text-area-height{
     height: 6rem;
 }
@@ -380,15 +395,16 @@ main {
 .data-table td {
     padding: 0.5em;
     border: 1px solid #000;
-    /* vertical-align: top; */
-}
-
-.data-table td:last-child > *{
-    margin: auto;
+    text-align: center;
 }
 
 .data-table th {
     background: #606d80;
+}
+.booking-btn{
+    width: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
 }
 /*///////////Modal Dialog////////////////*/
 #message-modal {
