@@ -308,6 +308,19 @@ async function check_bookings_page(req, res){
     res.render('bookingsadmin', page_param);
 }
 
+async function bookings_history(req, res){
+    let data;
+    if( client.check_filters(req.query) ){
+        data = await ambiente.get_bookings_history(req.query);
+    }
+    else{
+        data = await ambiente.get_bookings_history({});
+    }
+    const page_param = {title:'Historial reservas', data, logged:true};
+    page_param['userData'] = req.session.userData;
+    res.render('bookingsHistory', page_param);
+}
+
 module.exports = {
     api_get_ambientes,
     api_get_ambiente,
@@ -322,5 +335,6 @@ module.exports = {
     logout,
     ambientes_page,
     booking_page,
-    check_bookings_page
+    check_bookings_page,
+    bookings_history
 }

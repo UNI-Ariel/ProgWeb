@@ -273,6 +273,25 @@ class Ambiente{
         return data;
     }
 
+    async get_bookings_history(filters){
+        const page = 'page' in filters ? filters.page : this.page;
+        const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
+        const offset = (page - 1) * perPage;
+        const values = [];
+        let sql = 'SELECT a.nombre, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, e.nombre estado ' + 
+                    'FROM ambiente a LEFT JOIN reservas r on r.id_ambiente=a.id LEFT JOIN estado e on e.id=r.id_estado ' +
+                    'WHERE r.id_estado !=? ';
+        values.push(this.estados.Pendiente);
+        if('fecha' in filters){
+            sql += 'AND r.fecha_reserva=? ';
+            values.push(filters.fecha);
+        }
+        sql += 'ORDER BY r.fecha_agregado LIMIT ? OFFSET ?';
+        values.push(perPage, offset);
+        const data = await db.query(sql, values);
+        return data;
+    }
+
     async update_pending_booking(id_reserva, action){
          const sql = 'UPDATE reservas SET id_estado=? WHERE id=?';
          const action_value = action.action === 'accept' ? this.estados.Aceptado : this.estados.Rechazado;

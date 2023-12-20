@@ -33,6 +33,8 @@ router.get('/ambients', check_log_status, is_admin, controller.ambientes_page);
 
 router.get('/bookings', check_log_status, is_admin, controller.check_bookings_page);
 
+router.get('/bookings/history', check_log_status, is_admin, controller.bookings_history);
+
 //API
 //Auth Level 1 Docente
 router.get('/api/booking', controller.api_get_bookables);

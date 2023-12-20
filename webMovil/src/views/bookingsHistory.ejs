@@ -1,0 +1,32 @@
+<%- include('partials/header'); %>
+
+<section class="page-text flex-column align-center">
+    <div class="box-fx w100 box-wide">
+        <h3 class="center-text margin-b">Historial de Reservas</h3>
+        <form action="/bookings/history" method="GET" class="form-width flex-column flex-gap">
+            <div class="flex-column">
+                <p>Fecha:</p>
+                <input type="date" name="fecha"class="input-field" required>
+            </div>
+            <input type="submit" value="Ir" class="page-button">
+        </form>
+        <div class="scroll-box">
+            <table class="data-table">
+                <tr>
+                    <th>Ambiente</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                </tr>
+                <% data.forEach(function (amb) {%>
+                    <tr>
+                        <td> <%= amb.nombre %> </td>
+                        <td> <%= amb.fecha %> </td>
+                        <td> <%= amb.estado %> </td>
+                    </tr>
+                <% } ) %>
+            </table>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer'); %>
