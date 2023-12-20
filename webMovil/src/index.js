@@ -1,6 +1,7 @@
 //Modules
 const express = require('express');
 const favicon = require('serve-favicon');
+const session = require('express-session');
 const path = require('path');
 
 //Routers
@@ -45,6 +46,13 @@ app.use((req, res, next) =>{
 //Data recived
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+//Session
+app.use(session({
+    secret:"dc-server-v3-ge2m-Y23",
+    resave: false,
+    saveUninitialized:false
+}));
 
 //Routes
 app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));

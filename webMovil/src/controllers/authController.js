@@ -283,18 +283,29 @@ async function api_update_booking(req, res){
     res.status(api_res.code).json(api_res);
 }
 
+async function logout(req, res){
+    req.session.destroy();
+    res.redirect('/');
+}
+
 async function ambientes_page(req, res){
     const data = await ambiente.get_all({});
-    res.render('adminAmbients', {title: 'Administrar Ambientes', data});
+    const page_param = {title:'Administrar Ambientes', data, logged:true};
+    page_param['userData'] = req.session.userData;
+    res.render('adminAmbients', page_param);
 }
 
 function booking_page(req, res){
-    res.render('booking', {title: 'Reservar Ambiente'});
+    const page_param = {title:'Reservar Ambiente', logged:true};
+    page_param['userData'] = req.session.userData;
+    res.render('booking', page_param);
 }
 
 async function check_bookings_page(req, res){
     const data = await ambiente.get_pending_bookings({});
-    res.render('bookingsadmin', {title:"Administrar reservas", data});
+    const page_param = {title:'Administrar reservas', data, logged:true};
+    page_param['userData'] = req.session.userData;
+    res.render('bookingsadmin', page_param);
 }
 
 module.exports = {
@@ -308,6 +319,7 @@ module.exports = {
     api_get_booking,
     api_get_bookings,
     api_update_booking,
+    logout,
     ambientes_page,
     booking_page,
     check_bookings_page

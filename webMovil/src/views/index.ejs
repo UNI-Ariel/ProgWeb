@@ -1,11 +1,25 @@
 <%- include('partials/header'); %>
 
-    <section>
-        <p>Bienvenido</p>
+    <section class="box-fx">
+        <% if(locals.logged) { %> 
+            <p>Bienvenido <strong><%= locals.userData.nombre %></strong></p>
+        <% } else { %>
+            <p>Bienvenido</p>
+        <% } %>
         <br>
-        <p>Dirigase a la sección academico para consultar aulas disponibles.</p>
+        <p>Dirigase a la sección academico para buscar ambientes disponibles.</p>
         <br>
-        <p>Debera identificarse para realizar cualquier otra operación.*</p>
+        <% if(locals.logged) { %> 
+            <p>Dirigase a la sección academico para reservar ambiente.</p>
+        <% } else { %>
+            <p>Debera identificarse si desea realizar más operaciones.</p>
+        <% } %>
+        <% if(locals.logged && locals.userData.grupo === 1) { %> 
+            <br>
+            <p>Dirigase a la sección Administrativo para ver y administrar los ambientes.</p>
+            <br>
+            <p>Dirigase a la sección Administrativo para ver y administrar las reservas.</p>
+        <% } %>
     </section>
 
 <%- include('partials/footer'); %>

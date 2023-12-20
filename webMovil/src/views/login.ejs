@@ -1,15 +1,40 @@
 <%- include('partials/header'); %>
 
 <section class="flex-column align-center">
-    <form action="/login" method="POST" class="flex-column form-width box-fx login-container">
-        <h3 class="center-text margin-b">Inicio de Sesion</h3>
-        <input type="text" name="user" placeholder="Usuario" class="form-item login-input margin-b" required>
-        <input type="password" name="pass" placeholder="Contraseña" class="form-item login-input margin-b" required> 
+    <p class="server-msg hide"><% if(locals.msg){%><%=msg%><%}%></p>
+    <form action="/login" method="POST" class="flex-column flex-gap form-width box-fx login-container" id="login-form">
+        <h3 class="center-text">Inicio de Sesion</h3>
+        <% if(locals.user) {%>
+            <input type="text" name="user" placeholder="Usuario"  value="<%=user%>" class="login-input" required>
+        <% } else { %>
+            <input type="text" name="user" placeholder="Usuario" class="login-input" required>
+        <% } %>
+
+        <div class="w100" id="password-field">
+            <input type="password" name="pass" placeholder="Contraseña" class="login-input" required> 
+            <button type="button" id="reveal-pass-btn">&#128065;</button>
+        </div>
+
         <label>
             <input type="checkbox" name="recordUser" id="recordUser" > Recordarme
-        </label>                                
-        <input type="submit" value="Ingresar" class="page-button margin-t">
+        </label>
+
+        <input type="submit" value="Ingresar" class="page-button">
     </form>
 </section>
+
+<script>
+    function check_server_msg(){
+        const server_msg = document.querySelector('.server-msg');
+        if(server_msg.innerText !== ""){
+            display_message(server_msg.innerText);
+            server_msg.innerText = "";
+        }
+    }
+    window.addEventListener('load', ()=>{
+        set_login_events();
+        check_server_msg();        
+    });
+</script>
 
 <%- include('partials/footer'); %>

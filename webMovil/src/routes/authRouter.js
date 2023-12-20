@@ -5,14 +5,33 @@ const upload = multer(); */
 
 const router = Router();
 
+function check_log_status(req, res, next){
+    if(req.session.logged){
+        next();
+    }
+    else{
+        res.redirect('/login');
+    }
+}
+
+function is_admin(req, res, next){
+    if(req.session.userData.grupo === 1){
+        next();
+    }
+    else{
+        res.redirect('/forbidden');
+    }
+}
+
 //Page
+router.get('/logout', check_log_status, controller.logout);
 //Auth Level 1 Docente
-router.get('/booking', controller.booking_page);
+router.get('/booking', check_log_status, controller.booking_page);
 
 //Auth Level 2 Administrador
-router.get('/ambients', controller.ambientes_page);
+router.get('/ambients', check_log_status, is_admin, controller.ambientes_page);
 
-router.get('/bookings', controller.check_bookings_page);
+router.get('/bookings', check_log_status, is_admin, controller.check_bookings_page);
 
 //API
 //Auth Level 1 Docente

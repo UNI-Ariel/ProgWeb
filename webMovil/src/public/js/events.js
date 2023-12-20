@@ -77,6 +77,23 @@ function set_modal_event(){
      });
 }
 
+function set_login_events(){
+    const btn = document.getElementById('reveal-pass-btn');
+    btn.addEventListener('click', ev =>{
+        ev.preventDefault();
+        ev.stopPropagation();
+        const input = ev.target.previousElementSibling;
+        if(ev.target.classList.contains('revealed')){
+            ev.target.classList.remove('revealed');
+            input.type = "password";
+        }
+        else{
+            ev.target.classList.add('revealed');
+            input.type = "text";
+        }
+    });
+}
+
 window.addEventListener('load', async () =>{
     set_time();
     set_menu_button_events();

@@ -284,6 +284,7 @@ function handle_booking_admin_action(btn){
     const form = modal.querySelector('form');
     const res = form.querySelector('input[name="reserva"]');
     const act = form.querySelector('input[name="action"]');
+    const submit = form.querySelector('input[type="submit"]');
     res.value = reserva;
     const row = btn.closest('tr');
     const nombre = row.querySelector('td');
@@ -292,10 +293,12 @@ function handle_booking_admin_action(btn){
     if(action === 'accept'){
         title.innerHTML = "Aceptar Reserva?";
         act.value = "accept";
+        submit.value = "Aceptar";
     }
     else if(action === 'reject'){
         title.innerHTML = "Rechazar Reserva?";
         act.value = "reject";
+        submit.value = "Rechazar";
     }
     else{
         console.error('Unknow action:', action);

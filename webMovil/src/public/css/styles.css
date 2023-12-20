@@ -325,13 +325,45 @@ main {
     cursor: pointer;
     opacity: 0.9;
 }
+/*////////////////////////////////////// Login //////////////////////////////////////*/
 
+#login-form input::-ms-reveal{
+    display: none;
+}
+#login-form label {
+    user-select: none;
+}
+#password-field{
+    display: flex;
+    border-bottom: 1px solid white;
+}
+#password-field input{
+    border: none;
+}
+#reveal-pass-btn{
+    right: 0;
+    top: -50%;
+    border-radius: 8px;
+    background-color: inherit;
+    padding: 0 2px;
+    font-size: larger;
+    cursor: pointer;
+    opacity: 0.5;
+}
+.revealed {
+    opacity: 1 !important;
+}
+.login-error{
+    color:red;
+}
 /*////////////////////////////////// Forms ///////////////////////////////////////////*/
 .login-input {
     width: 100%;
     background-color: transparent;
     color: var(--metallicWhite);
     border-bottom: 1px solid var(--metallicWhite);
+    padding: 0 4px;
+    box-sizing: border-box;
 }
 
 .login-input:focus {

@@ -1,7 +1,7 @@
 <%- include('partials/header'); %>
 
 <section class="flex-column align-center page-text">
-    <div class="box-fx flex-column w100" id="booking-search">
+    <div class="box-fx flex-column w100 box-wide" id="booking-search">
         <h3 class="center-text margin-b">Reservar Ambiente</h3>
         <form action="/api/booking" method="GET" class="flex-column form-width flex-gap justify-center" id="booking-form">
                 <div class="innerFlex flex-gap-s">
@@ -40,7 +40,7 @@
             <input class="page-button" type="submit" value="Buscar"> 
         </form>
     </div>
-    <div class="box-fx w100 flex-column flex-gap-s hide" id="booking-results">
+    <div class="box-fx w100 box-wide flex-column flex-gap-s hide" id="booking-results">
         <h3 class="center-text margin-b">Reservar Ambiente</h3>
         <button class="page-button">Volver</button>
         <div class="scroll-box"></div>

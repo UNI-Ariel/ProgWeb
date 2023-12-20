@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2023 at 08:36 PM
+-- Generation Time: Dec 20, 2023 at 07:46 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -200,7 +200,8 @@ CREATE TABLE `reservas` (
 
 INSERT INTO `reservas` (`id`, `id_ambiente`, `id_periodo`, `id_estado`, `fecha_agregado`, `fecha_reserva`) VALUES
 (2, 2, 1, 2, '2023-12-19 05:12:44', '2023-12-19'),
-(3, 3, 1, 2, '2023-12-19 05:23:27', '2023-12-19');
+(3, 3, 1, 2, '2023-12-19 05:23:27', '2023-12-19'),
+(4, 5, 2, 2, '2023-12-20 06:43:37', '2023-12-21');
 
 -- --------------------------------------------------------
 
@@ -236,6 +237,14 @@ CREATE TABLE `usuarios` (
   `password` varchar(255) NOT NULL,
   `id_grupo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nombre`, `password`, `id_grupo`) VALUES
+(1, 'admin', '$2a$10$AdSLYk0spDSgDCwe0MgxfemiLZyf2X5mhpO5nfcOu6HyUWaoJJa.a', 1),
+(2, 'docente', '$2a$10$85/00arFLGlOBVwgp4RYHOqgWCLsq1WaS6qEDVgV5nM89xsTRU172', 2);
 
 --
 -- Indexes for dumped tables
@@ -340,7 +349,7 @@ ALTER TABLE `periodos`
 -- AUTO_INCREMENT for table `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tipo`
@@ -352,7 +361,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

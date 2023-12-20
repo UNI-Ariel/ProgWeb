@@ -1,8 +1,15 @@
 const ambiente = require('../db/ambiente');
+const usuario = require('../db/usuario');
 const client = require('../utils/client');
+const bcrypt = require('bcryptjs');
 
 async function index_page(req, res){
-    res.render('index', {title: 'Pagina Principal'});
+    const page_param = {title:'Pagina Principal'};
+    if(req.session.logged){
+        page_param['logged'] = true;
+        page_param['userData'] = req.session.userData;
+    }
+    res.render('index', page_param);
 }
 
 function api_info(req, res){
@@ -49,12 +56,65 @@ function api_info(req, res){
     res.json(info);
 }
 
+async function login_request(req, res){
+    if(req.session.logged){
+        res.redirect('/');
+    }
+    else{
+        const request = req.body;
+        if(! 'user' in request || ! 'pass' in request){
+            res.render('login', {title:"iniciar sesión", msg: "Usuario o Contraseña incorrecto."});
+        }
+        else{
+            const user_data = await usuario.find(request.user);
+            if(! user_data.length){
+                res.render('login', {title:"iniciar sesión", msg: "Usuario no existe."});
+            }
+            else{
+                const user_hashed_password = user_data[0].password;
+                const match = await bcrypt.compare(request.pass, user_hashed_password);
+                if(match){
+                    req.session.logged = true;
+                    req.session.userData = {
+                        id: user_data[0].id,
+                        nombre: user_data[0].nombre,
+                        grupo: user_data[0].id_grupo
+                    };
+                    res.redirect('/');
+                }
+                else{
+                    res.render('login', {title:"iniciar sesión", user: request.user, msg: "Contraseña incorrecta."});
+                }
+            }
+        }
+    }
+}
+
 async function login_page(req, res){
-    res.render('login', {title: 'Iniciar sesión'});
+    if(req.session.logged){
+        res.redirect('/');
+    }
+    else{
+        res.render('login', {title: 'Iniciar sesión'});
+    }
 }
 
 async function search_page(req, res){
-    res.render('search', {title: 'Buscar Ambientes Disponibles'});
+    const page_param = {title: 'Buscar Ambientes Disponibles'};
+    if(req.session.logged){
+        page_param['logged'] = true;
+        page_param['userData'] = req.session.userData;
+    }
+    res.render('search', page_param);
+}
+
+async function forbidden_page(req, res){
+    const page_param = {title:"No permitido"};
+    if(req.session.logged){
+        page_param['logged'] = true;
+        page_param['userData'] = req.session.userData;
+    }
+    res.status(403).render('forbidden', page_param);
 }
 
 async function api_search(req, res){
@@ -81,7 +141,9 @@ async function api_search(req, res){
 module.exports = {
     index_page,
     login_page,
-    api_info,
+    login_request,
     search_page,
+    forbidden_page,
+    api_info,
     api_search
 }
