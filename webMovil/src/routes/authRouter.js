@@ -25,7 +25,6 @@ function is_admin(req, res, next){
 }
 
 function api_check_token(req, res, next){
-    console.log('verify log and token');
     const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
     if(req.session.logged){
         next();
@@ -37,7 +36,6 @@ function api_check_token(req, res, next){
             }
             req.session.logged = true;
             req.session.userData = {"id": decoded.id, "nombre": decoded.nombre, "grupo": decoded.grupo};
-            console.log(decoded);
             next();
         });
     }
@@ -47,7 +45,6 @@ function api_check_token(req, res, next){
 }
 
 function api_is_admin(req, res, next){
-    console.log('verify admin');
     if(req.session.userData.grupo === 1){
         next();
     }
@@ -71,10 +68,13 @@ router.get('/bookings', check_log_status, is_admin, controller.check_bookings_pa
 router.get('/bookings/history', check_log_status, is_admin, controller.bookings_history);
 
 //API
+router.get('/api/logout', controller.api_logout);
 //Auth Level 1 Docente
 router.get('/api/booking', api_check_token, controller.api_get_bookables);
 
 router.post('/api/booking/:name', api_check_token, controller.api_add_booking);
+
+router.get('/api/booking/history', api_check_token, controller.api_booking_history);
 
 //Auth Level 2 Administrador
 router.get('/api/ambientes', api_check_token, api_is_admin, controller.api_get_ambientes);
@@ -93,5 +93,7 @@ router.get('/api/bookings', api_check_token, api_is_admin, controller.api_get_bo
 router.get('/api/bookings/:booking', api_check_token, api_is_admin, controller.api_get_booking);
 
 router.post('/api/bookings/:booking', api_check_token, api_is_admin, controller.api_update_booking);
+
+router.get('/api/bookingsHistory', api_check_token, api_is_admin, controller.api_bookings_history);
 
 module.exports = router;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2023 at 07:46 AM
+-- Generation Time: Dec 21, 2023 at 12:16 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -189,6 +189,7 @@ CREATE TABLE `reservas` (
   `id` int(11) NOT NULL,
   `id_ambiente` int(11) NOT NULL,
   `id_periodo` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `id_estado` int(11) NOT NULL,
   `fecha_agregado` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_reserva` date NOT NULL
@@ -198,10 +199,11 @@ CREATE TABLE `reservas` (
 -- Dumping data for table `reservas`
 --
 
-INSERT INTO `reservas` (`id`, `id_ambiente`, `id_periodo`, `id_estado`, `fecha_agregado`, `fecha_reserva`) VALUES
-(2, 2, 1, 2, '2023-12-19 05:12:44', '2023-12-19'),
-(3, 3, 1, 2, '2023-12-19 05:23:27', '2023-12-19'),
-(4, 5, 2, 2, '2023-12-20 06:43:37', '2023-12-21');
+INSERT INTO `reservas` (`id`, `id_ambiente`, `id_periodo`, `id_usuario`, `id_estado`, `fecha_agregado`, `fecha_reserva`) VALUES
+(2, 2, 1, 2, 1, '2023-12-19 05:12:44', '2023-12-19'),
+(3, 3, 1, 2, 2, '2023-12-19 05:23:27', '2023-12-19'),
+(4, 5, 2, 3, 2, '2023-12-20 06:43:37', '2023-12-21'),
+(5, 11, 2, 2, 3, '2023-12-20 22:48:27', '2023-12-20');
 
 -- --------------------------------------------------------
 
@@ -244,7 +246,8 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nombre`, `password`, `id_grupo`) VALUES
 (1, 'admin', '$2a$10$AdSLYk0spDSgDCwe0MgxfemiLZyf2X5mhpO5nfcOu6HyUWaoJJa.a', 1),
-(2, 'docente', '$2a$10$85/00arFLGlOBVwgp4RYHOqgWCLsq1WaS6qEDVgV5nM89xsTRU172', 2);
+(2, 'docente', '$2a$10$85/00arFLGlOBVwgp4RYHOqgWCLsq1WaS6qEDVgV5nM89xsTRU172', 2),
+(3, 'auxdocente', '$2a$10$vPHiV8qlqiqJyvn29.T6PeFUbVlBGCWIH043b.ad6Aq1zY9qP6YuC', 2);
 
 --
 -- Indexes for dumped tables
@@ -296,7 +299,8 @@ ALTER TABLE `reservas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_ambiente` (`id_ambiente`),
   ADD KEY `id_periodo` (`id_periodo`),
-  ADD KEY `id_estado` (`id_estado`);
+  ADD KEY `id_estado` (`id_estado`),
+  ADD KEY `reservas_ibfk_4` (`id_usuario`);
 
 --
 -- Indexes for table `tipo`
@@ -349,7 +353,7 @@ ALTER TABLE `periodos`
 -- AUTO_INCREMENT for table `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tipo`
@@ -361,7 +365,7 @@ ALTER TABLE `tipo`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -386,7 +390,8 @@ ALTER TABLE `facilidades`
 ALTER TABLE `reservas`
   ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_ambiente`) REFERENCES `ambiente` (`id`),
   ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`id_periodo`) REFERENCES `periodos` (`id`),
-  ADD CONSTRAINT `reservas_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id`);
+  ADD CONSTRAINT `reservas_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id`),
+  ADD CONSTRAINT `reservas_ibfk_4` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`);
 
 --
 -- Constraints for table `usuarios`

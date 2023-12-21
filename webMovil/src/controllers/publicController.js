@@ -17,11 +17,15 @@ function api_info(req, res){
     const info = {};
     const GET = {};
     const POST = {};
+    const PUT = {};
     const DELETE ={};
     info.title = 'Información de ayuda sobre las rutas disponibles actuales.';
-    info.rutes = ['GET /api/search', 'GET /api/booking', 'GET /api/ambientes', 'GET /api/ambientes/nombre', 'GET /api/bookings',
-        'GET /api/bookings/:reserva', 'POST /api/booking/:nombre', 'POST /api/ambiente', 'POST /api/bookings/:reserva', 'DELETE /api/ambientes/:name'];
-
+    info.rutes = ['GET /api/logout', 'GET /api/search', 'GET /api/booking', 'GET /api/booking/history', 'GET /api/ambientes',
+        'GET /api/ambientes/nombre', 'GET /api/bookings', 'GET /api/bookings/:reserva', 'GET /api/bookingsHistory',
+        'POST /api/login', 'POST /api/booking/:nombre', 'POST /api/ambientes', 'POST /api/bookings/:reserva', 
+        'PUT /api/ambientes/:nombre', 'DELETE /api/ambientes/:name'];
+    
+    GET['/api/logout']= 'Permite cerrar la sesion iniciada con un token.';
     GET['/api/search'] = 'Permite buscar ambientes disponibles.\n' + 
         'Parametros URL:\nfecha: Es obligatoria y debe estar en formato YYYY-MM-DD.\n' +
         'horario: Es obligatoria y debe ser un numero de periodo (ver periodos en /api/info).\n' +
@@ -31,27 +35,49 @@ function api_info(req, res){
         'horario: Es obligatoria y debe ser un numero de periodo (ver periodos en /api/info).\n' +
         'capacidad: Opcional, debe ser un numero.\ntipo: Opcional, debe ser un tipo de ambiente valido (ver tipos en /api/info).\n' +
         'facilidades: Opcional, debe ser una (o varias) facilidad(es) valida(s) (ver facilidades en /api/info).';
+    GET['/api/booking/history'] = 'Permite ver el historial de las reservas realizadas.\nParametros URL:\n' +
+        'fecha: Opcional, debe estar en formato YYYY-MM-DD.\npage: Opcional, para el numero de página.\n' +
+        'perPage: Opcional, para resultados por página.';
     GET['/api/ambientes'] = 'Permite obtener todos los ambientes.\nParametros URL:\npage: Opcional, para el numero de página.\n' +
         'perPage: Opcional, para resultados por página.';
     GET['/api/ambientes/nombre'] = 'Permite obtener los datos de un ambiente particular.\nParametros URL:\nnombre: Nombre del ambiente.';
     GET['/api/bookings'] = 'Permite ver todas las reservas que estan pendientes de aceptar o rechazar.\nParametros URL:\n' +
         'page: Opcional, para el numero de página.\nperPage: Opcional, para resultados por página.';
     GET['/api/bookings/:reserva'] = 'Permite obtener la informacion de una reserva en particular.\nParametros URL:\nreserva: Numero de la reserva.';
+    GET['/api/bookingsHistory'] = 'Permite ver el historial de las reservas que han hecho los usuarios y que ya no estan pendientes.\n' +
+        'Parametros URL:\nfecha: Opcional, debe estar en formato YYYY-MM-DD.\npage: Opcional, para el numero de página.' +
+        'perPage: Opcional, para resultados por página.';
 
+    POST['/api/login'] = 'Permite obtener un token para las operaciones API, el cual se debe enviar en el header de las solicitudes.\n' +
+        'Parametros requeridos en el BODY:\nuser: El nombre de usuario.\npass: La contraseña del usuario.';
     POST['/api/booking/:nombre'] = 'Permite enviar una solicitud de reserva para el ambiente especifico.\nParametros URL:\n' +
         'nombre: Nombre del ambiente.\nParametros requeridos en el BODY:\nfecha: Debe estar en formato YYYY-MM-DD.\n' +
         'periodo: debe ser un numero de periodo (ver periodos en /api/info).';
     POST['/api/ambiente'] = 'Permite agregar un nuevo ambiente.\nParametros requeridos en el BODY:\n' +
-        'nombre: Una cadena, puede tener numeros, letras del alfabeto ingles y un espacio entre palabras.\n' +
-        'tipo: un tipo valido (ver tipos en /api/info).\nubicacion: Una cadena, debe ser no vacia.\ncapacidad: Un numero.\n' +
-        'descripcion: Opcional, Alguna descripcion adicional.';
-    POST['/api/bookings/:reserva'] = 'Permite aceptar o rechazar una reserva pendiente.\nParametros URL:\n' +
-        'reserva: Numero de la reserva.\nParametros requeridos en el BODY:\naction: Una cadena, "accept" para aceptar la reserva, "reject" para rechazar la reserva.';
+        'nombre: Una cadena, puede tener numeros y letras del alfabeto ingles sin espacios. 64 caracteres max.\n' +
+        'tipo: un tipo valido (ver tipos en /api/info).\nubicacion: Una cadena, debe ser no vacia. 200 caracteres max.\n' +
+        'capacidad: Un numero. Entre 1 y 500.\ndescripcion: Alguna descripcion adicional. Puede ser vacio, pero debe existir el parametro. 200 caracteres max.\n' +
+        'facilidades: Opcional, una o más facilidades validas (ver facilidades en /api/info).\n' +
+        '        Si se incluye el parametro, no debe ser vacio y siempre debe ser un valor o valores validos.\n' +
+        '        Si no se desea agregar facilidades, no agregar el parametro.\n' +
+        '        Si es un solo valor, puede ir solo el valor o el valor dentro un arreglo.\n' +
+        '        Si son varios valores, deben estar en un arreglo.';
+
+    PUT['/api/ambientes/:nombre'] = 'Permite actualizar los datos de un ambiente.\nParametros URL:\n' +
+        'nombre: El nombre del ambiente que se va a actualizar.\n' +
+        'Parametros necesarios en el BODY: Es necesario que haya algun cambio en algun valor para actualizar.\n' +
+        'nombre: el nombre actual o actualizado.\ntipo: un tipo valido (ver tipos en /api/info).' +
+        'ubicacion: Una cadena, debe ser no vacia.\ncapacidad: Un numero.\ndescripcion: Opcional, Alguna descripcion adicional.\n' +
+        'facilidades: Considedar que\n' +
+        '   Si no se envia este parametro, se quitara todas las facilidades que tenga el Ambiente si es que los tenia.\n' +
+        '   Para mantener las facilidades actuales, se debe mandar las mismas facilidades que tenia el ambiente.\n' +
+        '   Una o más facilidades validas a cambiar (ver facilidades  en /api/info).';
 
     DELETE['/api/ambientes/:name'] = 'Permite deshabilitar un ambiente.\nParametros URL:\nnombre: Nombre del ambiente.';
     
     info.GET = GET;
     info.POST = POST;
+    info.PUT = PUT;
     info.DELETE = DELETE;
     info.propiedades = ambiente.get_properties();
     res.json(info);
@@ -120,9 +146,13 @@ async function forbidden_page(req, res){
 
 async function api_login(req, res){
     const api_res = {};
-    if( ! ('user' in req.body) || ! ('pass' in req.body)){
+    if(req.session.logged){
+        api_res.code = 200;
+        api_res.body = "Already signed in.";
+    }
+    else if( ! ('user' in req.body) || ! ('pass' in req.body)){
         api_res.code = 400;
-        api_res.body = "Missing login parameters";
+        api_res.body = "Missing login parameters.";
     }
     else{
         const user_data = await usuario.find(req.body.user);
@@ -141,10 +171,11 @@ async function api_login(req, res){
                 const id = user_data[0].id;
                 const nombre = user_data[0].nombre;
                 const grupo = user_data[0].id_grupo;
-                console.log(id, nombre, grupo);
                 const token = jwt.sign({id, nombre, grupo}, "dc-server-v3-ge2m-Y23", {expiresIn: "2h"});
                 api_res.code = 200;
                 api_res.body = token;
+                req.session.logged = true;
+                req.session.userData = {id, nombre, grupo};
             }
         }
     }

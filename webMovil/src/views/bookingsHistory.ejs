@@ -16,13 +16,15 @@
                     <th>Usuario</th>
                     <th>Ambiente</th>
                     <th>Fecha</th>
+                    <th>Horario</th>
                     <th>Estado</th>
                 </tr>
                 <% data.forEach(function (amb) {%>
                     <tr>
                         <td> <%= amb.usuario %> </td>
-                        <td> <%= amb.nombre %> </td>
+                        <td> <%= amb.ambiente %> </td>
                         <td> <%= amb.fecha %> </td>
+                        <td> <%= amb.horario %> </td>
                         <td> <%= amb.estado %> </td>
                     </tr>
                 <% } ) %>

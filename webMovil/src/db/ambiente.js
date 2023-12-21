@@ -147,7 +147,7 @@ class Ambiente{
             else if( ! new_data.facilidades && current_ambient.facilidades){
                 return await this.remove_facilities_from_ambient(current_ambient.id, current_ambient.facilidades.split(','));
             }
-            else{
+            else if ( new_data.facilidades && current_ambient.facilidades){
                 const current_facilities = current_ambient.facilidades.split(',');
                 const updated_facilities = Array.isArray(new_data.facilidades) ? new_data.facilidades : [new_data.facilidades];
                 const add_array = [];
@@ -225,7 +225,6 @@ class Ambiente{
     }
 
     async book(ambient, params){
-        console.log(ambient, params);
         let sql = 'SELECT * FROM reservas WHERE id_ambiente=? AND id_periodo=? AND id_estado !=?';
         let values = [ambient.id, params.horario, 3];
         const conflict = await db.query(sql, values);
@@ -259,8 +258,10 @@ class Ambiente{
         const page = 'page' in filters ? filters.page : this.page;
         const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
         const offset = (page - 1) * perPage;
-        const sql = 'SELECT r.id reserva, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, a.nombre, t.nombre tipo, a.capacidad FROM ambiente a ' +
-                         'LEFT JOIN reservas r on a.id=r.id_ambiente LEFT JOIN tipo t on t.id=a.id_tipo ' +
+        const sql = 'SELECT r.id reserva, u.nombre usuario, a.nombre ambiente, t.nombre tipo, a.capacidad, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, ' +
+                         'CONCAT( TIME_FORMAT(p.inicia, "%H:%i"),"-", TIME_FORMAT(p.termina, "%H:%i") ) horario ' +
+                         'FROM ambiente a LEFT JOIN reservas r on a.id=r.id_ambiente LEFT JOIN tipo t on t.id=a.id_tipo ' +
+                         'LEFT JOIN periodos p on p.id=r.id_periodo LEFT JOIN usuarios u on u.id=r.id_usuario ' +
                          'WHERE r.id_estado=? ORDER BY r.fecha_agregado LIMIT ? OFFSET ?';
         const values = [this.estados.Pendiente, perPage, offset];
         const data = await db.query(sql, values);
@@ -268,7 +269,11 @@ class Ambiente{
     }
 
     async get_booking(id_reserva){
-        const sql = 'SELECT * FROM reservas where id=?';
+        const sql = 'SELECT r.id reserva, u.nombre usuario, a.nombre ambiente, ' +
+                'DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, ' +
+                'CONCAT( TIME_FORMAT(p.inicia, "%H:%i"),"-", TIME_FORMAT(p.termina, "%H:%i") ) horario, e.nombre estado, ' +
+                'r.fecha_agregado agregado FROM reservas r  LEFT JOIN ambiente a on a.id=r.id_ambiente LEFT JOIN usuarios u on r.id_usuario=u.id ' +
+                'LEFT JOIN periodos p on r.id_periodo=p.id LEFT JOIN estado e on e.id=r.id_estado  where r.id=?';
         const data = await db.query(sql, [id_reserva]);
         return data;
     }
@@ -278,15 +283,16 @@ class Ambiente{
         const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
         const offset = (page - 1) * perPage;
         const values = [];
-        let sql = 'SELECT a.nombre, t.nombre tipo, a.capacidad, a.ubicacion, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, e.nombre estado, r.id reserva ' +
-                    'FROM ambiente a LEFT JOIN reservas r on r.id_ambiente=a.id LEFT JOIN tipo t on t.id=a.id_tipo LEFT JOIN estado e on e.id=r.id_estado ' + 
-                    'WHERE r.id_usuario=? ';
+        let sql = 'SELECT r.id reserva, a.nombre ambiente, t.nombre tipo, a.capacidad, a.ubicacion, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, ' +
+                    'CONCAT( TIME_FORMAT(p.inicia, "%H:%i"),"-", TIME_FORMAT(p.termina, "%H:%i") ) horario, e.nombre estado FROM ambiente a ' + 
+                    'LEFT JOIN reservas r on r.id_ambiente=a.id LEFT JOIN tipo t on t.id=a.id_tipo LEFT JOIN estado e on e.id=r.id_estado ' +
+                    'LEFT JOIN periodos p on r.id_periodo=p.id WHERE r.id_usuario=? ';
         values.push(id_usuario);
         if('fecha' in filters){
             sql += 'AND r.fecha_reserva=? ';
             values.push(filters.fecha);
         }
-        sql += 'ORDER BY r.fecha_agregado LIMIT ? OFFSET ?';
+        sql += 'ORDER BY r.fecha_reserva DESC LIMIT ? OFFSET ?';
         values.push(perPage, offset);
         const data = await db.query(sql, values);
         return data;
@@ -297,15 +303,16 @@ class Ambiente{
         const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
         const offset = (page - 1) * perPage;
         const values = [];
-        let sql = 'SELECT u.nombre usuario, a.nombre, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, e.nombre estado ' + 
+        let sql = 'SELECT u.nombre usuario, a.nombre ambiente, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, ' + 
+                    'CONCAT( TIME_FORMAT(p.inicia, "%H:%i"),"-", TIME_FORMAT(p.termina, "%H:%i") ) horario, e.nombre estado ' +
                     'FROM ambiente a LEFT JOIN reservas r on r.id_ambiente=a.id LEFT JOIN estado e on e.id=r.id_estado ' +
-                    'LEFT JOIN usuarios u on u.id=r.id_usuario WHERE r.id_estado !=? ';
+                    'LEFT JOIN usuarios u on u.id=r.id_usuario LEFT JOIN periodos p on p.id=r.id_periodo WHERE r.id_estado !=? ';
         values.push(this.estados.Pendiente);
         if('fecha' in filters){
             sql += 'AND r.fecha_reserva=? ';
             values.push(filters.fecha);
         }
-        sql += 'ORDER BY r.fecha_agregado LIMIT ? OFFSET ?';
+        sql += 'ORDER BY r.fecha_reserva DESC LIMIT ? OFFSET ?';
         values.push(perPage, offset);
         const data = await db.query(sql, values);
         return data;

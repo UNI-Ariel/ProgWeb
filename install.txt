@@ -28,8 +28,9 @@ Instrucciones
         Administrador 1:
             nombre de usuario: admin
             contraseña: admintest
-18.  Si se utiliza las rutas api que requieren autentificacion sin usar un navegador,
-        primero utilizar la ruta /api/login para obtener un token con alguna de las cuentas anteriores
-        y agregar el token en el header del Request. Ejemplo: headers:{Authorization: "Bearer token"}
+18.  Si se utiliza las rutas api que requieren autentificacion sin usar un navegador, utilizar la ruta /api/login
+        para iniciar sesion y adicionalmente obtener un token usando alguno de los usuarios anteriores.
+        El token se puede usar en en el header del Request. Ejemplo: headers:{Authorization: "Bearer token"}
         En el ejemplo la llave se llama Authorization y el valor es "Bearer token", la palabra "Bearer",
-        un espacio y el "token" obtenido.
+        un espacio y el "token" obtenido. Usando el token, si no esta iniciado sesion, en cualquier ruta,
+        proporcionando este token se puede realizar las operaciones iniciandor la sesion automaticamente.

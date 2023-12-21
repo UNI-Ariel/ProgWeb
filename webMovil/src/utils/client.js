@@ -4,13 +4,22 @@ const ambiente = require('../db/ambiente');
 class Client{    
     is_ambient_valid_data(data){
         //Verify existence of required keys
-        if(! 'nombre' in data || ! 'tipo' in data || ! 'ubicacion' in data || ! 'descripcion' in data || ! 'capacidad' in data){
+        if(! ('nombre' in data) || ! ('tipo' in data) || ! ('ubicacion' in data) || ! ('descripcion' in data) || ! ('capacidad' in data) ){
             return false;
         }
         //Verify strict name, ubicacion not empty and numeric capacidad
         if( ! tools.is_strict_text(data.nombre) || ! data.ubicacion.trim().length || ! tools.is_numeric(data.capacidad)){
             return false;
         }
+
+        if(data.nombre.length > 64 || data.ubicacion.length > 200 || ! tools.in_range(data.capacidad, 1, 500)){
+            return false;
+        }        
+
+        if(data.descripcion && data.descripcion.length > 200){
+            return false;
+        }
+
         //Verify existence of an actual type for ambient
         const tipos = ambiente.get_tipos();
         if( ! (data.tipo in tipos) ){
@@ -18,6 +27,12 @@ class Client{
         }
         //If facilities exists verify they are valid
         if( 'facilidades' in data){
+            if( data.facilidades === ""){
+                return false;
+            }
+            if( Array.isArray(data.facilidades) && ! data.facilidades.length){
+                return false;
+            }
             const facilidades = ambiente.get_facilidades();
             let values = data.facilidades;
             if( ! Array.isArray(values) ){
@@ -67,7 +82,7 @@ class Client{
     }
 
     is_search_available_valid_query(query){
-        if(! 'fecha' in query || ! 'horario' in query || ! 'capacidad' in query){
+        if(! ('fecha' in query) || ! ('horario' in query) || ! ('capacidad' in query)){
             return false;
         }
         if( ! tools.is_date(query.fecha) || ! tools.is_numeric(query.horario) || ! tools.is_numeric(query.capacidad)){
@@ -106,14 +121,17 @@ class Client{
                 }
             }
         }
+        if('fecha' in query && ! tools.is_date(query.fecha)){
+            return false;
+        }
         return true;
     }
 
     check_booking_filters(query){
-        if(! 'fecha' in query || ! 'horario' in query){
+        if(! ('fecha' in query) || ! ('horario' in query) ){
             return false;
         }
-        if( ! tools.is_date(query.fecha) || ! tools.is_numeric(query.horario) ){
+        if( ! tools.is_numeric(query.horario) ){
             return false;
         }
         const periodos = ambiente.get_periodos();
@@ -124,7 +142,7 @@ class Client{
     }
 
     check_booking_valid_action(query){
-        if(! 'action' in query){
+        if(! ('action' in query) ){
             return false;
         }
         if( ! tools.is_alphabetical(query.action)){

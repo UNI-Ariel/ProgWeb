@@ -3,7 +3,9 @@ Rutas:
     GET  
         /api/info : Información adicional sobre las API disponibles.
 
-        /api/search : Permite buscar ambientes disponibles.
+        /api/logout : Permite cerrar la sesion iniciada con un token.
+
+        /api/search : Permite buscar ambientes disponibles. Limite de 5 resultados.
             Parametros URL:
                 fecha: Es obligatoria y debe estar en formato YYYY-MM-DD.
                 horario: Es obligatoria y debe ser un numero de periodo (ver periodos en /api/info).
@@ -16,6 +18,14 @@ Rutas:
                 capacidad: Opcional, debe ser un numero.
                 tipo: Opcional, debe ser un tipo de ambiente valido (ver tipos en /api/info).
                 facilidades: Opcional, debe ser una (o varias) facilidad(es) valida(s) (ver facilidades en /api/info).
+                page: Opcional, para el numero de página.
+                perPage: Opcional, para resultados por página.
+
+        /api/booking/history : Permite ver el historial de las reservas realizadas.
+            Parametros URL:
+                fecha: Opcional, debe estar en formato YYYY-MM-DD.
+                page: Opcional, para el numero de página.
+                perPage: Opcional, para resultados por página.
 
         /api/ambientes : Permite obtener todos los ambientes.
             Parametros URL:
@@ -35,28 +45,60 @@ Rutas:
             Parametros URL:
                 reserva: Numero de la reserva.
 
+        /api/bookingsHistory : Permite ver el historial de las reservas que han hecho los usuarios y que ya no estan pendientes.
+            Parametros URL:
+                fecha: Opcional, debe estar en formato YYYY-MM-DD.
+                page: Opcional, para el numero de página.
+                perPage: Opcional, para resultados por página.
 
-    POST 
+
+    POST
+        /api/login : Permite iniciar sesion a travez de la API. Tambien permite obtener un token para las operaciones API, el cual se debe enviar en el header de las solicitudes si es necesario.
+            Parametros requeridos en el BODY:
+                user: El nombre de usuario.
+                pass: La contraseña del usuario.
+
         /api/booking/:nombre : Permite enviar una solicitud de reserva para el ambiente especifico.
             Parametros URL:
                 nombre: Nombre del ambiente.
             Parametros requeridos en el BODY:
                 fecha: Debe estar en formato YYYY-MM-DD.
-                periodo: debe ser un numero de periodo (ver periodos en /api/info).
+                horario: debe ser un numero de periodo (ver periodos en /api/info).
 
-        /api/ambiente : Permite agregar un nuevo ambiente.
+        /api/ambientes : Permite agregar un nuevo ambiente.
             Parametros requeridos en el BODY:
-                nombre: Una cadena, puede tener numeros, letras del alfabeto ingles y un espacio entre palabras.
+                nombre: Una cadena, puede tener numeros y letras del alfabeto ingles sin espacios. 64 caracteres max.
                 tipo: un tipo valido (ver tipos en /api/info).
-                ubicacion: Una cadena, debe ser no vacia.
-                capacidad: Un numero.
-                descripcion: Opcional, Alguna descripcion adicional.
+                ubicacion: Una cadena, debe ser no vacia. 200 caracteres max.
+                capacidad: Un numero. Entre 1 y 500.
+                descripcion: Alguna descripcion adicional. Puede ser vacio, pero debe existir el parametro. 200 caracteres max.
+                facilidades: Opcional, una o más facilidades validas (ver facilidades en /api/info). 
+                        Si se incluye el parametro, no debe ser vacio y siempre debe ser un valor o valores validos.
+                        Si no se desea agregar facilidades, no agregar el parametro.
+                        Si es un solo valor, puede ir solo el valor o el valor dentro un arreglo.
+                        Si son varios valores, deben estar en un arreglo.
         
         /api/bookings/:reserva : Permite aceptar o rechazar una reserva pendiente.
             Parametros URL:
                 reserva: Numero de la reserva.
             Parametros requeridos en el BODY:
                 action: Una cadena, "accept" para aceptar la reserva, "reject" para rechazar la reserva.
+
+
+    PUT
+        /api/ambientes/:nombre : Permite actualizar los datos de un ambiente.
+            Parametros URL:
+                nombre: El nombre del ambiente que se va a actualizar.
+            Parametros necesarios en el BODY: Es necesario que haya algun cambio en algun valor para actualizar.
+                nombre: el nombre actual o actualizado
+                tipo: un tipo valido (ver tipos en /api/info).
+                ubicacion: Una cadena, debe ser no vacia.
+                capacidad: Un numero.
+                descripcion: Opcional, Alguna descripcion adicional.
+                facilidades: Considedar que
+                    Si no se envia este parametro, se quitara todas las facilidades que tenga el Ambiente si es que los tenia.
+                    Para mantener las facilidades actuales, se debe mandar las mismas facilidades que tenia el ambiente. 
+                    Una o más facilidades validas a cambiar/quitar (ver facilidades  en /api/info).
 
 
     DELETE

@@ -2,6 +2,20 @@ const ambiente = require('../db/ambiente');
 const client = require('../utils/client');
 const tools = require('../utils/tools');
 
+async function api_logout(req, res){
+    const api_res = {};
+    if(req.session.logged){
+        req.session.destroy();
+        api_res.code = 200;
+        api_res.body = "Sesion closed.";
+    }
+    else{
+        api_res.code = 200;
+        api_res.body = "Sesion was not open.";
+    }
+    res.status(api_res.code).json(api_res);
+}
+
 async function api_get_ambientes(req, res){
     const api_res = {};
     if( ! client.check_filters(req.query) ){
@@ -50,7 +64,7 @@ async function api_post_ambiente(req, res){
     if( ! client.is_ambient_valid_data(data) ){
         api_res.code = 400;
         api_res.body = "Invalid or missing parameters.";
-    }
+    }    
     else{
         const exists = await ambiente.find(data.nombre);
         if(exists.length){
@@ -66,7 +80,6 @@ async function api_post_ambiente(req, res){
             else{
                 api_res.code = 500;
                 api_res.body = "An error occured while adding a new ambient.";
-                console.error("Failed to add new ambiente", req.body);
             }
         }
     }
@@ -201,6 +214,27 @@ async function api_add_booking(req, res){
     res.status(api_res.code).json(api_res);
 }
 
+async function api_booking_history(req, res){
+    const api_res = {};
+    const filters = req.query;
+    if( ! client.check_filters(filters) ){
+        api_res.code = 400;
+        api_res.body = "Invalid URL parameters.";
+    }
+    else{
+        const data = await ambiente.get_booking_history(req.session.userData.id, filters);
+        if(data.length){
+            api_res.code = 200;
+            api_res.body = data;
+        }
+        else{
+            api_res.code = 404;
+            api_res.body = "There are no records to display";
+        }
+    }
+    res.status(api_res.code).json(api_res);
+}
+
 async function api_get_bookings(req, res){
     const api_res = {};
     const filters = req.query;
@@ -263,7 +297,7 @@ async function api_update_booking(req, res){
         }
         else{
             const estados = ambiente.get_estados();
-            if(reserva[0].id_estado !== estados.Pendiente){
+            if(estados[reserva[0].estado] !== estados.Pendiente){
                 api_res.code = 404;
                 api_res.body = "The Booking state has already been set.";
             }
@@ -279,8 +313,28 @@ async function api_update_booking(req, res){
                 }
             }
         }
+    }    
+    res.status(api_res.code).json(api_res);
+}
+
+async function api_bookings_history(req, res){
+    const api_res = {};
+    const filters = req.query;
+    if( ! client.check_filters(filters) ){
+        api_res.code = 400;
+        api_res.body = "Invalid URL parameters.";
     }
-    
+    else{
+        const data = await ambiente.get_bookings_history(filters);
+        if(data.length){
+            api_res.code = 200;
+            api_res.body = data;
+        }
+        else{
+            api_res.code = 404;
+            api_res.body = "There are no records to display";
+        }
+    }
     res.status(api_res.code).json(api_res);
 }
 
@@ -340,6 +394,7 @@ async function bookings_history(req, res){
 }
 
 module.exports = {
+    api_logout,
     api_get_ambientes,
     api_get_ambiente,
     api_post_ambiente,
@@ -347,9 +402,11 @@ module.exports = {
     api_delete_ambiente,
     api_get_bookables,
     api_add_booking,
+    api_booking_history,
     api_get_booking,
     api_get_bookings,
     api_update_booking,
+    api_bookings_history,
     logout,
     ambientes_page,
     booking_page,

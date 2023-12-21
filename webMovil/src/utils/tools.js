@@ -27,23 +27,13 @@ class Tools{
         const js_date = new Date(aa, mm, dd);
         return js_date.getFullYear() === aa && js_date.getMonth() === mm && js_date.getDate() === dd;
     }
-}
 
-function get_filters(query){
-    const filters = {};
-    if('page' in query){
-        const page = query.page;
-        if(numeric(page) && page > 0){
-            filters.page = page;
+    in_range(number, min, max){
+        if(number < min || number > max){
+            return false;
         }
+        return true;
     }
-    if('perPage' in query){
-        const perPage = query.perPage;
-        if(numeric(perPage) && perPage > 0){
-            filters.perPage = perPage;
-        }
-    }
-    return filters;
 }
 
 module.exports = new Tools();
