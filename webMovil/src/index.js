@@ -4,25 +4,11 @@ const favicon = require('serve-favicon');
 const session = require('express-session');
 const path = require('path');
 
-//Routers
-const public = require('./routes/publicRouter');
-const auth = require('./routes/authRouter');
-const other = require('./routes/other');
-
 //Utils
 const arguments = require('./utils/arguments');
 
 //Config
 const config = require('./config');
-
-//database
-const ambiente = require('./db/ambiente');
-
-//Server
-const app = express();
-
-//Initialize database data
-ambiente.init_properties();
 
 //Check Arguments
 const args = arguments.getArguments(process.argv);
@@ -32,6 +18,20 @@ if('app_port' in args){
 if('db_port' in args){
     config.localDB.port = args.db_port;
 }
+
+//Routers
+const public = require('./routes/publicRouter');
+const auth = require('./routes/authRouter');
+const other = require('./routes/other');
+
+//database
+const ambiente = require('./db/ambiente');
+
+//Server
+const app = express();
+
+//Initialize database data
+ambiente.init_properties();
 
 //Settings
 app.set('view engine', 'ejs');

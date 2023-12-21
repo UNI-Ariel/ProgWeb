@@ -3,7 +3,7 @@ const { Router } = require('express');
 const router = Router();
 
 router.all( '/api/*', (req, res) =>{
-    res.status(404).json({code:"404", body: "Page not Found."});
+    res.status(404).json({code:"404", body: "Not Found."});
 });
 
 router.all( '*', (req, res) =>{

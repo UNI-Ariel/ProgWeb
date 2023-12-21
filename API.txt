@@ -1,5 +1,27 @@
-Descripción de las API disponibles:
-Rutas:
+Descripción de las rutas API disponibles:
+Lista:
+    GET
+        /api/info
+        /api/logout
+        /api/search
+        /api/booking
+        /api/booking/history
+        /api/ambientes
+        /api/ambientes/:nombre
+        /api/bookings
+        /api/bookings/:reserva
+        /api/bookingsHistory
+    POST
+        /api/login
+        /api/booking/:nombre
+        /api/ambientes
+        /api/bookings/:reserva
+    PUT
+        /api/ambientes/:nombre
+    DELETE
+        /api/ambientes/:name
+        
+Descripción:
     GET  
         /api/info : Información adicional sobre las API disponibles.
 
@@ -67,9 +89,9 @@ Rutas:
 
         /api/ambientes : Permite agregar un nuevo ambiente.
             Parametros requeridos en el BODY:
-                nombre: Una cadena, puede tener numeros y letras del alfabeto ingles sin espacios. 64 caracteres max.
+                nombre: Una cadena, puede tener numeros y letras del alfabeto ingles unicamente. Adminte un unico espacio entre palabras. 32 caracteres max.
                 tipo: un tipo valido (ver tipos en /api/info).
-                ubicacion: Una cadena, debe ser no vacia. 200 caracteres max.
+                ubicacion: Una cadena, debe ser no vacia. 100 caracteres max.
                 capacidad: Un numero. Entre 1 y 500.
                 descripcion: Alguna descripcion adicional. Puede ser vacio, pero debe existir el parametro. 200 caracteres max.
                 facilidades: Opcional, una o más facilidades validas (ver facilidades en /api/info). 

@@ -1,4 +1,4 @@
-Instrucciones
+Instrucciones de Instalación
 1.  instalar nodejs https://nodejs.dev/
 2.  Clonar nuestro repositorio https://github.com/UNI-Ariel/ProgWeb en una carpeta del escritorio
 3.  Abrir un terminal
@@ -14,11 +14,22 @@ Instrucciones
 12.  En el navegador 'phpmyadmin' agregar una nueva base de datos con nombre: cloud-db
 13.  A esta base de datos importar las tablas del archivo webMovil/src/db/tablas.sql
 
-14.  Para agregar una reserva para un ambiente es necesario que se haya iniciado sesión y el usuario sea docente o administrador
-15.  Para ver y administrar los ambientes es necesario que se haya iniciado sesión y el usuario sea administrador
-16.  Para ver y administrar las ambientes es necesario que se haya iniciado sesión y el usuario sea administrador
+14.  Es posible iniciar la aplicación con un puerto personalizado indicandolo con el parametro ap al momento de iniciar la aplicación
+        Ejemplo: npm start ap 5000
 
-17.  Cuentas docente y administrador
+15.  Es posible iniciar la aplicación con un puerto para la base de datos personalizado indicandolo con el parametro dp al momento de iniciar la aplicación
+        Ejemplo: npm start dp 33065, se puede usar junto con el parametro ap: npm start ap 5000 dp 33065
+        Considerar que el puerto por defecto es 3306 el cual tambien lo es de xampp para mysql por lo que por lo general no es necesario utilizar el parametro dp.
+
+
+Notas sobre la aplicación
+1. Navegación en la pagina web
+        -Se puede buscar ambientes disponibles sin iniciar sesión
+        -Para agregar una reserva o ver el historial de reservas de ambientes es necesario que se haya iniciado sesión y el usuario sea docente o administrador.
+        -Para ver y administrar los ambientes (agregar, editar, deshabilitar) es necesario que se haya iniciado sesión y el usuario sea administrador.
+        -Para ver y administrar las reservas de ambientes y el historial de reservas (admin) es necesario que se haya iniciado sesión y el usuario sea administrador.
+
+2.  Cuentas docente y administrador
         Docente 1:
             nombre de usuario: docente
             contraseña: docentetest
@@ -28,9 +39,10 @@ Instrucciones
         Administrador 1:
             nombre de usuario: admin
             contraseña: admintest
-18.  Si se utiliza las rutas api que requieren autentificacion sin usar un navegador, utilizar la ruta /api/login
+
+3.  Si se utiliza las rutas api que requieren autentificacion sin usar un navegador, utilizar la ruta /api/login
         para iniciar sesion y adicionalmente obtener un token usando alguno de los usuarios anteriores.
         El token se puede usar en en el header del Request. Ejemplo: headers:{Authorization: "Bearer token"}
-        En el ejemplo la llave se llama Authorization y el valor es "Bearer token", la palabra "Bearer",
+        En el ejemplo la llave se llama Authorization y el valor es "Bearer token": la palabra "Bearer",
         un espacio y el "token" obtenido. Usando el token, si no esta iniciado sesion, en cualquier ruta,
-        proporcionando este token se puede realizar las operaciones iniciandor la sesion automaticamente.
+        proporcionando este token se puede realizar las operaciones iniciando la sesión automaticamente.

@@ -54,8 +54,8 @@ function api_info(req, res){
         'nombre: Nombre del ambiente.\nParametros requeridos en el BODY:\nfecha: Debe estar en formato YYYY-MM-DD.\n' +
         'periodo: debe ser un numero de periodo (ver periodos en /api/info).';
     POST['/api/ambiente'] = 'Permite agregar un nuevo ambiente.\nParametros requeridos en el BODY:\n' +
-        'nombre: Una cadena, puede tener numeros y letras del alfabeto ingles sin espacios. 64 caracteres max.\n' +
-        'tipo: un tipo valido (ver tipos en /api/info).\nubicacion: Una cadena, debe ser no vacia. 200 caracteres max.\n' +
+        'nombre: Una cadena, puede tener numeros y letras del alfabeto ingles unicamente. Adminte un unico espacio entre palabras. 32 caracteres max.\n' +
+        'tipo: un tipo valido (ver tipos en /api/info).\nubicacion: Una cadena, debe ser no vacia. 100 caracteres max.\n' +
         'capacidad: Un numero. Entre 1 y 500.\ndescripcion: Alguna descripcion adicional. Puede ser vacio, pero debe existir el parametro. 200 caracteres max.\n' +
         'facilidades: Opcional, una o más facilidades validas (ver facilidades en /api/info).\n' +
         '        Si se incluye el parametro, no debe ser vacio y siempre debe ser un valor o valores validos.\n' +

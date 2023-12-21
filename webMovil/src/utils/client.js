@@ -12,7 +12,7 @@ class Client{
             return false;
         }
 
-        if(data.nombre.length > 64 || data.ubicacion.length > 200 || ! tools.in_range(data.capacidad, 1, 500)){
+        if(data.nombre.length > 32 || data.ubicacion.length > 100 || ! tools.in_range(data.capacidad, 1, 500)){
             return false;
         }        
 
