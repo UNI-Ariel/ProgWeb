@@ -18,9 +18,18 @@ Instrucciones
 15.  Para ver y administrar los ambientes es necesario que se haya iniciado sesión y el usuario sea administrador
 16.  Para ver y administrar las ambientes es necesario que se haya iniciado sesión y el usuario sea administrador
 
-17.  La cuenta de prueba de un docente es: 
-        nombre de usuario: docente
-        contraseña: docentetest
-18.  La cuenta de prueba de un administrador es:
-        nombre de usuario: admin
-        contraseña: admintest
+17.  Cuentas docente y administrador
+        Docente 1:
+            nombre de usuario: docente
+            contraseña: docentetest
+        Docente 2:
+            nombre de usuario: auxdocente
+            contraseña: docentetestother
+        Administrador 1:
+            nombre de usuario: admin
+            contraseña: admintest
+18.  Si se utiliza las rutas api que requieren autentificacion sin usar un navegador,
+        primero utilizar la ruta /api/login para obtener un token con alguna de las cuentas anteriores
+        y agregar el token en el header del Request. Ejemplo: headers:{Authorization: "Bearer token"}
+        En el ejemplo la llave se llama Authorization y el valor es "Bearer token", la palabra "Bearer",
+        un espacio y el "token" obtenido.

@@ -186,6 +186,7 @@ async function api_add_booking(req, res){
             api_res.body = "The ambient doesn't exist.";
         }
         else{
+            filters['uid'] = req.session.userData.id;
             const result = await ambiente.book(ambient[0], filters);
             if(result){
                 api_res.code = 200;
@@ -289,7 +290,11 @@ async function logout(req, res){
 }
 
 async function ambientes_page(req, res){
-    const data = await ambiente.get_all({});
+    let filters = req.query;
+    if( ! client.check_filters(req.query) ){
+        filters = {};
+    }
+    const data = await ambiente.get_all(filters);
     const page_param = {title:'Administrar Ambientes', data, logged:true};
     page_param['userData'] = req.session.userData;
     res.render('adminAmbients', page_param);
@@ -301,21 +306,34 @@ function booking_page(req, res){
     res.render('booking', page_param);
 }
 
+async function booking_history(req, res){
+    let filters = req.query;
+    if( !client.check_filters(filters) ){
+        filters = {};
+    }
+    const data = await ambiente.get_booking_history(req.session.userData.id, filters);
+    const page_param = {title:'Historial de reservas', data, logged:true};
+    page_param['userData'] = req.session.userData;
+    res.render('bookingHistory', page_param);
+}
+
 async function check_bookings_page(req, res){
-    const data = await ambiente.get_pending_bookings({});
+    let filters = req.query;
+    if( ! client.check_filters(req.query) ){
+        filters = {};
+    }
+    const data = await ambiente.get_pending_bookings(filters);
     const page_param = {title:'Administrar reservas', data, logged:true};
     page_param['userData'] = req.session.userData;
     res.render('bookingsadmin', page_param);
 }
 
 async function bookings_history(req, res){
-    let data;
-    if( client.check_filters(req.query) ){
-        data = await ambiente.get_bookings_history(req.query);
+    let filters = req.query;
+    if( ! client.check_filters(req.query) ){
+        filters = {};
     }
-    else{
-        data = await ambiente.get_bookings_history({});
-    }
+    const data = await ambiente.get_bookings_history(filters);
     const page_param = {title:'Historial reservas', data, logged:true};
     page_param['userData'] = req.session.userData;
     res.render('bookingsHistory', page_param);
@@ -335,6 +353,7 @@ module.exports = {
     logout,
     ambientes_page,
     booking_page,
+    booking_history,
     check_bookings_page,
     bookings_history
 }

@@ -1,0 +1,54 @@
+<div>
+    <form action="?" method="GET" class="page-control">
+        <div>
+            <label>Pagina
+                <select name="page">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </label>
+            <label>Items por pagina
+                <select name="perPage">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                </select>
+            </label>
+            <input type="submit" value="ir">
+        </div>
+    </form>
+</div>
+
+<script>
+    function set_page_control(){
+        const query = document.location.search;
+        const params = new URLSearchParams(query);
+
+        const page = params.get('page');
+        const perPage = params.get('perPage');
+
+        const control = document.querySelector('.page-control');
+        if(page){
+            const pagina = control.querySelector('select[name="page"]');
+            for(let i = 0; i < pagina.options.length; i++){
+                if(page === pagina.options[i].value){
+                    pagina.value = page;
+                    break;
+                }
+            }
+        }
+        if(perPage){
+            const per = control.querySelector('select[name="perPage"]');
+            for(let i = 0; i < per.options.length; i++){
+                if(perPage === per.options[i].value){
+                    per.value = perPage;
+                    break;
+                }
+            }
+        }
+    }    
+    window.addEventListener('load', () =>{
+        set_page_control();
+    });
+</script>

@@ -233,8 +233,8 @@ class Ambiente{
             return false;
         }
         else{
-            sql = 'INSERT INTO reservas (id_ambiente, id_periodo, id_estado, fecha_reserva) VALUES (?,?,?,?)';
-            values = [ambient.id, params.horario, 2, params.fecha];
+            sql = 'INSERT INTO reservas (id_ambiente, id_periodo, id_estado, id_usuario, fecha_reserva) VALUES (?,?,?,?,?)';
+            values = [ambient.id, params.horario, 2, params.uid, params.fecha];
             const result = await db.query(sql, values);
             if(result && result.affectedRows){
                 return true;
@@ -273,14 +273,33 @@ class Ambiente{
         return data;
     }
 
+    async get_booking_history(id_usuario, filters){
+        const page = 'page' in filters ? filters.page : this.page;
+        const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
+        const offset = (page - 1) * perPage;
+        const values = [];
+        let sql = 'SELECT a.nombre, t.nombre tipo, a.capacidad, a.ubicacion, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, e.nombre estado, r.id reserva ' +
+                    'FROM ambiente a LEFT JOIN reservas r on r.id_ambiente=a.id LEFT JOIN tipo t on t.id=a.id_tipo LEFT JOIN estado e on e.id=r.id_estado ' + 
+                    'WHERE r.id_usuario=? ';
+        values.push(id_usuario);
+        if('fecha' in filters){
+            sql += 'AND r.fecha_reserva=? ';
+            values.push(filters.fecha);
+        }
+        sql += 'ORDER BY r.fecha_agregado LIMIT ? OFFSET ?';
+        values.push(perPage, offset);
+        const data = await db.query(sql, values);
+        return data;
+    }
+
     async get_bookings_history(filters){
         const page = 'page' in filters ? filters.page : this.page;
         const perPage = 'perPage' in filters ? filters.perPage : this.perPage;
         const offset = (page - 1) * perPage;
         const values = [];
-        let sql = 'SELECT a.nombre, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, e.nombre estado ' + 
+        let sql = 'SELECT u.nombre usuario, a.nombre, DATE_FORMAT(r.fecha_reserva, "%Y-%m-%d") fecha, e.nombre estado ' + 
                     'FROM ambiente a LEFT JOIN reservas r on r.id_ambiente=a.id LEFT JOIN estado e on e.id=r.id_estado ' +
-                    'WHERE r.id_estado !=? ';
+                    'LEFT JOIN usuarios u on u.id=r.id_usuario WHERE r.id_estado !=? ';
         values.push(this.estados.Pendiente);
         if('fecha' in filters){
             sql += 'AND r.fecha_reserva=? ';

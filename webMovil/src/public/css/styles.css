@@ -325,6 +325,17 @@ main {
     cursor: pointer;
     opacity: 0.9;
 }
+.page-control{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 290px;
+    padding: 5px 0;
+    margin: auto;
+}
+.page-control > div input:last-child {
+    padding: 0 2px;
+}
 /*////////////////////////////////////// Login //////////////////////////////////////*/
 
 #login-form input::-ms-reveal{

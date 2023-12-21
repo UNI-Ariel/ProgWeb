@@ -18,4 +18,6 @@ router.get('/api/info', controller.api_info);
 
 router.get('/api/search', controller.api_search);
 
+router.post('/api/login', controller.api_login);
+
 module.exports = router;

@@ -2,6 +2,7 @@ const ambiente = require('../db/ambiente');
 const usuario = require('../db/usuario');
 const client = require('../utils/client');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 async function index_page(req, res){
     const page_param = {title:'Pagina Principal'};
@@ -117,6 +118,39 @@ async function forbidden_page(req, res){
     res.status(403).render('forbidden', page_param);
 }
 
+async function api_login(req, res){
+    const api_res = {};
+    if( ! ('user' in req.body) || ! ('pass' in req.body)){
+        api_res.code = 400;
+        api_res.body = "Missing login parameters";
+    }
+    else{
+        const user_data = await usuario.find(req.body.user);
+        if(! user_data.length){
+            api_res.code = 404;
+            api_res.body = "User not found";
+        }
+        else{
+            const user_hashed_password = user_data[0].password;
+            const match = await bcrypt.compare(req.body.pass, user_hashed_password);
+            if( ! match ){
+                api_res.code = 400;
+                api_res.body = "Wrong password.";
+            }
+            else{
+                const id = user_data[0].id;
+                const nombre = user_data[0].nombre;
+                const grupo = user_data[0].id_grupo;
+                console.log(id, nombre, grupo);
+                const token = jwt.sign({id, nombre, grupo}, "dc-server-v3-ge2m-Y23", {expiresIn: "2h"});
+                api_res.code = 200;
+                api_res.body = token;
+            }
+        }
+    }
+    res.status(api_res.code).json(api_res);
+}
+
 async function api_search(req, res){
     const api_res = {};
     const query = req.query;
@@ -144,6 +178,7 @@ module.exports = {
     login_request,
     search_page,
     forbidden_page,
-    api_info,
+    api_info,    
+    api_login,
     api_search
 }

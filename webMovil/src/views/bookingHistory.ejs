@@ -3,7 +3,7 @@
 <section class="page-text flex-column align-center">
     <div class="box-fx w100 box-wide">
         <h3 class="center-text margin-b">Historial de Reservas</h3>
-        <form action="/bookings/history" method="GET" class="form-width flex-column flex-gap">
+        <form action="/booking/history" method="GET" class="form-width flex-column flex-gap">
             <div class="flex-column">
                 <p>Fecha:</p>
                 <input type="date" name="fecha"class="input-field" required>
@@ -13,15 +13,17 @@
         <div class="scroll-box">
             <table class="data-table">
                 <tr>
-                    <th>Usuario</th>
-                    <th>Ambiente</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Cap.</th>
                     <th>Fecha</th>
                     <th>Estado</th>
                 </tr>
                 <% data.forEach(function (amb) {%>
                     <tr>
-                        <td> <%= amb.usuario %> </td>
                         <td> <%= amb.nombre %> </td>
+                        <td> <%= amb.tipo %> </td>
+                        <td> <%= amb.capacidad %> </td>
                         <td> <%= amb.fecha %> </td>
                         <td> <%= amb.estado %> </td>
                     </tr>
