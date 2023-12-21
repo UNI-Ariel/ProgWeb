@@ -70,7 +70,6 @@ class Client{
             else{
                 const a1 = e_fds.sort();
                 const a2 = n_fds.sort();
-                console.log(a1, a2);
                 for(var i = 0; i < a1.length; i++){
                     if(a1.at(i) !== a2.at(i)){
                         return true;

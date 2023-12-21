@@ -352,7 +352,6 @@ function admin_add_ambient(){
         ev.preventDefault();
         const json_data = get_json_data_from_form(form);
         const responce = await api_request(url, 'POST', JSON.stringify(json_data));
-        console.log(responce);
         if(responce.code >= 200 && responce.code < 300){
             set_message(responce.body);
             document.location.reload();
@@ -386,7 +385,6 @@ function ambient_data_has_changes(_new){
         else{
             const a1 = e_fds.sort();
             const a2 = n_fds.sort();
-            console.log(a1, a2);
             for(var i = 0; i < a1.length; i++){
                 if(a1.at(i) !== a2.at(i)){
                     return true;
